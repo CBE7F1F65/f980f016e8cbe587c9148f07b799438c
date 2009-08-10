@@ -15,19 +15,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	printf("%d\t%f\n", mytest, myret);
 
 
-	int n = datafactory.NewByteData();
-	int m = datafactory.NewByteData(100);
-	datafactory.SetByteData(n, 10, 76);
-	datafactory.CopyByteData(n, m);
-	int l = datafactory.GetByteData(m, 10, 0);
-
 	string filename = "c:/test.table";
-	string format = "dddbbbbbffbbddBS";
-//	string otherfilename = "c:/test2.table";
+	string format = "ddddddddffddddDS";
+	string otherfilename = "c:/test2.table";
 	DWORD handle = filefactory.OpenTableFile(filename, format);
-//	DWORD set = filefactory._FindTableFile(handle);
-//	filefactory.tablefiledata.SetStringData(set, 0, otherfilename, true);
-//	filefactory.tablefiledata.SetStringData(set, 50, otherfilename, true);
+	DWORD set = filefactory.FindTableFile(handle);
+	filefactory.tablefiledata.SetStringData(set, 0, otherfilename, true);
+	filefactory.tablefiledata.SetStringData(set, 50, otherfilename, true);
 	filefactory.CloseTableFile(handle);
 
 	return 0;

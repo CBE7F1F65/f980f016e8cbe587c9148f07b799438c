@@ -1,6 +1,16 @@
 #include "../Header/FileFactory.h"
 
+#define FILEHANDLELINE		0
+#define FILENAMELINE		0
+#define TABLENCOLLINE		1
+#define TABLENROWLINE		2
+#define TABLEFORMATLINE		1
+#define TABLECOMMENTLINE	2
+#define TABLEDATASTARTLINE	3
+
 #define FLOATBUFFERSIZE 16
+#define TABLEFILEGETPOSITION(COL, ROW, NCOL)	((ROW)*(NCOL)+(COL)+TABLEDATASTARTLINE)
+
 
 FileFactory::FileFactory()
 {
@@ -19,7 +29,7 @@ DWORD FileFactory::_FindFile(DataFactory * df, DWORD handle)
 	{
 		for (int i=0; i<_set->size(); i++)
 		{
-			if ((*_set)[i][0] == handle)
+			if (_GetFileHandle(df, i))
 			{
 				return i;
 			}
@@ -33,7 +43,7 @@ DWORD FileFactory::_NewFileValue(DataFactory * df)
 	return df->NewSetData(0, true);
 }
 
-bool FileFactory::_SetFileValue(DataFactory * df, DWORD set, DWORD sub, BYTE bval, WORD wval, DWORD dval, string sval)
+bool FileFactory::_SetFileValue(DataFactory * df, DWORD set, DWORD sub, DWORD dval, string sval)
 {
 	if (set != DATAOVERSUB)
 	{
@@ -41,11 +51,16 @@ bool FileFactory::_SetFileValue(DataFactory * df, DWORD set, DWORD sub, BYTE bva
 		{
 			sub = df->GetSubLength(set, true);
 		}
-		df->SetByteData(set, sub, bval, true);
-		df->SetWordData(set, sub, wval, true);
-		df->SetDwordData(set, sub, dval, true);
-		df->SetStringData(set, sub, sval, true);
-		return true;
+		bool ret = true;
+		if (!df->SetDwordData(set, sub, dval, true))
+		{
+			ret = false;
+		}
+		if (!df->SetStringData(set, sub, sval, true))
+		{
+			ret = false;
+		}
+		return ret;
 	}
 	return false;
 }
@@ -62,13 +77,53 @@ bool FileFactory::_DeleteFileValue(DataFactory * df, DWORD handle)
 }
 
 
+string FileFactory::_GetFileName(DataFactory * df, DWORD set)
+{
+	string strdef = "";
+	if (set != DATAOVERSUB)
+	{
+		strdef = df->GetStringData(set, FILENAMELINE, strdef, true);
+	}
+	return strdef;
+}
+
+bool FileFactory::_SetFileName(DataFactory * df, DWORD set, string filename)
+{
+	if (set != DATAOVERSUB)
+	{
+		return df->SetStringData(set, FILENAMELINE, filename, true);
+	}
+	return false;
+}
+
+DWORD FileFactory::_GetFileHandle(DataFactory * df, DWORD set)
+{
+	DWORD handle = DATAOVERSUB;
+	if (set != DATAOVERSUB)
+	{
+		handle = df->GetDwordData(set, FILEHANDLELINE, handle, true);
+	}
+	return handle;
+}
+
+bool FileFactory::_SetFileHandle(DataFactory * df, DWORD set, DWORD handle)
+{
+	if (set != DATAOVERSUB)
+	{
+		return df->SetDwordData(set, FILEHANDLELINE, handle, true);
+	}
+	return false;
+}
+
+
 DWORD FileFactory::NewBinaryFile(string filename)
 {
 	FILE * file = fopen(filename.data(), "wb");
 	if (file != NULL)
 	{
-		DWORD set = _NewBinaryFileValue();
-		_SetBinaryFileValue(set, 0, 0, 0, (DWORD)file, filename);
+		DWORD set = NewBinaryFileValue();
+		SetBinaryFileHandle(set, (DWORD)file);
+		SetBinaryFileName(set, filename);
 	}
 	return (DWORD)file;
 }
@@ -78,8 +133,9 @@ DWORD FileFactory::OpenBinaryFile(string filename)
 	FILE * file = fopen(filename.data(), "rb+");
 	if (file != NULL)
 	{
-		DWORD set = _NewBinaryFileValue();
-		_SetBinaryFileValue(set, 0, 0, 0, (DWORD)file, filename);
+		DWORD set = NewBinaryFileValue();
+		SetBinaryFileHandle(set, (DWORD)file);
+		SetBinaryFileName(set, filename);
 	}
 	return (DWORD)file;
 }
@@ -93,7 +149,7 @@ bool FileFactory::CloseBinaryFile(DWORD handle)
 		return false;
 	}
 	fclose(file);
-	return _DeleteBinaryFileValue(handle);
+	return DeleteBinaryFileValue(handle);
 }
 
 bool FileFactory::SeekBinaryFile(DWORD handle, DWORD pos, BYTE seekrel)
@@ -132,8 +188,8 @@ DWORD FileFactory::ReadBinaryFile(DWORD handle, DWORD defval, BYTE bytes /* = si
 			buffer[bytes] = 0;
 		}
 		string str = buffer;
-		DWORD set = _FindBinaryFile(handle);
-		_AddBinaryFileValue(set, 0, 0, 0, str);
+		DWORD set = FindBinaryFile(handle);
+		AddBinaryFileValue(set, 0, str);
 		ret = binaryfiledata.GetSubLength(set, true);
 	}
 	else
@@ -152,7 +208,7 @@ bool FileFactory::WriteBinaryFile(DWORD handle, DWORD val, BYTE bytes /* = sizeo
 	}
 	if (tostring)
 	{
-		DWORD set = _FindBinaryFile(handle);
+		DWORD set = FindBinaryFile(handle);
 		string str = "";
 		str = binaryfiledata.GetStringData(set, val, str, true);
 		if (!bytes)
@@ -168,16 +224,96 @@ bool FileFactory::WriteBinaryFile(DWORD handle, DWORD val, BYTE bytes /* = sizeo
 	return true;
 }
 
+DWORD FileFactory::GetTableNCol(DWORD set)
+{
+	DWORD ncol = 0;
+	if (set != DATAOVERSUB)
+	{
+		ncol = tablefiledata.GetDwordData(set, TABLENCOLLINE, ncol, true);
+	}
+	return ncol;
+}
+
+DWORD FileFactory::GetTableNRow(DWORD set)
+{
+	DWORD nrow = 0;
+	if (set != DATAOVERSUB)
+	{
+		nrow = tablefiledata.GetDwordData(set, TABLENROWLINE, nrow, true);
+	}
+	return nrow;
+}
+
+bool FileFactory::SetTableNCol(DWORD set, DWORD ncol)
+{
+	if (set != DATAOVERSUB)
+	{
+		return tablefiledata.SetDwordData(set, TABLENCOLLINE, ncol, true);
+	}
+	return false;
+}
+
+bool FileFactory::SetTableNRow(DWORD set, DWORD nrow)
+{
+	if (set != DATAOVERSUB)
+	{
+		return tablefiledata.SetDwordData(set, TABLENROWLINE, nrow, true);
+	}
+	return false;
+}
+
+string FileFactory::GetTableFormat(DWORD set)
+{
+	string strdef = "";
+	if (set != DATAOVERSUB)
+	{
+		strdef = tablefiledata.GetStringData(set, TABLEFORMATLINE, strdef, true);
+	}
+	return strdef;
+}
+
+string FileFactory::GetTableComment(DWORD set)
+{
+	string strdef = "";
+	if (set != DATAOVERSUB)
+	{
+		strdef = tablefiledata.GetStringData(set, TABLECOMMENTLINE, strdef, true);
+	}
+	return strdef;
+}
+
+bool FileFactory::SetTableFormat(DWORD set, string format)
+{
+	if (set != DATAOVERSUB)
+	{
+		return tablefiledata.SetStringData(set, TABLEFORMATLINE, format, true);
+	}
+	return false;
+}
+
+bool FileFactory::SetTableComment(DWORD set, string comment)
+{
+	if (set != DATAOVERSUB)
+	{
+		return tablefiledata.SetStringData(set, TABLECOMMENTLINE, comment, true);
+	}
+	return false;
+}
+
 DWORD FileFactory::NewTableFile(string filename, string format)
 {
 	FILE * file = fopen(filename.data(), "wb");
 	if (file != NULL)
 	{
-		DWORD set = _NewTableFileValue();
+		DWORD set = NewTableFileValue();
 		WORD col = format.length();
-		_SetTableFileValue(set, 0, 0, 0, (DWORD)file, filename);
-		_AddTableFileValue(set, 0, col, 1, format);
-		_AddTableFileValue(set, 0, 0, 0, format);
+
+		SetTableFileHandle(set, (DWORD)file);
+		SetTableFileName(set, filename);
+		SetTableNCol(set, col);
+		SetTableNRow(set, 1);
+		SetTableFormat(set, format);
+		SetTableComment(set, format);
 	}
 	return (DWORD)file;
 }
@@ -187,16 +323,21 @@ DWORD FileFactory::OpenTableFile(string filename, string format)
 	FILE * file = fopen(filename.data(), "rb+");
 	if (file != NULL)
 	{
-		DWORD set = _NewTableFileValue();
+		DWORD set = NewTableFileValue();
 		WORD col = format.length();
-		_SetTableFileValue(set, 0, 0, 0, (DWORD)file, filename);
-		_AddTableFileValue(set, 0, col, 1, format);
 		char * buffer;
 		DWORD bufferlength = STRINGLENGTHMAX * col;
 		buffer = (char *)malloc(sizeof(char) * bufferlength);
 		fgets(buffer, bufferlength, file);
 		string comment = buffer;
-		_AddTableFileValue(set, 0, 0, 0, comment);
+
+		SetTableFileHandle(set, (DWORD)file);
+		SetTableFileName(set, filename);
+		SetTableNCol(set, col);
+		SetTableNRow(set, 1);
+		SetTableFormat(set, format);
+		SetTableComment(set, comment);
+
 		int i = 0;
 		while (!feof(file))
 		{
@@ -205,13 +346,9 @@ DWORD FileFactory::OpenTableFile(string filename, string format)
 			float _float;
 			switch (format[i])
 			{
-			case TABLEFORMAT_BYTE:
-			case TABLEFORMAT_WORD:
 			case TABLEFORMAT_DWORD:
 				fscanf(file, "%d", &_int);
 				break;
-			case TABLEFORMAT_BYTEX:
-			case TABLEFORMAT_WORDX:
 			case TABLEFORMAT_DWORDX:
 				fscanf(file, "%x", &_int);
 				break;
@@ -231,34 +368,26 @@ DWORD FileFactory::OpenTableFile(string filename, string format)
 			string str = "";
 			switch (format[i])
 			{
-			case TABLEFORMAT_BYTE:
-			case TABLEFORMAT_BYTEX:
-				_AddTableFileValue(set, _int, 0, 0, str);
-				break;
-			case TABLEFORMAT_WORD:
-			case TABLEFORMAT_WORDX:
-				_AddTableFileValue(set, 0, _int, 0, str);
-				break;
 			case TABLEFORMAT_DWORD:
 			case TABLEFORMAT_DWORDX:
-				_AddTableFileValue(set, 0, 0, _int, str);
+				AddTableFileValue(set, _int, str);
 				break;
 			case TABLEFORMAT_FLOAT:
 			case TABLEFORMAT_FLOATX:
-				_AddTableFileValue(set, 0, 0, CUINT(&_float), str);
+				AddTableFileValue(set, CUINT(&_float), str);
 				break;
 			case TABLEFORMAT_STRING:
 			case TABLEFORMAT_STRINGX:
 				str = _string;
-				_AddTableFileValue(set, 0, 0, 0, str);
+				AddTableFileValue(set, 0, str);
 				str = "";
 				break;
 			}
 			i++;
 			if (i >= col)
 			{
-				DWORD row = tablefiledata.GetDwordData(set, 1, 1, true);
-				tablefiledata.SetDwordData(set, 1, row+1, true);
+				DWORD row = GetTableNRow(set);
+				SetTableNRow(set, row+1);
 				i = 0;
 			}
 		}
@@ -269,9 +398,9 @@ DWORD FileFactory::OpenTableFile(string filename, string format)
 bool FileFactory::CloseTableFile(DWORD handle, bool save /* = true */)
 {
 	FILE * file = (FILE *)handle;
-	DWORD set = _FindTableFile(handle);
+	DWORD set = FindTableFile(handle);
 	string filename = "";
-	filename = tablefiledata.GetStringData(set, 0, filename, true);
+	filename = GetTableFileName(set);
 	fclose(file);
 	if (save)
 	{
@@ -281,11 +410,11 @@ bool FileFactory::CloseTableFile(DWORD handle, bool save /* = true */)
 			return false;
 		}
 		string format = "";
-		format = tablefiledata.GetStringData(set, 1, format, true);
+		format = GetTableFormat(set);
 		string comment = "";
-		comment = tablefiledata.GetStringData(set, 2, comment, true);
-		WORD col = tablefiledata.GetWordData(set, 1, 0, true);
-		DWORD row = tablefiledata.GetDwordData(set, 1, 1, true);
+		comment = GetTableComment(set);
+		DWORD col = GetTableNCol(set);
+		DWORD row = GetTableNRow(set);
 		fprintf(file, "%s", comment.data());
 		for (int i=0; i<row-1; i++)
 		{
@@ -297,17 +426,9 @@ bool FileFactory::CloseTableFile(DWORD handle, bool save /* = true */)
 				string _string;
 				string _strdef = "";
 				char buffer[FLOATBUFFERSIZE];
-				DWORD sub = i * col + j + 3;
+				DWORD sub = TABLEFILEGETPOSITION(j, i, col);
 				switch (format.data()[j])
 				{
-				case TABLEFORMAT_BYTE:
-				case TABLEFORMAT_BYTEX:
-					_int = tablefiledata.GetByteData(set, sub, 0, true);
-					break;
-				case TABLEFORMAT_WORD:
-				case TABLEFORMAT_WORDX:
-					_int = tablefiledata.GetWordData(set, sub, 0, true);
-					break;
 				case TABLEFORMAT_DWORD:
 				case TABLEFORMAT_DWORDX:
 					_int = tablefiledata.GetDwordData(set, sub, 0, true);
@@ -324,13 +445,9 @@ bool FileFactory::CloseTableFile(DWORD handle, bool save /* = true */)
 				}
 				switch (format.data()[j])
 				{
-				case TABLEFORMAT_BYTE:
-				case TABLEFORMAT_WORD:
 				case TABLEFORMAT_DWORD:
 					fprintf(file, "%d", _int);
 					break;
-				case TABLEFORMAT_BYTEX:
-				case TABLEFORMAT_WORDX:
 				case TABLEFORMAT_DWORDX:
 					fprintf(file, "%x", _int);
 					break;
@@ -364,5 +481,52 @@ bool FileFactory::CloseTableFile(DWORD handle, bool save /* = true */)
 		}
 		fclose(file);
 	}
-	return _DeleteTableFileValue(handle);
+	return DeleteTableFileValue(handle);
+}
+
+DWORD FileFactory::GetDwordTableFile(DWORD set, DWORD col, DWORD row, DWORD defval)
+{
+	DWORD ret = defval;
+	if (set != DATAOVERSUB)
+	{
+		DWORD ncol = GetTableNCol(set);
+		DWORD sub = TABLEFILEGETPOSITION(col, row, ncol);
+		defval = tablefiledata.GetDwordData(set, sub, defval, true);
+	}
+	return defval;
+}
+
+bool FileFactory::SetDwordTableFile(DWORD set, DWORD col, DWORD row, DWORD val)
+{
+	if (set != DATAOVERSUB)
+	{
+		DWORD ncol = GetTableNCol(set);
+		DWORD sub = TABLEFILEGETPOSITION(col, row, ncol);
+		return tablefiledata.SetDwordData(set, sub, val, true);
+	}
+	return false;
+
+}
+
+string FileFactory::GetStringTableFile(DWORD set, DWORD col, DWORD row, string defval)
+{
+	if (set != DATAOVERSUB)
+	{
+		DWORD ncol = GetTableNCol(set);
+		DWORD sub = TABLEFILEGETPOSITION(col, row, ncol);
+		defval = tablefiledata.GetStringData(set, sub, defval, true);
+	}
+	return defval;
+}
+
+bool FileFactory::SetStringTableFile(DWORD set, DWORD col, DWORD row, string val)
+{
+	if (set != DATAOVERSUB)
+	{
+		DWORD ncol = GetTableNCol(set);
+		DWORD sub = TABLEFILEGETPOSITION(col, row, ncol);
+		return tablefiledata.SetStringData(set, sub, val, true);
+	}
+	return false;
+
 }
