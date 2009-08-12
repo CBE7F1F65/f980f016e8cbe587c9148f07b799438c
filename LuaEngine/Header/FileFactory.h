@@ -78,10 +78,11 @@ public:
 	DWORD NewTableFile(string filename, string format);
 	DWORD OpenTableFile(string filename, string format);
 	bool CloseTableFile(DWORD handle, bool save = true);
-	DWORD GetDwordTableFile(DWORD set, DWORD col, DWORD row, DWORD defval);
-	bool SetDwordTableFile(DWORD set, DWORD col, DWORD row, DWORD val);
-	string GetStringTableFile(DWORD set, DWORD col, DWORD row, string defval);
-	bool SetStringTableFile(DWORD set, DWORD col, DWORD row, string val);
+	DWORD AddTableLine(DWORD set);
+	DWORD GetDwordTableFile(DWORD set, DWORD row, DWORD col, DWORD defval);
+	bool SetDwordTableFile(DWORD set, DWORD row, DWORD col, DWORD val);
+	string GetStringTableFile(DWORD set, DWORD row, DWORD col, string defval);
+	bool SetStringTableFile(DWORD set, DWORD row, DWORD col, string val);
 
 	DataFactory binaryfiledata;
 	DataFactory tablefiledata;

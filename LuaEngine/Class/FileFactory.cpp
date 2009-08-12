@@ -6,10 +6,12 @@
 #define TABLENROWLINE		2
 #define TABLEFORMATLINE		1
 #define TABLECOMMENTLINE	2
+#define TABLEDATAADJUST		1
 #define TABLEDATASTARTLINE	3
 
 #define FLOATBUFFERSIZE 16
-#define TABLEFILEGETPOSITION(COL, ROW, NCOL)	((ROW)*(NCOL)+(COL)+TABLEDATASTARTLINE)
+#define TABLEFILEGETPOSITION(ROW, COL, NCOL)	(((ROW)-1)*(NCOL)+((COL)-1)+TABLEDATASTARTLINE)
+#define TABLEFILEGETADJUSTROW(ROW)				((ROW)+TABLEDATAADJUST)
 
 
 FileFactory::FileFactory()
@@ -426,7 +428,7 @@ bool FileFactory::CloseTableFile(DWORD handle, bool save /* = true */)
 				string _string;
 				string _strdef = "";
 				char buffer[FLOATBUFFERSIZE];
-				DWORD sub = TABLEFILEGETPOSITION(j, i, col);
+				DWORD sub = TABLEFILEGETPOSITION(i+1, j+1, col);
 				switch (format.data()[j])
 				{
 				case TABLEFORMAT_DWORD:
@@ -484,47 +486,89 @@ bool FileFactory::CloseTableFile(DWORD handle, bool save /* = true */)
 	return DeleteTableFileValue(handle);
 }
 
-DWORD FileFactory::GetDwordTableFile(DWORD set, DWORD col, DWORD row, DWORD defval)
+DWORD FileFactory::AddTableLine(DWORD set)
+{
+	if (set != DATAOVERSUB)
+	{
+		DWORD ncol = GetTableNCol(set);
+		DWORD nrow = GetTableNRow(set);
+		string strdef = "";
+		for (int i=0; i<ncol; i++)
+		{
+			AddTableFileValue(set, 0, strdef);
+		}
+		nrow++;
+		SetTableNRow(set, nrow);
+		return nrow;
+	}
+	return 0;
+}
+
+DWORD FileFactory::GetDwordTableFile(DWORD set, DWORD row, DWORD col, DWORD defval)
 {
 	DWORD ret = defval;
 	if (set != DATAOVERSUB)
 	{
 		DWORD ncol = GetTableNCol(set);
-		DWORD sub = TABLEFILEGETPOSITION(col, row, ncol);
+		DWORD sub = TABLEFILEGETPOSITION(row, col, ncol);
 		defval = tablefiledata.GetDwordData(set, sub, defval, true);
 	}
 	return defval;
 }
 
-bool FileFactory::SetDwordTableFile(DWORD set, DWORD col, DWORD row, DWORD val)
+bool FileFactory::SetDwordTableFile(DWORD set, DWORD row, DWORD col, DWORD val)
 {
 	if (set != DATAOVERSUB)
 	{
 		DWORD ncol = GetTableNCol(set);
-		DWORD sub = TABLEFILEGETPOSITION(col, row, ncol);
+		if (col > ncol)
+		{
+			return false;
+		}
+		string strdef = "";
+		while (TABLEFILEGETADJUSTROW(row) > GetTableNRow(set))
+		{
+			if (!AddTableLine(set))
+			{
+				return false;
+			}
+		}
+		DWORD sub = TABLEFILEGETPOSITION(row, col, ncol);
 		return tablefiledata.SetDwordData(set, sub, val, true);
 	}
 	return false;
 
 }
 
-string FileFactory::GetStringTableFile(DWORD set, DWORD col, DWORD row, string defval)
+string FileFactory::GetStringTableFile(DWORD set, DWORD row, DWORD col, string defval)
 {
 	if (set != DATAOVERSUB)
 	{
 		DWORD ncol = GetTableNCol(set);
-		DWORD sub = TABLEFILEGETPOSITION(col, row, ncol);
+		DWORD sub = TABLEFILEGETPOSITION(row, col, ncol);
 		defval = tablefiledata.GetStringData(set, sub, defval, true);
 	}
 	return defval;
 }
 
-bool FileFactory::SetStringTableFile(DWORD set, DWORD col, DWORD row, string val)
+bool FileFactory::SetStringTableFile(DWORD set, DWORD row, DWORD col, string val)
 {
 	if (set != DATAOVERSUB)
 	{
 		DWORD ncol = GetTableNCol(set);
-		DWORD sub = TABLEFILEGETPOSITION(col, row, ncol);
+		if (col > ncol)
+		{
+			return false;
+		}
+		string strdef = "";
+		while (TABLEFILEGETADJUSTROW(row) > GetTableNRow(set))
+		{
+			if (!AddTableLine(set))
+			{
+				return false;
+			}
+		}
+		DWORD sub = TABLEFILEGETPOSITION(row, col, ncol);
 		return tablefiledata.SetStringData(set, sub, val, true);
 	}
 	return false;
