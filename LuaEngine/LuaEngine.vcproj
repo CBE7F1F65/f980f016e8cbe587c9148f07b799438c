@@ -154,6 +154,21 @@
 				<File
 					RelativePath=".\Process\ProcessLua.cpp">
 				</File>
+				<File
+					RelativePath=".\Process\ProcessLua_HGE.cpp">
+				</File>
+				<File
+					RelativePath=".\Process\ProcessLua_HGEHelp.cpp">
+				</File>
+				<File
+					RelativePath=".\Process\ProcessLua_HGEHelp_hgeES.cpp">
+				</File>
+				<File
+					RelativePath=".\Process\ProcessLua_HGEHelp_hgeFont.cpp">
+				</File>
+				<File
+					RelativePath=".\Process\ProcessLua_HGEHelp_hgeSprite.cpp">
+				</File>
 			</Filter>
 		</Filter>
 		<Filter

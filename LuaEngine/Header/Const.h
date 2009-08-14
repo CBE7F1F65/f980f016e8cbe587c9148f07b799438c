@@ -1,13 +1,35 @@
 #ifndef _CONST_H
 #define _CONST_H
 
-#ifndef CINT
+#ifdef CINT
+	#undef CINT
+	#undef CUINT
+	#undef CLONGLONG
+	#undef CULONGLONG
+	#undef CFLOAT
+	#undef CDOUBLE
 
-	#define CINT(p)		(*(int *)(p))
-	#define CUINT(p)	(*(DWORD *)(p))
-	#define CFLOAT(p)	(*(float *)(p))
-
+	#undef CINTN
+	#undef CUINTN
+	#undef CLONGLONGN
+	#undef CULONGLONGN
+	#undef CFLOATN
+	#undef CDOUBLEN
 #endif
+
+#define CINT(p)			(*(int *)(p))
+#define CUINT(p)		(*(DWORD *)(p))
+#define CLONGLONG(p)	(*(LONGLONG *)(p))
+#define CULONGLONG(p)	(*(QWORD *)(p))
+#define CFLOAT(p)		(*(float *)(p))
+#define CDOUBLE(p)		(*(double *)(p))
+
+#define CINTN(p)		(*(int *)(&(p)))
+#define CUINTN(p)		(*(DWORD *)(&(p)))
+#define CLONGLONGN(p)	(*(LONGLONG *)(&(p)))
+#define CULONGLONGN(p)	(*(QWORD *)(&(p)))
+#define CFLOATN(p)		(*(float *)(&(p)))
+#define CDOUBLEN(p)		(*(double *)(&(p)))
 
 #ifdef DEFAULT_RESOURCEPATH
 	#undef DEFAULT_RESOURCEPATH

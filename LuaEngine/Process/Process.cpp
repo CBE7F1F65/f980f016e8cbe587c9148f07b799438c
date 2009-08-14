@@ -1,6 +1,9 @@
 #include "../Header/Process.h"
 
 HGE * Process::hge;
+list<hgeFont *> Process::font;
+list<hgeSprite *> Process::sprite;
+list<hgeEffectSystem *> Process::es;
 LuaStateOwner Process::state;
 
 Process::Process()
@@ -82,6 +85,9 @@ void Process::ClientInitial()
 
 void Process::Release()
 {
+	_LuaHelper_hgeFont_DeleteAllFont();
+	_LuaHelper_hgeSprite_DeleteAllSprite();
+	_LuaHelper_hgeES_DeleteAllES();
 	hge->System_Shutdown();
 	hge->Release();
 }
