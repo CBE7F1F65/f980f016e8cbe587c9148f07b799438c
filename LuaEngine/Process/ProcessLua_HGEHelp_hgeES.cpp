@@ -48,7 +48,7 @@ int Process::LuaFn_hgeES_NewES(LuaState * ls)
 	if (argscount > 0)
 	{
 		LuaObject _obj;
-		if (args[1].IsString())
+		if (!args[1].IsNumber())
 		{
 			HTEXTURE _htexture = 0;
 			HTEXTURE * _htexset = 0;

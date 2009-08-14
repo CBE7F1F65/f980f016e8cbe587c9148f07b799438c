@@ -8,7 +8,9 @@ speed=90;
 quad={};
 fps=0;
 font=0;
+MAXEFF=1
 eff=0;
+effs={};
 function SystemInitial()
 	hge.System_SetState(hgeConst.HGE_LOGFILE, "LuaEngine.log");
 	hge.System_SetState(hgeConst.HGE_HIDEMOUSE, false);
@@ -44,6 +46,10 @@ function hgeFrameFunc()
 		quad.tex = hge.Texture_Load("particles.png");
 		eff = hgeES.NewES("EffectSystem_038.effect", quad.tex);
 		hgeES.Fire(eff);
+		for i=1,MAXEFF do
+			effs[i] = hgeES.NewES(eff);
+			hgeES.Fire(effs[i]);
+		end
 		quad.blend = 4;
 		
 		local _col = ARGB(0xff, 0xffa000);
@@ -108,6 +114,12 @@ function hgeFrameFunc()
 	
 	hgeES.MoveTo(eff, x, y);
 	hgeES.Update(eff);
+	for i=1,MAXEFF do
+		local randx = hge.Random_Int(-50, 50);
+		local randy = hge.Random_Int(-50, 50);
+		hgeES.MoveTo(effs[i], x+randx, y+randy);
+		hgeES.Update(effs[i]);
+	end
 
 	time = time + 1;
 	
@@ -124,6 +136,9 @@ function hgeRenderFunc()
 	if time > 0 then
 		hge.Gfx_RenderQuad(quad);
 		hgeES.Render(eff);
+		for i=1,MAXEFF do
+			hgeES.Render(effs[i]);
+		end
 		hgeFont.printf(font,16,16,0,fps);
 	end
 
