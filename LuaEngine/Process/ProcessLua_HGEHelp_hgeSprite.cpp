@@ -1,6 +1,40 @@
 #include "../Header/Process.h"
 #include "../Header/LuaConstDefine.h"
 
+hgeSprite * Process::_Helper_New_hgeSprite()
+{
+	hgeSprite * _sprite = NULL;
+	_sprite = new hgeSprite();
+	if (_sprite)
+	{
+		spriteList.push_back(_sprite);
+	}
+	return _sprite;
+}
+
+hgeSprite * Process::_Helper_New_hgeSprite(HTEXTURE tex, float x, float y, float w, float h)
+{
+	hgeSprite * _sprite = NULL;
+	_sprite = new hgeSprite(tex, x, y ,w, h);
+	if (_sprite)
+	{
+		spriteList.push_back(_sprite);
+	}
+	return _sprite;
+}
+
+hgeSprite * Process::_Helper_New_hgeSprite(const hgeSprite & spr)
+{
+	hgeSprite * _sprite = NULL;
+	_sprite = new hgeSprite(spr);
+	if (_sprite)
+	{
+		spriteList.push_back(_sprite);
+	}
+	return _sprite;
+}
+
+
 hgeSprite * Process::_LuaHelper_hgeSprite_Get(LuaStack * args)
 {
 	LuaObject _obj = (*args)[1];
@@ -52,24 +86,24 @@ int Process::LuaFn_hgeSprite_NewSprite(LuaState * ls)
 		{
 			_obj = args[1];
 			HTEXTURE _htexture = (HTEXTURE)(_LuaHelper_GetDWORD(&_obj));
-			_sprite = new hgeSprite(_htexture, args[2].GetFloat(), args[3].GetFloat(), args[4].GetFloat(), args[5].GetFloat());
+			float x = args[2].GetFloat();
+			float y = args[3].GetFloat();
+			float w = args[4].GetFloat();
+			float h = args[5].GetFloat();
+			_sprite = _Helper_New_hgeSprite(_htexture, x, y, w, h);
 		}
 		else
 		{
 			_obj = args[1];
 			hgeSprite * __sprite = (hgeSprite *)(_LuaHelper_GetDWORD(&_obj));
-			_sprite = new hgeSprite(*__sprite);
+			_sprite = _Helper_New_hgeSprite(*__sprite);
 		}
 	}
 	else
 	{
-		_sprite = new hgeSprite();
+		_sprite = _Helper_New_hgeSprite();
 	}
-	if (_sprite)
-	{
-		dret = (DWORD)_sprite;
-		spriteList.push_back(_sprite);
-	}
+	dret = (DWORD)_sprite;
 
 	_LuaHelper_PushDWORD(ls, dret);
 	return 1;

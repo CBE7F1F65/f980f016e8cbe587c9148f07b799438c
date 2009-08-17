@@ -1,6 +1,39 @@
 #include "../Header/Process.h"
 #include "../Header/LuaConstDefine.h"
 
+hgeEffectSystem * Process::_Helper_New_hgeES()
+{
+	hgeEffectSystem * _es = NULL;
+	_es = new hgeEffectSystem();
+	if (_es)
+	{
+		esList.push_back(_es);
+	}
+	return _es;
+}
+
+hgeEffectSystem * Process::_Helper_New_hgeES(const char * filename, HTEXTURE tex /* = 0 */, HTEXTURE * texset /* = 0 */)
+{
+	hgeEffectSystem * _es = NULL;
+	_es = new hgeEffectSystem(filename, tex, texset);
+	if (_es)
+	{
+		esList.push_back(_es);
+	}
+	return _es;
+}
+
+hgeEffectSystem * Process::_Helper_New_hgeES(const hgeEffectSystem & eff)
+{
+	hgeEffectSystem * _es = NULL;
+	_es = new hgeEffectSystem(eff);
+	if (_es)
+	{
+		esList.push_back(_es);
+	}
+	return _es;
+}
+
 hgeEffectSystem * Process::_LuaHelper_hgeES_Get(LuaStack * args)
 {
 	LuaObject _obj = (*args)[1];
@@ -62,24 +95,21 @@ int Process::LuaFn_hgeES_NewES(LuaState * ls)
 					_htexset = (HTEXTURE *)(_LuaHelper_GetDWORD(&_obj));
 				}
 			}
-			_es = new hgeEffectSystem(args[1].GetString(), _htexture, _htexset);
+			const char * filename = args[1].GetString();
+			_es = _Helper_New_hgeES(filename, _htexture, _htexset);
 		}
 		else
 		{
 			_obj = args[1];
 			hgeEffectSystem * __es = (hgeEffectSystem *)(_LuaHelper_GetDWORD(&_obj));
-			_es = new hgeEffectSystem(*__es);
+			_es = _Helper_New_hgeES(*__es);
 		}
 	}
 	else
 	{
-		_es = new hgeEffectSystem();
+		_es = _Helper_New_hgeES();
 	}
-	if (_es)
-	{
-		dret = (DWORD)_es;
-		esList.push_back(_es);
-	}
+	dret = (DWORD)_es;
 
 	_LuaHelper_PushDWORD(ls, dret);
 	return 1;

@@ -1,6 +1,28 @@
 #include "../Header/Process.h"
 #include "../Header/LuaConstDefine.h"
 
+hgeFont * Process::_Helper_New_hgeFont()
+{
+	hgeFont * _font = NULL;
+	_font = new hgeFont();
+	if (_font)
+	{
+		fontList.push_back(_font);
+	}
+	return _font;
+}
+
+hgeFont * Process::_Helper_New_hgeFont(const char * filename, bool bMipmap/* =false */)
+{
+	hgeFont * _font = NULL;
+	_font = new hgeFont(filename, bMipmap);
+	if (_font)
+	{
+		fontList.push_back(_font);
+	}
+	return _font;
+}
+
 hgeFont * Process::_LuaHelper_hgeFont_Get(LuaStack * args)
 {
 	LuaObject _obj = (*args)[1];
@@ -54,17 +76,13 @@ int Process::LuaFn_hgeFont_NewFont(LuaState * ls)
 		{
 			bMipmap = args[2].GetBoolean();
 		}
-		_font = new hgeFont(filename, bMipmap);
+		_font = _Helper_New_hgeFont(filename, bMipmap);
 	}
 	else
 	{
-		_font = new hgeFont();
+		_font = _Helper_New_hgeFont();
 	}
-	if (_font)
-	{
-		dret = (DWORD)_font;
-		fontList.push_back(_font);
-	}
+	dret = (DWORD)_font;
 
 	_LuaHelper_PushDWORD(ls, dret);
 	return 1;

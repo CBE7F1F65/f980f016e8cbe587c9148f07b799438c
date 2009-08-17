@@ -35,18 +35,15 @@ bool Process::FrameFuncSelf()
 		hge->System_SetState(HGE_LOGFILE, "LuaEngineSelf.log");
 		hge->System_SetState(HGE_HIDEMOUSE, false);
 
-		font = new hgeFont("font.fnt");
-		fontList.push_back(font);
+		font = _Helper_New_hgeFont("font.fnt");
 		snd = hge->Effect_Load("menu.wav");
 
 		quad.tex = hge->Texture_Load("particles.png");
-		eff = new hgeEffectSystem("EffectSystem_038.effect", quad.tex);
-		esList.push_back(eff);
+		eff = _Helper_New_hgeES("EffectSystem_038.effect", quad.tex);
 		eff->Fire();
 		for (int i=0; i<MAXEFF; i++)
 		{
-			effs[i] = new hgeEffectSystem(*eff);
-			esList.push_back(effs[i]);
+			effs[i] = _Helper_New_hgeES(*eff);
 			effs[i]->Fire();
 		}
 		quad.blend = 4;

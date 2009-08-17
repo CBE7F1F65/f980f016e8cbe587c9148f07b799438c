@@ -2,7 +2,7 @@
 #define _PROCESS_H
 
 #include "MainDependency.h"
-#define __NOTUSELUA
+//#define __NOTUSELUA
 static class Process
 {
 public:
@@ -165,6 +165,15 @@ public:
 	static int LuaFn_hge_Gfx_RenderTextToTarget(LuaState * ls);
 
 	/* HGE Help */
+
+	static hgeFont * _Helper_New_hgeFont();
+	static hgeFont * _Helper_New_hgeFont(const char * filename, bool bMipmap=false);
+	static hgeSprite * _Helper_New_hgeSprite();
+	static hgeSprite * _Helper_New_hgeSprite(HTEXTURE tex, float x, float y, float w, float h);
+	static hgeSprite * _Helper_New_hgeSprite(const hgeSprite & spr);
+	static hgeEffectSystem * _Helper_New_hgeES();
+	static hgeEffectSystem * _Helper_New_hgeES(const char * filename, HTEXTURE tex = 0, HTEXTURE * texset = 0);
+	static hgeEffectSystem * _Helper_New_hgeES(const hgeEffectSystem & eff);
 
 	// Font
 	static hgeFont * _LuaHelper_hgeFont_Get(LuaStack * args);
