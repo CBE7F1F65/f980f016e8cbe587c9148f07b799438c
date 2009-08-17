@@ -169,6 +169,9 @@
 				<File
 					RelativePath=".\Process\ProcessLua_HGEHelp_hgeSprite.cpp">
 				</File>
+				<File
+					RelativePath=".\Process\ProcessSelf.cpp">
+				</File>
 			</Filter>
 		</Filter>
 		<Filter

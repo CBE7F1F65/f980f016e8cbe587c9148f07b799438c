@@ -3,10 +3,18 @@
 
 bool Process::LuaInitial()
 {
+#ifndef __NOTUSELUA
+
 	LuaRegistFunction();
 	int iret = state->DoFile(hge->Resource_MakePath(DEFAULT_INITLUAFILE));
 	LuaFunction<bool> systeminitial = state->GetGlobal(LUAFN_SYSTEMINITIAL);
 	return systeminitial();
+
+#else
+
+	return true;
+
+#endif
 }
 
 bool Process::_LuaRegistFunction(LuaObject * obj)

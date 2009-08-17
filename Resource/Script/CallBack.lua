@@ -8,7 +8,7 @@ speed=90;
 quad={};
 fps=0;
 font=0;
-MAXEFF=1
+MAXEFF=40
 eff=0;
 effs={};
 function SystemInitial()

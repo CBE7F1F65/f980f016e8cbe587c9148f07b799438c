@@ -2,7 +2,7 @@
 #define _PROCESS_H
 
 #include "MainDependency.h"
-
+#define __NOTUSELUA
 static class Process
 {
 public:
@@ -10,12 +10,22 @@ public:
 	~Process();
 
 public:
+
 	static bool RenderFunc();
 	static bool FrameFunc();
 	static bool FocusLostFunc();
 	static bool FocusGainFunc();
 	static bool GfxRestoreFunc();
 	static bool ExitFunc();
+
+#ifdef __NOTUSELUA
+	static bool RenderFuncSelf();
+	static bool FrameFuncSelf();
+	static bool FocusLostFuncSelf();
+	static bool FocusGainFuncSelf();
+	static bool GfxRestoreFuncSelf();
+	static bool ExitFuncSelf();
+#endif
 
 	bool LuaInitial();
 	bool LuaRegistFunction();
@@ -242,9 +252,9 @@ public:
 
 public:
 	static HGE * hge;
-	static list<hgeFont *>font;
-	static list<hgeSprite *>sprite;
-	static list<hgeEffectSystem *>es;
+	static list<hgeFont *>fontList;
+	static list<hgeSprite *>spriteList;
+	static list<hgeEffectSystem *>esList;
 	static LuaStateOwner state;
 }mp;
 

@@ -12,11 +12,11 @@ void Process::_LuaHelper_hgeES_DeleteES(hgeEffectSystem * _es)
 	if (_es)
 	{
 		delete _es;
-		for (list<hgeEffectSystem *>::iterator it=es.begin(); it!=es.end(); it++)
+		for (list<hgeEffectSystem *>::iterator it=esList.begin(); it!=esList.end(); it++)
 		{
 			if ((*it) == _es)
 			{
-				it = es.erase(it);
+				it = esList.erase(it);
 			}
 		}
 		_es = NULL;
@@ -26,7 +26,7 @@ void Process::_LuaHelper_hgeES_DeleteES(hgeEffectSystem * _es)
 void Process::_LuaHelper_hgeES_DeleteAllES()
 {
 	hgeEffectSystem * _es;
-	for (list<hgeEffectSystem *>::iterator it=es.begin(); it!=es.end(); it++)
+	for (list<hgeEffectSystem *>::iterator it=esList.begin(); it!=esList.end(); it++)
 	{
 		_es = *it;
 		if (_es)
@@ -35,7 +35,7 @@ void Process::_LuaHelper_hgeES_DeleteAllES()
 			_es = NULL;
 		}
 	}
-	es.clear();
+	esList.clear();
 }
 
 int Process::LuaFn_hgeES_NewES(LuaState * ls)
@@ -78,7 +78,7 @@ int Process::LuaFn_hgeES_NewES(LuaState * ls)
 	if (_es)
 	{
 		dret = (DWORD)_es;
-		es.push_back(_es);
+		esList.push_back(_es);
 	}
 
 	_LuaHelper_PushDWORD(ls, dret);

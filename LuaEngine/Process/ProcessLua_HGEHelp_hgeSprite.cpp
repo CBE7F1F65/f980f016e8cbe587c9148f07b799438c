@@ -12,11 +12,11 @@ void Process::_LuaHelper_hgeSprite_DeleteSprite(hgeSprite * _sprite)
 	if (_sprite)
 	{
 		delete _sprite;
-		for (list<hgeSprite *>::iterator it=sprite.begin(); it!=sprite.end(); it++)
+		for (list<hgeSprite *>::iterator it=spriteList.begin(); it!=spriteList.end(); it++)
 		{
 			if ((*it) == _sprite)
 			{
-				it = sprite.erase(it);
+				it = spriteList.erase(it);
 			}
 		}
 		_sprite = NULL;
@@ -26,7 +26,7 @@ void Process::_LuaHelper_hgeSprite_DeleteSprite(hgeSprite * _sprite)
 void Process::_LuaHelper_hgeSprite_DeleteAllSprite()
 {
 	hgeSprite * _sprite;
-	for (list<hgeSprite *>::iterator it=sprite.begin(); it!=sprite.end(); it++)
+	for (list<hgeSprite *>::iterator it=spriteList.begin(); it!=spriteList.end(); it++)
 	{
 		_sprite = *it;
 		if (_sprite)
@@ -35,7 +35,7 @@ void Process::_LuaHelper_hgeSprite_DeleteAllSprite()
 			_sprite = NULL;
 		}
 	}
-	sprite.clear();
+	spriteList.clear();
 }
 
 int Process::LuaFn_hgeSprite_NewSprite(LuaState * ls)
@@ -68,7 +68,7 @@ int Process::LuaFn_hgeSprite_NewSprite(LuaState * ls)
 	if (_sprite)
 	{
 		dret = (DWORD)_sprite;
-		sprite.push_back(_sprite);
+		spriteList.push_back(_sprite);
 	}
 
 	_LuaHelper_PushDWORD(ls, dret);

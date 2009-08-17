@@ -12,11 +12,11 @@ void Process::_LuaHelper_hgeFont_DeleteFont(hgeFont * _font)
 	if (_font)
 	{
 		delete _font;
-		for (list<hgeFont *>::iterator it=font.begin(); it!=font.end(); it++)
+		for (list<hgeFont *>::iterator it=fontList.begin(); it!=fontList.end(); it++)
 		{
 			if ((*it) == _font)
 			{
-				it = font.erase(it);
+				it = fontList.erase(it);
 			}
 		}
 		_font = NULL;
@@ -26,7 +26,7 @@ void Process::_LuaHelper_hgeFont_DeleteFont(hgeFont * _font)
 void Process::_LuaHelper_hgeFont_DeleteAllFont()
 {
 	hgeFont * _font;
-	for (list<hgeFont *>::iterator it=font.begin(); it!=font.end(); it++)
+	for (list<hgeFont *>::iterator it=fontList.begin(); it!=fontList.end(); it++)
 	{
 		_font = *it;
 		if (_font)
@@ -35,7 +35,7 @@ void Process::_LuaHelper_hgeFont_DeleteAllFont()
 			_font = NULL;
 		}
 	}
-	font.clear();
+	fontList.clear();
 }
 
 int Process::LuaFn_hgeFont_NewFont(LuaState * ls)
@@ -63,7 +63,7 @@ int Process::LuaFn_hgeFont_NewFont(LuaState * ls)
 	if (_font)
 	{
 		dret = (DWORD)_font;
-		font.push_back(_font);
+		fontList.push_back(_font);
 	}
 
 	_LuaHelper_PushDWORD(ls, dret);
