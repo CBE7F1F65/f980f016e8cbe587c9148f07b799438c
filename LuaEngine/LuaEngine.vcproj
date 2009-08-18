@@ -90,6 +90,7 @@
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)/LuaEngine.exe"
 				LinkIncremental="1"
+				IgnoreDefaultLibraryNames="LIBCMT.lib"
 				DelayLoadDLLs="hge.dll"
 				GenerateDebugInformation="TRUE"
 				SubSystem="2"
