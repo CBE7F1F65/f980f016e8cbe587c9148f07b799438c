@@ -155,6 +155,9 @@
 					RelativePath=".\Process\ProcessLua.cpp">
 				</File>
 				<File
+					RelativePath=".\Process\ProcessLua_Const.cpp">
+				</File>
+				<File
 					RelativePath=".\Process\ProcessLua_HGE.cpp">
 				</File>
 				<File

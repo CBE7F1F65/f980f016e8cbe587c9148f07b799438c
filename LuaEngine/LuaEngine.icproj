@@ -5,7 +5,7 @@
 	Name="LuaEngine"
 	ProjectGUID="{12CC1A4E-7D0F-4D2D-96B3-2E9DD8E11824}"
 	VCNestedProjectGUID="{03DD9750-BB83-4659-823A-E18EA4162B59}"
-	VCNestedProjectCRC32="1438073945"
+	VCNestedProjectCRC32="863742832"
 	VCNestedProjectFileName="LuaEngine.vcproj"
 	Keyword="Win32Proj">
 	<Configurations>
@@ -134,6 +134,8 @@
 		<File 
 			RelativePath=".\Process\ProcessSelf.cpp"/>
 		<File 
+			RelativePath=".\Process\ProcessLua_Const.cpp"/>
+		<File 
 			RelativePath=".\Header\Const.h"/>
 		<File 
 			RelativePath=".\Header\LuaConstDefine.h"/>
@@ -148,7 +150,7 @@
 		<File 
 			RelativePath=".\Header\FileFactory.h"/>
 		<File 
-			RelativePath=".\VTune\LuaEngine.vpj"/>
+			RelativePath=".\vtune\LuaEngine.vpj"/>
 	</Files>
 </VisualStudioProject>
 

@@ -8,14 +8,9 @@ speed=90;
 quad={};
 fps=0;
 font=0;
-MAXEFF=40
+MAXEFF=0;
 eff=0;
 effs={};
-function SystemInitial()
-	hge.System_SetState(hgeConst.HGE_LOGFILE, "LuaEngine.log");
-	hge.System_SetState(hgeConst.HGE_HIDEMOUSE, false);
-	return true;
-end
 
 function boom()
 	local pan = (x-400)/4;
@@ -26,7 +21,7 @@ end
 function hgeFrameFunc()
 	if hge.Input_GetDIKey(DIK_BACK) then
 		luastate.DoFile("Init.lua");
-		time = 0;
+		SystemInitial();
 	end
 	if time == 0 then
 
@@ -52,7 +47,7 @@ function hgeFrameFunc()
 		end
 		quad.blend = 4;
 		
-		local _col = ARGB(0xff, 0xffa000);
+		local _col = global.ARGB(0xff, 0xffa000);
 		for i=1, 4 do
 			quad.v[i].col = _col;
 		end
@@ -66,19 +61,19 @@ function hgeFrameFunc()
 
 	local dt = hge.Timer_GetDelta();
 
-	if hge.Input_GetDIKey(diConst.DIK_ESCAPE) then
+	if hge.Input_GetDIKey(DIK_ESCAPE) then
 		return true;
 	end
-	if hge.Input_GetDIKey(diConst.DIK_LEFT) then
+	if hge.Input_GetDIKey(DIK_LEFT) then
 		dx=dx-speed*dt;
 	end
-	if hge.Input_GetDIKey(diConst.DIK_RIGHT) then
+	if hge.Input_GetDIKey(DIK_RIGHT) then
 		dx=dx+speed*dt;
 	end
-	if hge.Input_GetDIKey(diConst.DIK_UP) then
+	if hge.Input_GetDIKey(DIK_UP) then
 		dy=dy-speed*dt;
 	end
-	if hge.Input_GetDIKey(diConst.DIK_DOWN) then
+	if hge.Input_GetDIKey(DIK_DOWN) then
 		dy=dy+speed*dt;
 	end
 
@@ -147,15 +142,15 @@ function hgeRenderFunc()
 end
 
 function hgeFocusLostFunc()
-	return false;
+	return true;
 end
 
 function hgeFocusGainFunc()
-	return false;
+	return true;
 end
 
 function hgeGfxRestoreFunc()
-	return false;
+	return true;
 end
 
 function hgeExitFunc()

@@ -1,9 +1,32 @@
+luaFileTable	=	{
+									"Script/Const.lua",
+									"Script/Global.lua",
+									"Script/CallBack.lua"
+								}
+								
+function luaDoFiles()
+	local tablelength = luastate.GetTableCount(luaFileTable);
+	for i=1, tablelength do
+		local iret = luastate.DoFile(luaFileTable[i]);
+		if iret ~= 0 then
+			return false;
+		end
+	end
+	return true;
+end
 
-luastate = 	{
-							DoFile	=	LuaFn_LuaState_DoFile;
-						}
-						
-luastate.DoFile("Script/Const.lua");
+function SystemInitial()
+	if luaDoFiles() == false then
+		return false;
+	end
+	
+	if hge.System_GetState(HGE_LOGFILE) == "" then
+		hge.System_SetState(HGE_LOGFILE, "LuaEngine.log");
+	end
+	hge.System_SetState(HGE_HIDEMOUSE, false);
+	hge.System_SetState(HGE_DONTSUSPEND, true);
+	hge.System_SetState(HGE_SHOWSPLASH, false);
 
-luastate.DoFile("Script/Global.lua")
-luastate.DoFile("Script/CallBack.lua");
+	time = 0;
+	return true;
+end

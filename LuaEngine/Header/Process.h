@@ -33,8 +33,15 @@ public:
 	bool _LuaRegistHGEFunction(LuaObject * obj);
 	bool _LuaRegistHGEHelpFunction(LuaObject * obj);
 
+	bool LuaRegistConst();
+	bool _LuaRegistConst(LuaObject * obj);
+	bool _LuaRegistHGEConst(LuaObject * obj);
+	bool _LuaRegistHGEHelpConst(LuaObject * obj);
+
 	void ClientInitial();
 	void Release();
+
+	static void _LuaHelper_ShowError(int errortype, const char * err);
 
 	static void _LuaHelper_PushDWORD(LuaState * ls, DWORD dval);
 	static DWORD _LuaHelper_GetDWORD(LuaObject * obj);
@@ -43,8 +50,15 @@ public:
 	static void _LuaHelper_PushQWORD(LuaState * ls, QWORD qval);
 	static QWORD _LuaHelper_GetQWORD(LuaObject * obj);
 
-	static int LuaFn_Global_ARGB(LuaState * ls);	
+	static void _LuaHelper_PushString(LuaState * ls, const char * sval);
+
+	static void _LuaHelper_GetCalculateValue(LuaObject * obj, char calchar, bool buseq, void * val);
+	static int LuaFn_Global_Calculate(LuaState * ls);
+	static int LuaFn_Global_ARGB(LuaState * ls);
+	static int LuaFn_Global_GetARGB(LuaState * ls);
+	static int LuaFn_Global_SetARGB(LuaState * ls);
 	static int LuaFn_LuaState_DoFile(LuaState * ls);
+	static int LuaFn_LuaState_GetTableCount(LuaState * ls);
 
 	/* HGE */
 	static DWORD _LuaHelper_GetColor(LuaObject * obj);

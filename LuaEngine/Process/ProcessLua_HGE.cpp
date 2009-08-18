@@ -3,123 +3,125 @@
 
 bool Process::_LuaRegistHGEFunction(LuaObject * obj)
 {
-	obj->Register("System_SetState", LuaFn_hge_System_SetState);
-	obj->Register("System_GetState", LuaFn_hge_System_GetState);
-	obj->Register("System_Log", LuaFn_hge_System_Log);
+	LuaObject _hgeobj = obj->CreateTable("hge");
 
-	obj->Register("System_GetErrorMessage", LuaFn_hge_System_GetErrorMessage);
-	obj->Register("System_Launch", LuaFn_hge_System_Launch);
-	obj->Register("System_Snapshot", LuaFn_hge_System_Snapshot);
+	_hgeobj.Register("System_SetState", LuaFn_hge_System_SetState);
+	_hgeobj.Register("System_GetState", LuaFn_hge_System_GetState);
+	_hgeobj.Register("System_Log", LuaFn_hge_System_Log);
 
-	obj->Register("System_Set2DMode", LuaFn_hge_System_Set2DMode);
-	obj->Register("System_Set3DMode", LuaFn_hge_System_Set3DMode);
-	obj->Register("System_GetFarPoint", LuaFn_hge_System_GetFarPoint);
-	obj->Register("System_Is2DMode", LuaFn_hge_System_Is2DMode);
-	obj->Register("System_Transform3DPoint", LuaFn_hge_System_Transform3DPoint);
+	_hgeobj.Register("System_GetErrorMessage", LuaFn_hge_System_GetErrorMessage);
+	_hgeobj.Register("System_Launch", LuaFn_hge_System_Launch);
+	_hgeobj.Register("System_Snapshot", LuaFn_hge_System_Snapshot);
 
-	obj->Register("Resource_Load", LuaFn_hge_Resource_Load);
-	obj->Register("Resource_Free", LuaFn_hge_Resource_Free);
-	obj->Register("Resource_AttachPack", LuaFn_hge_Resource_AttachPack);
-	obj->Register("Resource_RemovePack", LuaFn_hge_Resource_RemovePack);
-	obj->Register("Resource_RemoveAllPacks", LuaFn_hge_Resource_RemovePack);
-	obj->Register("Resource_SetPath", LuaFn_hge_Resource_SetPath);
-	obj->Register("Resource_MakePath", LuaFn_hge_Resource_MakePath);
-	obj->Register("Resource_EnumFiles", LuaFn_hge_Resource_EnumFiles);
-	obj->Register("Resource_EnumFolders", LuaFn_hge_Resource_EnumFolders);
-	obj->Register("Resource_CreatePack", LuaFn_hge_Resource_CreatePack);
-	obj->Register("Resource_AddFileInPack", LuaFn_hge_Resource_AddFileInPack);
-	obj->Register("Resource_GetCRC", LuaFn_hge_Resource_GetCRC);
-	obj->Register("Resource_GetPackFirstFileName", LuaFn_hge_Resource_GetPackFirstFileName);
+	_hgeobj.Register("System_Set2DMode", LuaFn_hge_System_Set2DMode);
+	_hgeobj.Register("System_Set3DMode", LuaFn_hge_System_Set3DMode);
+	_hgeobj.Register("System_GetFarPoint", LuaFn_hge_System_GetFarPoint);
+	_hgeobj.Register("System_Is2DMode", LuaFn_hge_System_Is2DMode);
+	_hgeobj.Register("System_Transform3DPoint", LuaFn_hge_System_Transform3DPoint);
 
-	obj->Register("Ini_SetInt", LuaFn_hge_Ini_SetInt);
-	obj->Register("Ini_GetInt", LuaFn_hge_Ini_GetInt);
-	obj->Register("Ini_SetFloat", LuaFn_hge_Ini_SetFloat);
-	obj->Register("Ini_GetFloat", LuaFn_hge_Ini_GetFloat);
-	obj->Register("Ini_SetString", LuaFn_hge_Ini_SetString);
-	obj->Register("Ini_GetString", LuaFn_hge_Ini_GetString);
+	_hgeobj.Register("Resource_Load", LuaFn_hge_Resource_Load);
+	_hgeobj.Register("Resource_Free", LuaFn_hge_Resource_Free);
+	_hgeobj.Register("Resource_AttachPack", LuaFn_hge_Resource_AttachPack);
+	_hgeobj.Register("Resource_RemovePack", LuaFn_hge_Resource_RemovePack);
+	_hgeobj.Register("Resource_RemoveAllPacks", LuaFn_hge_Resource_RemovePack);
+	_hgeobj.Register("Resource_SetPath", LuaFn_hge_Resource_SetPath);
+	_hgeobj.Register("Resource_MakePath", LuaFn_hge_Resource_MakePath);
+	_hgeobj.Register("Resource_EnumFiles", LuaFn_hge_Resource_EnumFiles);
+	_hgeobj.Register("Resource_EnumFolders", LuaFn_hge_Resource_EnumFolders);
+	_hgeobj.Register("Resource_CreatePack", LuaFn_hge_Resource_CreatePack);
+	_hgeobj.Register("Resource_AddFileInPack", LuaFn_hge_Resource_AddFileInPack);
+	_hgeobj.Register("Resource_GetCRC", LuaFn_hge_Resource_GetCRC);
+	_hgeobj.Register("Resource_GetPackFirstFileName", LuaFn_hge_Resource_GetPackFirstFileName);
 
-	obj->Register("Random_Seed", LuaFn_hge_Random_Seed);
-	obj->Register("Random_Int", LuaFn_hge_Random_Int);
-	obj->Register("Random_Float", LuaFn_hge_Random_Float);
+	_hgeobj.Register("Ini_SetInt", LuaFn_hge_Ini_SetInt);
+	_hgeobj.Register("Ini_GetInt", LuaFn_hge_Ini_GetInt);
+	_hgeobj.Register("Ini_SetFloat", LuaFn_hge_Ini_SetFloat);
+	_hgeobj.Register("Ini_GetFloat", LuaFn_hge_Ini_GetFloat);
+	_hgeobj.Register("Ini_SetString", LuaFn_hge_Ini_SetString);
+	_hgeobj.Register("Ini_GetString", LuaFn_hge_Ini_GetString);
 
-	obj->Register("Timer_GetTime", LuaFn_hge_Timer_GetTime);
-	obj->Register("Timer_GetDelta", LuaFn_hge_Timer_GetDelta);
-	obj->Register("Timer_GetFPS", LuaFn_hge_Timer_GetFPS);
-	obj->Register("Timer_GetWorstFPS", LuaFn_hge_Timer_GetWorstFPS);
-	obj->Register("Timer_GetCurrentSystemTime", LuaFn_hge_Timer_GetCurrentSystemTime);
+	_hgeobj.Register("Random_Seed", LuaFn_hge_Random_Seed);
+	_hgeobj.Register("Random_Int", LuaFn_hge_Random_Int);
+	_hgeobj.Register("Random_Float", LuaFn_hge_Random_Float);
 
-	obj->Register("Effect_Load", LuaFn_hge_Effect_Load);
-	obj->Register("Effect_Free", LuaFn_hge_Effect_Free);
-	obj->Register("Effect_Play", LuaFn_hge_Effect_Play);
-	obj->Register("Effect_PlayEx", LuaFn_hge_Effect_Play);
+	_hgeobj.Register("Timer_GetTime", LuaFn_hge_Timer_GetTime);
+	_hgeobj.Register("Timer_GetDelta", LuaFn_hge_Timer_GetDelta);
+	_hgeobj.Register("Timer_GetFPS", LuaFn_hge_Timer_GetFPS);
+	_hgeobj.Register("Timer_GetWorstFPS", LuaFn_hge_Timer_GetWorstFPS);
+	_hgeobj.Register("Timer_GetCurrentSystemTime", LuaFn_hge_Timer_GetCurrentSystemTime);
 
-	obj->Register("Stream_Load", LuaFn_hge_Stream_Load);
-	obj->Register("Stream_Free", LuaFn_hge_Stream_Free);
-	obj->Register("Stream_Play", LuaFn_hge_Stream_Play);
+	_hgeobj.Register("Effect_Load", LuaFn_hge_Effect_Load);
+	_hgeobj.Register("Effect_Free", LuaFn_hge_Effect_Free);
+	_hgeobj.Register("Effect_Play", LuaFn_hge_Effect_Play);
+	_hgeobj.Register("Effect_PlayEx", LuaFn_hge_Effect_Play);
 
-	obj->Register("Channel_SetPanning", LuaFn_hge_Channel_SetPanning);
-	obj->Register("Channel_SetVolume", LuaFn_hge_Channel_SetVolume);
-	obj->Register("Channel_SetPitch", LuaFn_hge_Channel_SetPitch);
-	obj->Register("Channel_Pause", LuaFn_hge_Channel_Pause);
-	obj->Register("Channel_Resume", LuaFn_hge_Channel_Resume);
-	obj->Register("Channel_Stop", LuaFn_hge_Channel_Stop);
-	obj->Register("Channel_PauseAll", LuaFn_hge_Channel_Pause);
-	obj->Register("Channel_ResumeAll", LuaFn_hge_Channel_Resume);
-	obj->Register("Channel_StopAll", LuaFn_hge_Channel_Stop);
-	obj->Register("Channel_IsPlaying", LuaFn_hge_Channel_IsPlaying);
-	obj->Register("Channel_GetLength", LuaFn_hge_Channel_GetLength);
-	obj->Register("Channel_GetPos", LuaFn_hge_Channel_GetPos);
-	obj->Register("Channel_SetPos", LuaFn_hge_Channel_SetPos);
-	obj->Register("Channel_SetStartPos", LuaFn_hge_Channel_SetStartPos);
-	obj->Register("Channel_SlideTo", LuaFn_hge_Channel_SlideTo);
-	obj->Register("Channel_IsSliding", LuaFn_hge_Channel_IsSliding);
-	obj->Register("Channel_SetLoop", LuaFn_hge_Channel_SetLoop);
-	obj->Register("Channel_RemoveLoop", LuaFn_hge_Channel_RemoveLoop);
+	_hgeobj.Register("Stream_Load", LuaFn_hge_Stream_Load);
+	_hgeobj.Register("Stream_Free", LuaFn_hge_Stream_Free);
+	_hgeobj.Register("Stream_Play", LuaFn_hge_Stream_Play);
 
-	obj->Register("Input_GetMousePos", LuaFn_hge_Input_GetMousePos);
-	obj->Register("Input_SetMousePos", LuaFn_hge_Input_SetMousePos);
-	obj->Register("Input_GetMouseWheel", LuaFn_hge_Input_GetMouseWheel);
-	obj->Register("Input_IsMouseOver", LuaFn_hge_Input_IsMouseOver);
-	obj->Register("Input_KeyDown", LuaFn_hge_Input_KeyDown);
-	obj->Register("Input_KeyUp", LuaFn_hge_Input_KeyUp);
-	obj->Register("Input_GetKeyState", LuaFn_hge_Input_GetKeyState);
-	obj->Register("Input_GetKeyName", LuaFn_hge_Input_GetKeyName);
-	obj->Register("Input_GetKey", LuaFn_hge_Input_GetKey);
-	obj->Register("Input_GetChar", LuaFn_hge_Input_GetChar);
-	obj->Register("Input_GetEvent", LuaFn_hge_Input_GetEvent);
+	_hgeobj.Register("Channel_SetPanning", LuaFn_hge_Channel_SetPanning);
+	_hgeobj.Register("Channel_SetVolume", LuaFn_hge_Channel_SetVolume);
+	_hgeobj.Register("Channel_SetPitch", LuaFn_hge_Channel_SetPitch);
+	_hgeobj.Register("Channel_Pause", LuaFn_hge_Channel_Pause);
+	_hgeobj.Register("Channel_Resume", LuaFn_hge_Channel_Resume);
+	_hgeobj.Register("Channel_Stop", LuaFn_hge_Channel_Stop);
+	_hgeobj.Register("Channel_PauseAll", LuaFn_hge_Channel_Pause);
+	_hgeobj.Register("Channel_ResumeAll", LuaFn_hge_Channel_Resume);
+	_hgeobj.Register("Channel_StopAll", LuaFn_hge_Channel_Stop);
+	_hgeobj.Register("Channel_IsPlaying", LuaFn_hge_Channel_IsPlaying);
+	_hgeobj.Register("Channel_GetLength", LuaFn_hge_Channel_GetLength);
+	_hgeobj.Register("Channel_GetPos", LuaFn_hge_Channel_GetPos);
+	_hgeobj.Register("Channel_SetPos", LuaFn_hge_Channel_SetPos);
+	_hgeobj.Register("Channel_SetStartPos", LuaFn_hge_Channel_SetStartPos);
+	_hgeobj.Register("Channel_SlideTo", LuaFn_hge_Channel_SlideTo);
+	_hgeobj.Register("Channel_IsSliding", LuaFn_hge_Channel_IsSliding);
+	_hgeobj.Register("Channel_SetLoop", LuaFn_hge_Channel_SetLoop);
+	_hgeobj.Register("Channel_RemoveLoop", LuaFn_hge_Channel_RemoveLoop);
 
-	obj->Register("Input_GetDIKey", LuaFn_hge_Input_GetDIKey);
-	obj->Register("Input_SetDIKey", LuaFn_hge_Input_SetDIKey);
-	obj->Register("Input_GetDIJoy", LuaFn_hge_Input_GetDIJoy);
-	obj->Register("Input_HaveJoy", LuaFn_hge_Input_HaveJoy);
+	_hgeobj.Register("Input_GetMousePos", LuaFn_hge_Input_GetMousePos);
+	_hgeobj.Register("Input_SetMousePos", LuaFn_hge_Input_SetMousePos);
+	_hgeobj.Register("Input_GetMouseWheel", LuaFn_hge_Input_GetMouseWheel);
+	_hgeobj.Register("Input_IsMouseOver", LuaFn_hge_Input_IsMouseOver);
+	_hgeobj.Register("Input_KeyDown", LuaFn_hge_Input_KeyDown);
+	_hgeobj.Register("Input_KeyUp", LuaFn_hge_Input_KeyUp);
+	_hgeobj.Register("Input_GetKeyState", LuaFn_hge_Input_GetKeyState);
+	_hgeobj.Register("Input_GetKeyName", LuaFn_hge_Input_GetKeyName);
+	_hgeobj.Register("Input_GetKey", LuaFn_hge_Input_GetKey);
+	_hgeobj.Register("Input_GetChar", LuaFn_hge_Input_GetChar);
+	_hgeobj.Register("Input_GetEvent", LuaFn_hge_Input_GetEvent);
 
-	obj->Register("Gfx_BeginScene", LuaFn_hge_Gfx_BeginScene);
-	obj->Register("Gfx_EndScene", LuaFn_hge_Gfx_EndScene);
-	obj->Register("Gfx_Clear", LuaFn_hge_Gfx_Clear);
-	obj->Register("Gfx_RenderLine", LuaFn_hge_Gfx_RenderLine);
-	obj->Register("Gfx_RenderTriple", LuaFn_hge_Gfx_RenderTriple);
-	obj->Register("Gfx_RenderQuad", LuaFn_hge_Gfx_RenderQuad);
-	obj->Register("Gfx_StartBatch", LuaFn_hge_Gfx_StartBatch);
-	obj->Register("Gfx_FinishBatch", LuaFn_hge_Gfx_FinishBatch);
-	obj->Register("Gfx_SetClipping", LuaFn_hge_Gfx_SetClipping);
-	obj->Register("Gfx_SetTransform", LuaFn_hge_Gfx_SetTransform);
-	obj->Register("Gfx_SetTransform", LuaFn_hge_Gfx_SetTransform);
+	_hgeobj.Register("Input_GetDIKey", LuaFn_hge_Input_GetDIKey);
+	_hgeobj.Register("Input_SetDIKey", LuaFn_hge_Input_SetDIKey);
+	_hgeobj.Register("Input_GetDIJoy", LuaFn_hge_Input_GetDIJoy);
+	_hgeobj.Register("Input_HaveJoy", LuaFn_hge_Input_HaveJoy);
 
-	obj->Register("Target_Create", LuaFn_hge_Target_Create);
-	obj->Register("Target_Free", LuaFn_hge_Target_Free);
-	obj->Register("Target_GetTexture", LuaFn_hge_Target_GetTexture);
+	_hgeobj.Register("Gfx_BeginScene", LuaFn_hge_Gfx_BeginScene);
+	_hgeobj.Register("Gfx_EndScene", LuaFn_hge_Gfx_EndScene);
+	_hgeobj.Register("Gfx_Clear", LuaFn_hge_Gfx_Clear);
+	_hgeobj.Register("Gfx_RenderLine", LuaFn_hge_Gfx_RenderLine);
+	_hgeobj.Register("Gfx_RenderTriple", LuaFn_hge_Gfx_RenderTriple);
+	_hgeobj.Register("Gfx_RenderQuad", LuaFn_hge_Gfx_RenderQuad);
+	_hgeobj.Register("Gfx_StartBatch", LuaFn_hge_Gfx_StartBatch);
+	_hgeobj.Register("Gfx_FinishBatch", LuaFn_hge_Gfx_FinishBatch);
+	_hgeobj.Register("Gfx_SetClipping", LuaFn_hge_Gfx_SetClipping);
+	_hgeobj.Register("Gfx_SetTransform", LuaFn_hge_Gfx_SetTransform);
+	_hgeobj.Register("Gfx_SetTransform", LuaFn_hge_Gfx_SetTransform);
 
-	obj->Register("Texture_Create", LuaFn_hge_Texture_Create);
-	obj->Register("Texture_Load", LuaFn_hge_Texture_Load);
-	obj->Register("Texture_Free", LuaFn_hge_Texture_Free);
-	obj->Register("Texture_GetWH", LuaFn_hge_Texture_GetWH);
-	obj->Register("Texture_Lock", LuaFn_hge_Texture_Lock);
-	obj->Register("Texture_Unlock", LuaFn_hge_Texture_Unlock);
+	_hgeobj.Register("Target_Create", LuaFn_hge_Target_Create);
+	_hgeobj.Register("Target_Free", LuaFn_hge_Target_Free);
+	_hgeobj.Register("Target_GetTexture", LuaFn_hge_Target_GetTexture);
 
-	obj->Register("Font_Load", LuaFn_hge_Font_Load);
-	obj->Register("Font_Free", LuaFn_hge_Font_Free);
-	obj->Register("Gfx_RenderText", LuaFn_hge_Gfx_RenderText);
-	obj->Register("Gfx_RenderTextToTarget", LuaFn_hge_Gfx_RenderTextToTarget);
+	_hgeobj.Register("Texture_Create", LuaFn_hge_Texture_Create);
+	_hgeobj.Register("Texture_Load", LuaFn_hge_Texture_Load);
+	_hgeobj.Register("Texture_Free", LuaFn_hge_Texture_Free);
+	_hgeobj.Register("Texture_GetWH", LuaFn_hge_Texture_GetWH);
+	_hgeobj.Register("Texture_Lock", LuaFn_hge_Texture_Lock);
+	_hgeobj.Register("Texture_Unlock", LuaFn_hge_Texture_Unlock);
+
+	_hgeobj.Register("Font_Load", LuaFn_hge_Font_Load);
+	_hgeobj.Register("Font_Free", LuaFn_hge_Font_Free);
+	_hgeobj.Register("Gfx_RenderText", LuaFn_hge_Gfx_RenderText);
+	_hgeobj.Register("Gfx_RenderTextToTarget", LuaFn_hge_Gfx_RenderTextToTarget);
 
 	return true;
 }
@@ -254,6 +256,7 @@ int Process::LuaFn_hge_System_GetState(LuaState * ls)
 
 	int hgestate = args[1].GetInteger();
 	bool pushed = false;
+	const char * sret = 0;
 	switch (hgestate & HGE_STATE_MASK)
 	{
 	case HGE_STATE_BOOLTEST:
@@ -271,7 +274,7 @@ int Process::LuaFn_hge_System_GetState(LuaState * ls)
 		pushed = true;
 		break;
 	case HGE_STATE_STRINGTEST:
-		ls->PushString(hge->System_GetState((hgeStringState)hgestate));
+		_LuaHelper_PushString(ls, hge->System_GetState((hgeStringState)hgestate));
 		pushed = true;
 		break;
 	}
@@ -295,11 +298,9 @@ int Process::LuaFn_hge_System_Log(LuaState * ls)
 int Process::LuaFn_hge_System_GetErrorMessage(LuaState * ls)
 {
 	LuaStack args(ls);
-	char * sret;
 
-	sret = hge->System_GetErrorMessage();
+	_LuaHelper_PushString(ls, hge->System_GetErrorMessage());
 
-	ls->PushString(sret);
 	return 1;
 }
 
@@ -476,38 +477,32 @@ int Process::LuaFn_hge_Resource_RemovePack(LuaState * ls)
 int Process::LuaFn_hge_Resource_SetPath(LuaState * ls)
 {
 	LuaStack args(ls);
-	char * sret;
 
-	sret = hge->Resource_SetPath(args[1].GetString());
+	_LuaHelper_PushString(ls, hge->Resource_SetPath(args[1].GetString()));
 
-	ls->PushString(sret);
 	return 1;
 }
 
 int Process::LuaFn_hge_Resource_MakePath(LuaState * ls)
 {
 	LuaStack args(ls);
-	char * sret;
 
-	sret = hge->Resource_MakePath(args[1].GetString());
+	_LuaHelper_PushString(ls, hge->Resource_MakePath(args[1].GetString()));
 
-	ls->PushString(sret);
 	return 1;
 }
 
 int Process::LuaFn_hge_Resource_EnumFiles(LuaState * ls)
 {
 	LuaStack args(ls);
-	char * sret;
 	char * wildcard = 0;
 
 	if (args.Count() > 0)
 	{
 		wildcard = (char *)(args[1].GetString());
 	}
-	sret = hge->Resource_EnumFiles(wildcard);
+	_LuaHelper_PushString(ls, hge->Resource_EnumFiles(wildcard));
 
-	ls->PushString(sret);
 	return 1;
 }
 
@@ -521,9 +516,8 @@ int Process::LuaFn_hge_Resource_EnumFolders(LuaState * ls)
 	{
 		wildcard = (char *)(args[1].GetString());
 	}
-	sret = hge->Resource_EnumFolders(wildcard);
+	_LuaHelper_PushString(ls, hge->Resource_EnumFolders(wildcard));
 
-	ls->PushString(sret);
 	return 1;
 }
 
@@ -585,11 +579,9 @@ int Process::LuaFn_hge_Resource_GetCRC(LuaState * ls)
 int Process::LuaFn_hge_Resource_GetPackFirstFileName(LuaState * ls)
 {
 	LuaStack args(ls);
-	char * sret;
 
-	sret = hge->Resource_GetPackFirstFileName(args[1].GetString());
+	_LuaHelper_PushString(ls, hge->Resource_GetPackFirstFileName(args[1].GetString()));
 
-	ls->PushString(sret);
 	return 1;
 }
 
@@ -645,11 +637,9 @@ int Process::LuaFn_hge_Ini_SetString(LuaState * ls)
 int Process::LuaFn_hge_Ini_GetString(LuaState * ls)
 {
 	LuaStack args(ls);
-	char * sret;
 
-	sret = hge->Ini_GetString(args[1].GetString(), args[2].GetString(), args[3].GetString());
+	_LuaHelper_PushString(ls, hge->Ini_GetString(args[1].GetString(), args[2].GetString(), args[3].GetString()));
 
-	ls->PushString(sret);
 	return 1;
 }
 
@@ -1188,11 +1178,9 @@ int Process::LuaFn_hge_Input_GetKeyState(LuaState * ls)
 int Process::LuaFn_hge_Input_GetKeyName(LuaState * ls)
 {
 	LuaStack args(ls);
-	char * sret;
 
-	sret = hge->Input_GetKeyName(args[1].GetInteger());
+	_LuaHelper_PushString(ls, hge->Input_GetKeyName(args[1].GetInteger()));
 
-	ls->PushString(sret);
 	return 1;
 }
 

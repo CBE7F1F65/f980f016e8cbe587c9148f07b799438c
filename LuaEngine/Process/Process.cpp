@@ -112,6 +112,6 @@ void Process::Release()
 	_LuaHelper_hgeFont_DeleteAllFont();
 	_LuaHelper_hgeSprite_DeleteAllSprite();
 	_LuaHelper_hgeES_DeleteAllES();
-	hge->System_Shutdown();
+//	hge->System_Shutdown();
 	hge->Release();
 }
