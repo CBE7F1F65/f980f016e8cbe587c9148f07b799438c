@@ -38,6 +38,8 @@ public:
 	static bool _LuaRegistHGEConst(LuaObject * obj);
 	static bool _LuaRegistHGEHelpConst(LuaObject * obj);
 
+	static bool LuaClearCallBackFunctions();
+
 	static void ClientInitial();
 	static void Release();
 
@@ -58,9 +60,11 @@ public:
 	static int LuaFn_Global_ARGB(LuaState * ls);
 	static int LuaFn_Global_GetARGB(LuaState * ls);
 	static int LuaFn_Global_SetARGB(LuaState * ls);
+	static int LuaFn_Global_GetLocalTime(LuaState * ls);
 	static int LuaFn_LuaState_Reload(LuaState * ls);
 	static int LuaFn_LuaState_DoFile(LuaState * ls);
 	static int LuaFn_LuaState_GetTableCount(LuaState * ls);
+	static int LuaFn_LuaState_CopyTable(LuaState * ls);
 
 	/* HGE */
 	static DWORD _LuaHelper_GetColor(LuaObject * obj);
@@ -281,6 +285,13 @@ public:
 	static list<hgeSprite *>spriteList;
 	static list<hgeEffectSystem *>esList;
 	static LuaStateOwner state;
+
+	static LuaFunction<bool> * framefunc;
+	static LuaFunction<bool> * renderfunc;
+	static LuaFunction<bool> * focuslostfunc;
+	static LuaFunction<bool> * focusgainfunc;
+	static LuaFunction<bool> * gfxrestorefunc;
+	static LuaFunction<bool> * exitfunc;
 }mp;
 
 #endif

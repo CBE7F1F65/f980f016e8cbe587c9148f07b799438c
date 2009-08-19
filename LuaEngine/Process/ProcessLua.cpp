@@ -5,6 +5,7 @@ bool Process::LuaInitial()
 {
 #ifndef __NOTUSELUA
 
+	LuaClearCallBackFunctions();
 	LuaRegistFunction();
 	LuaRegistConst();
 	int iret = state->DoFile(hge->Resource_MakePath(DEFAULT_INITLUAFILE));
@@ -30,11 +31,13 @@ bool Process::_LuaRegistFunction(LuaObject * obj)
 	_globalobj.Register("ARGB", LuaFn_Global_ARGB);
 	_globalobj.Register("GetARGB", LuaFn_Global_GetARGB);
 	_globalobj.Register("SetARGB", LuaFn_Global_SetARGB);
+	_globalobj.Register("GetLocalTime", LuaFn_Global_GetLocalTime);
 
 	LuaObject _luastateobj = obj->CreateTable("luastate");
 	_luastateobj.Register("Reload", LuaFn_LuaState_Reload);
 	_luastateobj.Register("DoFile", LuaFn_LuaState_DoFile);
 	_luastateobj.Register("GetTableCount", LuaFn_LuaState_GetTableCount);
+	_luastateobj.Register("CopyTable", LuaFn_LuaState_CopyTable);
 
 	return true;
 }
@@ -76,6 +79,17 @@ bool Process::LuaRegistConst()
 		return false;
 	}
 
+	return true;
+}
+
+bool Process::LuaClearCallBackFunctions()
+{
+	framefunc = NULL;
+	renderfunc = NULL;
+	focuslostfunc = NULL;
+	focusgainfunc = NULL;
+	gfxrestorefunc = NULL;
+	exitfunc = NULL;
 	return true;
 }
 
@@ -397,6 +411,32 @@ int Process::LuaFn_Global_SetARGB(LuaState * ls)
 	return 1;
 }
 
+int Process::LuaFn_Global_GetLocalTime(LuaState * ls)
+{
+	LuaStack args(ls);
+	LuaStackObject table;
+	QWORD qret;
+
+	SYSTEMTIME systime;
+	FILETIME filetime;
+	GetLocalTime(&systime);
+	SystemTimeToFileTime(&systime, &filetime);
+	table = ls->CreateTable();
+	table.SetInteger("wYear", systime.wYear);
+	table.SetInteger("wMonth", systime.wMonth);
+	table.SetInteger("wDayOfWeek", systime.wDayOfWeek);
+	table.SetInteger("wDay", systime.wDay);
+	table.SetInteger("wHour", systime.wHour);
+	table.SetInteger("wMinute", systime.wMinute);
+	table.SetInteger("wSecond", systime.wSecond);
+	table.SetInteger("wMilliseconds", systime.wMilliseconds);
+	qret = (((QWORD)(filetime.dwHighDateTime))<<32) + filetime.dwLowDateTime;
+
+	ls->PushValue(table);
+	_LuaHelper_PushQWORD(ls, qret);
+	return 2;
+}
+
 int Process::LuaFn_LuaState_Reload(LuaState * ls)
 {
 	LuaInitial();
@@ -427,6 +467,20 @@ int Process::LuaFn_LuaState_GetTableCount(LuaState * ls)
 	iret = _obj.GetTableCount();
 
 	ls->PushInteger(iret);
+	return 1;
+}
+
+int Process::LuaFn_LuaState_CopyTable(LuaState * ls)
+{
+	LuaStack args(ls);
+	LuaStackObject table = ls->CreateTable();
+
+	if (args[1].IsTable())
+	{
+		table = args[1];
+	}
+
+	ls->PushValue(table);
 	return 1;
 }
 

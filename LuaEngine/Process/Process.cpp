@@ -6,6 +6,13 @@ list<hgeSprite *> Process::spriteList;
 list<hgeEffectSystem *> Process::esList;
 LuaStateOwner Process::state;
 
+LuaFunction<bool> * Process::framefunc = NULL;
+LuaFunction<bool> * Process::renderfunc = NULL;
+LuaFunction<bool> * Process::focuslostfunc = NULL;
+LuaFunction<bool> * Process::focusgainfunc = NULL;
+LuaFunction<bool> * Process::gfxrestorefunc = NULL;
+LuaFunction<bool> * Process::exitfunc = NULL;
+
 Process::Process()
 {
 }
@@ -17,8 +24,13 @@ Process::~Process()
 bool Process::FrameFunc()
 {
 #ifndef __NOTUSELUA
-	static LuaFunction<bool> framefunc = state->GetGlobal(LUAFN_HGEFRAMEFUNC);
-	return framefunc();
+	if (!framefunc)
+	{
+		static LuaFunction<bool> _f = state->GetGlobal(LUAFN_HGEFRAMEFUNC);
+		_f = state->GetGlobal(LUAFN_HGEFRAMEFUNC);
+		framefunc = &_f;
+	}
+	return (*framefunc)();
 #else
 	return FrameFuncSelf();
 #endif
@@ -27,8 +39,13 @@ bool Process::FrameFunc()
 bool Process::RenderFunc()
 {
 #ifndef __NOTUSELUA
-	static LuaFunction<bool> renderfunc = state->GetGlobal(LUAFN_HGERENDERFUNC);
-	return renderfunc();
+	if (!renderfunc)
+	{
+		static LuaFunction<bool> _f = state->GetGlobal(LUAFN_HGERENDERFUNC);
+		_f = state->GetGlobal(LUAFN_HGERENDERFUNC);
+		renderfunc = &_f;
+	}
+	return (*renderfunc)();
 #else
 	return RenderFuncSelf();
 #endif
@@ -37,8 +54,13 @@ bool Process::RenderFunc()
 bool Process::FocusLostFunc()
 {
 #ifndef __NOTUSELUA
-	static LuaFunction<bool> focuslostfunc = state->GetGlobal(LUAFN_HGEFOCUSLOSTFUNC);
-	return focuslostfunc();
+	if (!focuslostfunc)
+	{
+		static LuaFunction<bool> _f = state->GetGlobal(LUAFN_HGEFOCUSLOSTFUNC);
+		_f = state->GetGlobal(LUAFN_HGEFOCUSLOSTFUNC);
+		focuslostfunc = &_f;
+	}
+	return (*focuslostfunc)();
 #else
 	return FocusLostFuncSelf();
 #endif
@@ -47,8 +69,13 @@ bool Process::FocusLostFunc()
 bool Process::FocusGainFunc()
 {
 #ifndef __NOTUSELUA
-	static LuaFunction<bool> focusgainfunc = state->GetGlobal(LUAFN_HGEFOCUSGAINFUNC);
-	return focusgainfunc();
+	if (!focusgainfunc)
+	{
+		static LuaFunction<bool> _f = state->GetGlobal(LUAFN_HGEFOCUSGAINFUNC);
+		_f = state->GetGlobal(LUAFN_HGEFOCUSGAINFUNC);
+		focusgainfunc = &_f;
+	}
+	return (*focusgainfunc)();
 #else
 	return FocusGainFuncSelf();
 #endif
@@ -57,8 +84,13 @@ bool Process::FocusGainFunc()
 bool Process::GfxRestoreFunc()
 {
 #ifndef __NOTUSELUA
-	static LuaFunction<bool> gfxrestorefunc = state->GetGlobal(LUAFN_HGEGFXRESTOREFUNC);
-	return gfxrestorefunc();
+	if (!gfxrestorefunc)
+	{
+		static LuaFunction<bool> _f = state->GetGlobal(LUAFN_HGEGFXRESTOREFUNC);
+		_f = state->GetGlobal(LUAFN_HGEGFXRESTOREFUNC);
+		gfxrestorefunc = &_f;
+	}
+	return (*gfxrestorefunc)();
 #else
 	return GfxRestoreFuncSelf();
 #endif
@@ -67,8 +99,13 @@ bool Process::GfxRestoreFunc()
 bool Process::ExitFunc()
 {
 #ifndef __NOTUSELUA
-	static LuaFunction<bool> exitfunc = state->GetGlobal(LUAFN_HGEEXITFUNC);
-	return exitfunc();
+	if (!exitfunc)
+	{
+		static LuaFunction<bool> _f = state->GetGlobal(LUAFN_HGEEXITFUNC);
+		_f = state->GetGlobal(LUAFN_HGEEXITFUNC);
+		exitfunc = &_f;
+	}
+	return (*exitfunc)();
 #else
 	return ExitFuncSelf();
 #endif

@@ -392,9 +392,6 @@
 				RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\print.c">
 			</File>
 		</Filter>
-		<File
-			RelativePath=".\ReadMe.txt">
-		</File>
 	</Files>
 	<Globals>
 	</Globals>

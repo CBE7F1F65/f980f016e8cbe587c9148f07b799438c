@@ -5,7 +5,7 @@
 	Name="LuaEngine"
 	ProjectGUID="{12CC1A4E-7D0F-4D2D-96B3-2E9DD8E11824}"
 	VCNestedProjectGUID="{03DD9750-BB83-4659-823A-E18EA4162B59}"
-	VCNestedProjectCRC32="742745815"
+	VCNestedProjectCRC32="77103600"
 	VCNestedProjectFileName="LuaEngine.vcproj"
 	Keyword="Win32Proj">
 	<Configurations>
@@ -150,8 +150,6 @@
 			RelativePath=".\Header\DataFactory.h"/>
 		<File 
 			RelativePath=".\Header\FileFactory.h"/>
-		<File 
-			RelativePath=".\vtune\LuaEngine.vpj"/>
 	</Files>
 </VisualStudioProject>
 

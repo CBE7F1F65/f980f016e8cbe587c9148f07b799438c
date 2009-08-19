@@ -389,7 +389,7 @@ int Process::LuaFn_hge_System_Is2DMode(LuaState * ls)
 
 	bret = hge->System_Is2DMode();
 
-	ls->PushValue(bret);
+	ls->PushBoolean(bret);
 	return 1;
 }
 

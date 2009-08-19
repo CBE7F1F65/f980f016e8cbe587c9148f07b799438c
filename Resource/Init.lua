@@ -1,7 +1,9 @@
 luaFileTable	=	{
 									"Script/Const.lua",
 									"Script/Global.lua",
-									"Script/CallBack.lua"
+									"Script/CallBack.lua",
+									"Script/Class/Export.lua",
+									"Script/Class/Process.lua",
 								}
 								
 function luaDoFiles()
@@ -26,6 +28,11 @@ function SystemInitial()
 	hge.System_SetState(HGE_HIDEMOUSE, false);
 	hge.System_SetState(HGE_DONTSUSPEND, true);
 	hge.System_SetState(HGE_SHOWSPLASH, false);
+	hge.System_SetState(HGE_INIFILE, "LuaEngine.ini");
+
+	if hge.Ini_GetInt(RESCONFIGS_SYSTEM, RESCONFIGN_USE3DMODE, RESCONFIGDEFAULT_USE3DMODE) == 0 then
+		export.ClientSet2DMode();
+	end
 
 	time = 0;
 	return true;

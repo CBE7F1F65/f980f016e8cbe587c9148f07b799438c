@@ -20,9 +20,14 @@ end
 
 function hgeFrameFunc()
 	if hge.Input_GetDIKey(DIK_BACK) then
---		luastate.DoFile("Init.lua");
---		SystemInitial();
 		luastate.Reload();
+		return false;
+	end
+	if hge.Input_GetDIKey(mp.keyEscape) then
+		return true;
+	end
+	if hge.Input_GetDIKey(mp.keyCapture) then
+		mp.SnapShot();
 	end
 	if time == 0 then
 
@@ -46,10 +51,9 @@ function hgeFrameFunc()
 			effs[i] = hgeES.NewES(eff);
 			hgeES.Fire(effs[i]);
 		end
-		quad.blend = 4;
+		quad.blend = BLEND_DEFAULT;
 		
 		local _col = global.ARGB(0xff, 0xffa000);
-		_col = 0;
 		for i=1, 4 do
 			quad.v[i].col = _col;
 		end
@@ -63,19 +67,16 @@ function hgeFrameFunc()
 
 	local dt = hge.Timer_GetDelta();
 
-	if hge.Input_GetDIKey(DIK_ESCAPE) then
-		return true;
-	end
-	if hge.Input_GetDIKey(DIK_LEFT) then
+	if hge.Input_GetDIKey(mp.keyLeft) then
 		dx=dx-speed*dt;
 	end
-	if hge.Input_GetDIKey(DIK_RIGHT) then
+	if hge.Input_GetDIKey(mp.keyRight) then
 		dx=dx+speed*dt;
 	end
-	if hge.Input_GetDIKey(DIK_UP) then
+	if hge.Input_GetDIKey(mp.keyUp) then
 		dy=dy-speed*dt;
 	end
-	if hge.Input_GetDIKey(DIK_DOWN) then
+	if hge.Input_GetDIKey(mp.keyDown) then
 		dy=dy+speed*dt;
 	end
 
