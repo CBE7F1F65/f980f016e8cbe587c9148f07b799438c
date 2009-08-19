@@ -20,8 +20,9 @@ end
 
 function hgeFrameFunc()
 	if hge.Input_GetDIKey(DIK_BACK) then
-		luastate.DoFile("Init.lua");
-		SystemInitial();
+--		luastate.DoFile("Init.lua");
+--		SystemInitial();
+		luastate.Reload();
 	end
 	if time == 0 then
 
@@ -48,6 +49,7 @@ function hgeFrameFunc()
 		quad.blend = 4;
 		
 		local _col = global.ARGB(0xff, 0xffa000);
+		_col = 0;
 		for i=1, 4 do
 			quad.v[i].col = _col;
 		end

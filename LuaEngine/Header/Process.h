@@ -27,19 +27,19 @@ public:
 	static bool ExitFuncSelf();
 #endif
 
-	bool LuaInitial();
-	bool LuaRegistFunction();
-	bool _LuaRegistFunction(LuaObject * obj);
-	bool _LuaRegistHGEFunction(LuaObject * obj);
-	bool _LuaRegistHGEHelpFunction(LuaObject * obj);
+	static bool LuaInitial();
+	static bool LuaRegistFunction();
+	static bool _LuaRegistFunction(LuaObject * obj);
+	static bool _LuaRegistHGEFunction(LuaObject * obj);
+	static bool _LuaRegistHGEHelpFunction(LuaObject * obj);
 
-	bool LuaRegistConst();
-	bool _LuaRegistConst(LuaObject * obj);
-	bool _LuaRegistHGEConst(LuaObject * obj);
-	bool _LuaRegistHGEHelpConst(LuaObject * obj);
+	static bool LuaRegistConst();
+	static bool _LuaRegistConst(LuaObject * obj);
+	static bool _LuaRegistHGEConst(LuaObject * obj);
+	static bool _LuaRegistHGEHelpConst(LuaObject * obj);
 
-	void ClientInitial();
-	void Release();
+	static void ClientInitial();
+	static void Release();
 
 	static void _LuaHelper_ShowError(int errortype, const char * err);
 
@@ -53,10 +53,12 @@ public:
 	static void _LuaHelper_PushString(LuaState * ls, const char * sval);
 
 	static void _LuaHelper_GetCalculateValue(LuaObject * obj, char calchar, bool buseq, void * val);
+
 	static int LuaFn_Global_Calculate(LuaState * ls);
 	static int LuaFn_Global_ARGB(LuaState * ls);
 	static int LuaFn_Global_GetARGB(LuaState * ls);
 	static int LuaFn_Global_SetARGB(LuaState * ls);
+	static int LuaFn_LuaState_Reload(LuaState * ls);
 	static int LuaFn_LuaState_DoFile(LuaState * ls);
 	static int LuaFn_LuaState_GetTableCount(LuaState * ls);
 

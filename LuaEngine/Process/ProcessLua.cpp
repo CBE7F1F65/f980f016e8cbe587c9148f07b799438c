@@ -32,6 +32,7 @@ bool Process::_LuaRegistFunction(LuaObject * obj)
 	_globalobj.Register("SetARGB", LuaFn_Global_SetARGB);
 
 	LuaObject _luastateobj = obj->CreateTable("luastate");
+	_luastateobj.Register("Reload", LuaFn_LuaState_Reload);
 	_luastateobj.Register("DoFile", LuaFn_LuaState_DoFile);
 	_luastateobj.Register("GetTableCount", LuaFn_LuaState_GetTableCount);
 
@@ -394,6 +395,12 @@ int Process::LuaFn_Global_SetARGB(LuaState * ls)
 
 	_LuaHelper_PushDWORD(ls, dret);
 	return 1;
+}
+
+int Process::LuaFn_LuaState_Reload(LuaState * ls)
+{
+	LuaInitial();
+	return 0;
 }
 
 int Process::LuaFn_LuaState_DoFile(LuaState * ls)
