@@ -13,6 +13,8 @@ Process	=	{
 
 function Process:NewProcess()
 	local _process = Process;
+	_process.screenmode = 0;
+	_process.state = STATE_INIT;
 	return _process;
 end
 

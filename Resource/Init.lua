@@ -4,6 +4,7 @@ luaFileTable	=	{
 									"Script/CallBack.lua",
 									"Script/Class/Export.lua",
 									"Script/Class/Process.lua",
+									"Script/Class/Process/Process_Frame.lua",
 								}
 								
 function luaDoFiles()
