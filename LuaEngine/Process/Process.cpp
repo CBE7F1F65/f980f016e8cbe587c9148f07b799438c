@@ -1,4 +1,5 @@
 #include "../Header/Process.h"
+#include "../Header/LuaConstDefine.h"
 
 HGE * Process::hge;
 list<hgeFont *> Process::fontList;
@@ -26,11 +27,22 @@ bool Process::FrameFunc()
 #ifndef __NOTUSELUA
 	if (!framefunc)
 	{
-		static LuaFunction<bool> _f = state->GetGlobal(LUAFN_HGEFRAMEFUNC);
-		_f = state->GetGlobal(LUAFN_HGEFRAMEFUNC);
+		LuaObject _obj = state->GetGlobal(LUAFN_HGEFRAMEFUNC);
+		if (!(_obj.IsFunction()))
+		{
+			_LuaHelper_ShowError(LUAERROR_NOTFUNCTION, LUAFN_HGEFRAMEFUNC);
+			return true;
+		}
+		static LuaFunction<bool> _f = _obj;
+		_f = _obj;
 		framefunc = &_f;
 	}
-	return (*framefunc)();
+	bool bret = (*framefunc)();
+	if (state->CheckError())
+	{
+		_LuaHelper_ShowError(LUAERROR_LUAERROR, state->GetError());
+	}
+	return bret;
 #else
 	return FrameFuncSelf();
 #endif
@@ -41,11 +53,22 @@ bool Process::RenderFunc()
 #ifndef __NOTUSELUA
 	if (!renderfunc)
 	{
-		static LuaFunction<bool> _f = state->GetGlobal(LUAFN_HGERENDERFUNC);
-		_f = state->GetGlobal(LUAFN_HGERENDERFUNC);
+		LuaObject _obj = state->GetGlobal(LUAFN_HGERENDERFUNC);
+		if (!(_obj.IsFunction()))
+		{
+			_LuaHelper_ShowError(LUAERROR_NOTFUNCTION, LUAFN_HGERENDERFUNC);
+			return true;
+		}
+		static LuaFunction<bool> _f = _obj;
+		_f = _obj;
 		renderfunc = &_f;
 	}
-	return (*renderfunc)();
+	bool bret = (*renderfunc)();
+	if (state->CheckError())
+	{
+		_LuaHelper_ShowError(LUAERROR_LUAERROR, state->GetError());
+	}
+	return bret;
 #else
 	return RenderFuncSelf();
 #endif
@@ -56,11 +79,22 @@ bool Process::FocusLostFunc()
 #ifndef __NOTUSELUA
 	if (!focuslostfunc)
 	{
-		static LuaFunction<bool> _f = state->GetGlobal(LUAFN_HGEFOCUSLOSTFUNC);
-		_f = state->GetGlobal(LUAFN_HGEFOCUSLOSTFUNC);
+		LuaObject _obj = state->GetGlobal(LUAFN_HGEFOCUSLOSTFUNC);
+		if (!(_obj.IsFunction()))
+		{
+			_LuaHelper_ShowError(LUAERROR_NOTFUNCTION, LUAFN_HGEFOCUSLOSTFUNC);
+			return true;
+		}
+		static LuaFunction<bool> _f = _obj;
+		_f = _obj;
 		focuslostfunc = &_f;
 	}
-	return (*focuslostfunc)();
+	bool bret = (*focuslostfunc)();
+	if (state->CheckError())
+	{
+		_LuaHelper_ShowError(LUAERROR_LUAERROR, state->GetError());
+	}
+	return bret;
 #else
 	return FocusLostFuncSelf();
 #endif
@@ -71,11 +105,22 @@ bool Process::FocusGainFunc()
 #ifndef __NOTUSELUA
 	if (!focusgainfunc)
 	{
-		static LuaFunction<bool> _f = state->GetGlobal(LUAFN_HGEFOCUSGAINFUNC);
-		_f = state->GetGlobal(LUAFN_HGEFOCUSGAINFUNC);
+		LuaObject _obj = state->GetGlobal(LUAFN_HGEFOCUSGAINFUNC);
+		if (!(_obj.IsFunction()))
+		{
+			_LuaHelper_ShowError(LUAERROR_NOTFUNCTION, LUAFN_HGEFOCUSGAINFUNC);
+			return true;
+		}
+		static LuaFunction<bool> _f = _obj;
+		_f = _obj;
 		focusgainfunc = &_f;
 	}
-	return (*focusgainfunc)();
+	bool bret = (*focusgainfunc)();
+	if (state->CheckError())
+	{
+		_LuaHelper_ShowError(LUAERROR_LUAERROR, state->GetError());
+	}
+	return bret;
 #else
 	return FocusGainFuncSelf();
 #endif
@@ -86,11 +131,22 @@ bool Process::GfxRestoreFunc()
 #ifndef __NOTUSELUA
 	if (!gfxrestorefunc)
 	{
-		static LuaFunction<bool> _f = state->GetGlobal(LUAFN_HGEGFXRESTOREFUNC);
-		_f = state->GetGlobal(LUAFN_HGEGFXRESTOREFUNC);
+		LuaObject _obj = state->GetGlobal(LUAFN_HGEGFXRESTOREFUNC);
+		if (!(_obj.IsFunction()))
+		{
+			_LuaHelper_ShowError(LUAERROR_NOTFUNCTION, LUAFN_HGEGFXRESTOREFUNC);
+			return true;
+		}
+		static LuaFunction<bool> _f = _obj;
+		_f = _obj;
 		gfxrestorefunc = &_f;
 	}
-	return (*gfxrestorefunc)();
+	bool bret = (*gfxrestorefunc)();
+	if (state->CheckError())
+	{
+		_LuaHelper_ShowError(LUAERROR_LUAERROR, state->GetError());
+	}
+	return bret;
 #else
 	return GfxRestoreFuncSelf();
 #endif
@@ -101,11 +157,22 @@ bool Process::ExitFunc()
 #ifndef __NOTUSELUA
 	if (!exitfunc)
 	{
-		static LuaFunction<bool> _f = state->GetGlobal(LUAFN_HGEEXITFUNC);
-		_f = state->GetGlobal(LUAFN_HGEEXITFUNC);
+		LuaObject _obj = state->GetGlobal(LUAFN_HGEEXITFUNC);
+		if (!(_obj.IsFunction()))
+		{
+			_LuaHelper_ShowError(LUAERROR_NOTFUNCTION, LUAFN_HGEEXITFUNC);
+			return true;
+		}
+		static LuaFunction<bool> _f = _obj;
+		_f = _obj;
 		exitfunc = &_f;
 	}
-	return (*exitfunc)();
+	bool bret = (*exitfunc)();
+	if (state->CheckError())
+	{
+		_LuaHelper_ShowError(LUAERROR_LUAERROR, state->GetError());
+	}
+	return bret;
 #else
 	return ExitFuncSelf();
 #endif

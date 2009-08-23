@@ -11,15 +11,15 @@ Process	=	{
 						keyCapture	= RESCONFIGDEFAULT_KEYCAPTURE;
 					}
 
-function Process:NewProcess()
-	local _process = Process;
-	_process.screenmode = 0;
-	_process.state = STATE_INIT;
-	return _process;
+function Process:new(t)
+    local t = t or {};
+    self.__index = self;
+    setmetatable( t, self );
+    return t;
 end
 
-function Process:SnapShot()
+function Process:SnapShot(self)
 	hge.System_Snapshot();
 end
 
-mp = Process:NewProcess();
+mp = Process:new();

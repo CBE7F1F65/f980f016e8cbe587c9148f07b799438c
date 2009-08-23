@@ -27,7 +27,7 @@ function hgeFrameFunc()
 		return true;
 	end
 	if hge.Input_GetDIKey(mp.keyCapture, DIKEY_DOWN) then
-		mp.SnapShot();
+		mp:SnapShot();
 	end
 	if mp.Frame() == PQUIT then
 		return true;

@@ -1,7 +1,7 @@
 Export	=	{
 					}
 
-function Export:ClientSet2DMode(x, y, z)
+function Export:ClientSet2DMode(self, x, y, z)
 	if x == nil then
 		x = 400;
 	end
@@ -14,9 +14,11 @@ function Export:ClientSet2DMode(x, y, z)
 	hge.System_Set2DMode(x, y, z);
 end
 
-function Export:NewExport()
-	local _export = Export;
-	return _export;
+function Export:new(t)
+    local t = t or {};
+    self.__index = self;
+    setmetatable( t, self );
+    return t;
 end
 
-export = Export:NewExport();
+export = Export:new();

@@ -5,7 +5,7 @@
 	Name="LuaEngine"
 	ProjectGUID="{12CC1A4E-7D0F-4D2D-96B3-2E9DD8E11824}"
 	VCNestedProjectGUID="{03DD9750-BB83-4659-823A-E18EA4162B59}"
-	VCNestedProjectCRC32="77103600"
+	VCNestedProjectCRC32="736379332"
 	VCNestedProjectFileName="LuaEngine.vcproj"
 	Keyword="Win32Proj">
 	<Configurations>

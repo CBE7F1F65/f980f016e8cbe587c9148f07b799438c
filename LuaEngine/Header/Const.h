@@ -64,8 +64,7 @@
 	#endif // _DEBUG
 #endif // __RELEASE
 
-#ifdef LOG_STR_FILENAME
-	#define LOG_STR_FILENAME		"LuaEngine.log"
-#endif // LOG_STR_FILENAME
+#undef  LOG_STR_FILENAME
+#define LOG_STR_FILENAME		"LuaEngine.log"
 
 #endif

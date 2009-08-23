@@ -63,8 +63,6 @@ public:
 	static int LuaFn_Global_GetLocalTime(LuaState * ls);
 	static int LuaFn_LuaState_Reload(LuaState * ls);
 	static int LuaFn_LuaState_DoFile(LuaState * ls);
-	static int LuaFn_LuaState_GetTableCount(LuaState * ls);
-	static int LuaFn_LuaState_CopyTable(LuaState * ls);
 
 	/* HGE */
 	static DWORD _LuaHelper_GetColor(LuaObject * obj);

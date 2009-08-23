@@ -5,16 +5,22 @@ bool Process::LuaInitial()
 {
 #ifndef __NOTUSELUA
 
+	state->OpenLibs();
 	LuaClearCallBackFunctions();
 	LuaRegistFunction();
 	LuaRegistConst();
 	int iret = state->DoFile(hge->Resource_MakePath(DEFAULT_INITLUAFILE));
 	if (iret != 0)
 	{
-		_LuaHelper_ShowError(LUAERROR_LOADINGSCRIPT, DEFAULT_INITLUAFILE);
+		_LuaHelper_ShowError(LUAERROR_LOADINGSCRIPT, state->GetError(iret));
 		return false;
 	}
-	LuaFunction<bool> systeminitial = state->GetGlobal(LUAFN_SYSTEMINITIAL);
+	LuaObject _obj = state->GetGlobal(LUAFN_SYSTEMINITIAL);
+	if (!(_obj.IsFunction()))
+	{
+		_LuaHelper_ShowError(LUAERROR_NOTFUNCTION, LUAFN_SYSTEMINITIAL);
+	}
+	LuaFunction<bool> systeminitial = _obj;
 	return systeminitial();
 
 #else
@@ -36,8 +42,6 @@ bool Process::_LuaRegistFunction(LuaObject * obj)
 	LuaObject _luastateobj = obj->CreateTable("luastate");
 	_luastateobj.Register("Reload", LuaFn_LuaState_Reload);
 	_luastateobj.Register("DoFile", LuaFn_LuaState_DoFile);
-	_luastateobj.Register("GetTableCount", LuaFn_LuaState_GetTableCount);
-	_luastateobj.Register("CopyTable", LuaFn_LuaState_CopyTable);
 
 	return true;
 }
@@ -451,45 +455,34 @@ int Process::LuaFn_LuaState_DoFile(LuaState * ls)
 	iret = ls->DoFile(hge->Resource_MakePath(args[1].GetString()));
 	if (iret != 0)
 	{
-		_LuaHelper_ShowError(LUAERROR_LOADINGSCRIPT, args[1].GetString());
+		_LuaHelper_ShowError(LUAERROR_LOADINGSCRIPT, ls->GetError(iret));
 	}
 
 	ls->PushInteger(iret);
-	return 1;
-}
-
-int Process::LuaFn_LuaState_GetTableCount(LuaState * ls)
-{
-	LuaStack args(ls);
-	int iret;
-
-	LuaObject _obj = args[1].GetMetaTable();
-	iret = _obj.GetTableCount();
-
-	ls->PushInteger(iret);
-	return 1;
-}
-
-int Process::LuaFn_LuaState_CopyTable(LuaState * ls)
-{
-	LuaStack args(ls);
-	LuaStackObject table = ls->CreateTable();
-
-	if (args[1].IsTable())
-	{
-		table = args[1];
-	}
-
-	ls->PushValue(table);
 	return 1;
 }
 
 void Process::_LuaHelper_ShowError(int errortype, const char * err)
 {
+	char msgtitle[0x100];
 	switch (errortype)
 	{
 	case LUAERROR_LOADINGSCRIPT:
-		MessageBox(NULL, err, "Error in loading script!", MB_OK);
+		strcpy(msgtitle, "Error in loading script!");
 		break;
+	case LUAERROR_NOTFUNCTION:
+		strcpy(msgtitle, "Error in getting function!");
+		break;
+	case LUAERROR_LUAERROR:
+		strcpy(msgtitle, "Error in parsing function!");
+		break;
+	default:
+		strcpy(msgtitle, "Error!");
 	}
+	MessageBox(NULL, err, msgtitle, MB_OK);
+	if (!strlen(hge->System_GetState(HGE_LOGFILE)))
+	{
+		hge->System_SetState(HGE_LOGFILE, LOG_STR_FILENAME);
+	}
+	hge->System_Log("%s: %s", msgtitle, err);
 }

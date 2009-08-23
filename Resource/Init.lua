@@ -5,10 +5,11 @@ luaFileTable	=	{
 									"Script/Class/Export.lua",
 									"Script/Class/Process.lua",
 									"Script/Class/Process/Process_Frame.lua",
+									"Script/Class/Process/Process_GetInput.lua",
 								}
 								
 function luaDoFiles()
-	local tablelength = luastate.GetTableCount(luaFileTable);
+	local tablelength = table.getn(luaFileTable);
 	for i=1, tablelength do
 		local iret = luastate.DoFile(luaFileTable[i]);
 		if iret ~= 0 then
@@ -32,7 +33,7 @@ function SystemInitial()
 	hge.System_SetState(HGE_INIFILE, "LuaEngine.ini");
 
 	if hge.Ini_GetInt(RESCONFIGS_SYSTEM, RESCONFIGN_USE3DMODE, RESCONFIGDEFAULT_USE3DMODE) == 0 then
-		export.ClientSet2DMode();
+		export:ClientSet2DMode();
 	end
 
 	time = 0;

@@ -1,12 +1,16 @@
-function Process:Frame()
+function Process:Frame(self)
+	
 	if hge.Input_GetKeyState(HGEK_ALT) and hge.Input_GetKeyState(HGEK_ENTER) then
 		mp.screenmode = not mp.screenmode;
 		hge.System_SetState(HGE_WINDOWED, not mp.screenmode);
 		hge.System_SetState(HGE_HIDEMOUSE, mp.screenmode);
 	end
 	
+	mp:GetInput(mp);
+		
+	time = time + 1;
 	
-	if time == 0 then
+	if time == 1 then
 
 		font = hgeFont.NewFont("font.fnt");
 		snd = hge.Effect_Load("menu.wav");
@@ -95,8 +99,6 @@ function Process:Frame()
 		hgeES.MoveTo(effs[i], x+randx, y+randy);
 		hgeES.Update(effs[i]);
 	end
-
-	time = time + 1;
 	
 	fps = hge.Timer_GetFPS(35);
 	
