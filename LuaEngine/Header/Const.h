@@ -67,4 +67,6 @@
 #undef  LOG_STR_FILENAME
 #define LOG_STR_FILENAME		"LuaEngine.log"
 
+#define M_MESSAGESTRMAX	0x100
+
 #endif

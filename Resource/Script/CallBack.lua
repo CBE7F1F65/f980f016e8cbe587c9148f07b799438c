@@ -29,7 +29,7 @@ function hgeFrameFunc()
 	if hge.Input_GetDIKey(mp.keyCapture, DIKEY_DOWN) then
 		mp:SnapShot();
 	end
-	if mp.Frame() == PQUIT then
+	if mp:Frame() == PQUIT then
 		return true;
 	end
 	return false;
@@ -40,7 +40,7 @@ function hgeRenderFunc()
 
 	hge.Gfx_Clear(0);
 
-	if time > 0 then
+	if time > 0 and mp.state == STATE_START then
 		hge.Gfx_RenderQuad(quad);
 		hgeES.Render(eff);
 		for i=1,MAXEFF do

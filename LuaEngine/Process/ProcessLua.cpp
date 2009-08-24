@@ -38,6 +38,7 @@ bool Process::_LuaRegistFunction(LuaObject * obj)
 	_globalobj.Register("GetARGB", LuaFn_Global_GetARGB);
 	_globalobj.Register("SetARGB", LuaFn_Global_SetARGB);
 	_globalobj.Register("GetLocalTime", LuaFn_Global_GetLocalTime);
+	_globalobj.Register("MessageBox", LuaFn_Global_MessageBox);
 
 	LuaObject _luastateobj = obj->CreateTable("luastate");
 	_luastateobj.Register("Reload", LuaFn_LuaState_Reload);
@@ -441,6 +442,35 @@ int Process::LuaFn_Global_GetLocalTime(LuaState * ls)
 	return 2;
 }
 
+int Process::LuaFn_Global_MessageBox(LuaState * ls)
+{
+	LuaStack args(ls);
+	int iret;
+
+	char stext[M_MESSAGESTRMAX];
+	strcpy(stext, "");
+	char scaption[M_MESSAGESTRMAX];
+	strcpy(scaption, "");
+	int type = MB_OK;
+	int argscount = args.Count();
+	if (argscount > 0)
+	{
+		strcpy(stext, args[1].GetString());
+		if (argscount > 1)
+		{
+			strcpy(scaption, args[2].GetString());
+			if (argscount > 2)
+			{
+				type = args[3].GetInteger();
+			}
+		}
+	}
+	iret = MessageBox(NULL, stext, scaption, (UINT)type);
+
+	ls->PushInteger(iret);
+	return 1;
+}
+
 int Process::LuaFn_LuaState_Reload(LuaState * ls)
 {
 	LuaInitial();
@@ -452,7 +482,46 @@ int Process::LuaFn_LuaState_DoFile(LuaState * ls)
 	LuaStack args(ls);
 	int iret;
 
-	iret = ls->DoFile(hge->Resource_MakePath(args[1].GetString()));
+	bool wildcard = false;
+	const char * filenamebuffer = args[1].GetString();
+	for (int i=0; i<strlen(filenamebuffer); i++)
+	{
+		if (filenamebuffer[i] == '*')
+		{
+			wildcard = true;
+			break;
+		}
+	}
+	if (wildcard)
+	{
+		char * filename;
+		char filepath[_MAX_PATH];
+		char fullfilename[_MAX_PATH];
+		sprintf(filepath, hge->Resource_MakePath(filenamebuffer));
+		while (true)
+		{
+			int _lastindex = strlen(filepath)-1;
+			if (filepath[_lastindex] == '\\' || filepath[_lastindex] == '/')
+			{
+				break;
+			}
+			filepath[_lastindex] = 0;
+		}
+		filename = hge->Resource_EnumFiles(filenamebuffer);
+		do 
+		{
+			sprintf(fullfilename, "%s%s", filepath, filename);
+			iret = ls->DoFile(fullfilename);
+			if (iret != 0)
+			{
+				break;
+			}
+		} while (filename = hge->Resource_EnumFiles());
+	}
+	else
+	{
+		iret = ls->DoFile(hge->Resource_MakePath(filenamebuffer));
+	}
 	if (iret != 0)
 	{
 		_LuaHelper_ShowError(LUAERROR_LOADINGSCRIPT, ls->GetError(iret));
@@ -464,7 +533,7 @@ int Process::LuaFn_LuaState_DoFile(LuaState * ls)
 
 void Process::_LuaHelper_ShowError(int errortype, const char * err)
 {
-	char msgtitle[0x100];
+	char msgtitle[M_MESSAGESTRMAX];
 	switch (errortype)
 	{
 	case LUAERROR_LOADINGSCRIPT:
@@ -480,7 +549,7 @@ void Process::_LuaHelper_ShowError(int errortype, const char * err)
 		strcpy(msgtitle, "Error!");
 	}
 	MessageBox(NULL, err, msgtitle, MB_OK);
-	if (!strlen(hge->System_GetState(HGE_LOGFILE)))
+	if (!hge->System_GetState(HGE_LOGFILE) || !strlen(hge->System_GetState(HGE_LOGFILE)))
 	{
 		hge->System_SetState(HGE_LOGFILE, LOG_STR_FILENAME);
 	}

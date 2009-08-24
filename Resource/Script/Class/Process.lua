@@ -14,11 +14,30 @@ Process	=	{
 function Process:new(t)
     local t = t or {};
     self.__index = self;
-    setmetatable( t, self );
+    setmetatable(t, self);
+    t:_Init();
     return t;
 end
 
-function Process:SnapShot(self)
+function Process:_Init()
+	
+	self.keyUp			= RESCONFIGDEFAULT_KEYUP;
+	self.keyDown		= RESCONFIGDEFAULT_KEYDOWN;
+	self.keyLeft		= RESCONFIGDEFAULT_KEYLEFT;
+	self.keyRight		= RESCONFIGDEFAULT_KEYRIGHT;
+	self.keyPause		= RESCONFIGDEFAULT_KEYPAUSE;
+	self.keySkip		= RESCONFIGDEFAULT_KEYSKIP;
+	self.keyEnter		= RESCONFIGDEFAULT_KEYENTER;
+	self.keyEscape	= RESCONFIGDEFAULT_KEYESCAPE;
+	self.keyCapture	= RESCONFIGDEFAULT_KEYCAPTURE;
+	
+	self.joyPause		=	RESCONFIGDEFAULT_JOYPAUSE;
+	
+	self.state	=	STATE_INIT;
+	
+end
+
+function Process:SnapShot()
 	hge.System_Snapshot();
 end
 

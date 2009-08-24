@@ -2,10 +2,8 @@ luaFileTable	=	{
 									"Script/Const.lua",
 									"Script/Global.lua",
 									"Script/CallBack.lua",
-									"Script/Class/Export.lua",
-									"Script/Class/Process.lua",
-									"Script/Class/Process/Process_Frame.lua",
-									"Script/Class/Process/Process_GetInput.lua",
+									"Script/Class/*.lua",
+									"Script/Class/Process/*.lua",
 								}
 								
 function luaDoFiles()

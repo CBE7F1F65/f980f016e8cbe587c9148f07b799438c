@@ -1,7 +1,7 @@
 Export	=	{
 					}
 
-function Export:ClientSet2DMode(self, x, y, z)
+function Export:ClientSet2DMode(x, y, z)
 	if x == nil then
 		x = 400;
 	end
