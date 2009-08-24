@@ -5,7 +5,7 @@
 	Name="LuaPlus"
 	ProjectGUID="{ACB58A18-DE6E-4C2F-BC64-93C8673CBEBE}"
 	VCNestedProjectGUID="{9C233F9B-D3AF-4C38-8743-45898A100640}"
-	VCNestedProjectCRC32="698441052"
+	VCNestedProjectCRC32="3751159274"
 	VCNestedProjectFileName="LuaPlus.vcproj"
 	Keyword="Win32Proj">
 	<Configurations>
@@ -21,32 +21,36 @@
 				Name="CppCmplrTool"
 				Optimization="0"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
+				MinimalRebuild="FALSE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
+				WarningLevel="1"
+				Detect64BitPortabilityProblems="FALSE"
 				DebugInformationFormat="4"/>
 			<Tool 
-				Name="LinkerTool"
-				DelayImpLib=""/>
+				Name="CustomTool"/>
 			<Tool 
 				Name="LibrarianTool"
 				OutputFile="$(OutDir)/LuaPlus.lib"/>
 			<Tool 
-				Name="ResCmplrTool"/>
-			<Tool 
 				Name="MidlCmplrTool"/>
 			<Tool 
-				Name="BscMakeTool"/>
+				Name="PostBuildEventTool"/>
 			<Tool 
 				Name="PreBuildEventTool"/>
 			<Tool 
 				Name="PreLinkEventTool"/>
 			<Tool 
-				Name="PostBuildEventTool"/>
+				Name="ResCmplrTool"/>
 			<Tool 
-				Name="CustomTool"/>
+				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool 
-				Name="CustomNodeTool"/>
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool 
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool 
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
 		<Configuration 
 			Name="Release|Win32">
@@ -56,228 +60,339 @@
 				IntermediateDirectory="Release"
 				ConfigurationType="4"
 				CharacterSet="2"
-				WholeProgramOptimization="1"/>
+				WholeProgramOptimization="TRUE"/>
 			<Tool 
 				Name="CppCmplrTool"
 				Optimization="1000"
-				GlobalOptimizations="1"
+				GlobalOptimizations="TRUE"
 				InlineFunctionExpansion="2"
-				EnableIntrinsicFunctions="1"
-				ImproveFloatingPointConsistency="1"
+				EnableIntrinsicFunctions="TRUE"
+				ImproveFloatingPointConsistency="TRUE"
 				FavorSizeOrSpeed="1"
-				OmitFramePointers="1"
-				EnableFiberSafeOptimizations="1"
-				OptimizeForWindowsApplication="1"
+				OmitFramePointers="TRUE"
+				EnableFiberSafeOptimizations="TRUE"
+				WholeProgramOptimization="TRUE"
+				OptimizeForWindowsApplication="TRUE"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				RuntimeLibrary="0"
-				UsePrecompiledHeader="0"/>
+				UsePrecompiledHeader="0"
+				WarningLevel="1"
+				Detect64BitPortabilityProblems="FALSE"
+				DebugInformationFormat="0"/>
 			<Tool 
-				Name="LinkerTool"
-				DelayImpLib=""/>
+				Name="CustomTool"/>
 			<Tool 
 				Name="LibrarianTool"
 				OutputFile="$(OutDir)/LuaPlus.lib"/>
 			<Tool 
-				Name="ResCmplrTool"/>
-			<Tool 
 				Name="MidlCmplrTool"/>
 			<Tool 
-				Name="BscMakeTool"/>
+				Name="PostBuildEventTool"/>
 			<Tool 
 				Name="PreBuildEventTool"/>
 			<Tool 
 				Name="PreLinkEventTool"/>
 			<Tool 
-				Name="PostBuildEventTool"/>
+				Name="ResCmplrTool"/>
 			<Tool 
-				Name="CustomTool"/>
+				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool 
-				Name="CustomNodeTool"/>
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool 
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool 
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
 	</Configurations>
 	<Files>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\LuaCall.cpp"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\LuaObject.cpp"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\LuaPlus.cpp"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\LuaPlus_Libs.cpp"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\LuaPlusAddons.c"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\LuaPlusFunctions.cpp"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\LuaStackObject.cpp"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\LuaStackTableIterator.cpp"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\LuaState.cpp"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\LuaState_DumpObject.cpp"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\LuaStateOutFile.cpp"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\LuaTableIterator.cpp"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\lwstrlib.c"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\popen.c"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\auxiliar.h"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\LuaAutoBlock.h"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\LuaCall.h"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\LuaFunction.h"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\LuaHelper.h"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\LuaHelper_Object.h"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\LuaHelper_StackObject.h"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\LuaLink.h"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\LuaObject.h"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\LuaObject.inl"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\LuaPlus.h"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\LuaPlusCD.h"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\LuaPlusInternal.h"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\LuaStackObject.h"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\LuaStackObject.inl"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\LuaStackTableIterator.h"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\LuaState.h"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\LuaState.inl"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\LuaStateOutFile.h"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\LuaTableIterator.h"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\luathread.h"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\pt.h"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\srm.h"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\lapi.c"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\lapi.h"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\lauxlib.c"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\lauxlib.h"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\lbaselib.c"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\lcode.c"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\lcode.h"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\ldblib.c"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\ldebug.c"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\ldebug.h"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\ldo.c"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\ldo.h"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\ldump.c"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\lfunc.c"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\lfunc.h"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\lgc.c"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\lgc.h"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\linit.c"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\liolib.c"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\llex.c"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\llex.h"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\llimits.h"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\lmathlib.c"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\lmem.c"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\lmem.h"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\loadlib.c"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\lobject.c"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\lobject.h"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\lopcodes.c"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\lopcodes.h"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\loslib.c"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\lparser.c"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\lparser.h"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\lstate.c"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\lstate.h"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\lstring.c"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\lstring.h"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\lstrlib.c"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\ltable.c"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\ltable.h"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\ltablib.c"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\ltm.c"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\ltm.h"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\lua.c"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\lua.h"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\luaconf.h"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\lualib.h"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\lundump.c"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\lundump.h"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\lvm.c"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\lvm.h"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\lzio.c"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\lzio.h"/>
-		<File 
-			RelativePath="..\..\..\LuaPlus\work51\Src\LuaPlus\src\print.c"/>
+		<Filter 
+			Name="源文件"
+			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
+			<File 
+				RelativePath="LuaPlus\LuaCall.cpp">
+			</File>
+			<File 
+				RelativePath="LuaPlus\LuaObject.cpp">
+			</File>
+			<File 
+				RelativePath="LuaPlus\LuaPlus.cpp">
+			</File>
+			<File 
+				RelativePath="LuaPlus\LuaPlus_Libs.cpp">
+			</File>
+			<File 
+				RelativePath="LuaPlus\LuaPlusAddons.c">
+			</File>
+			<File 
+				RelativePath="LuaPlus\LuaPlusFunctions.cpp">
+			</File>
+			<File 
+				RelativePath="LuaPlus\LuaStackObject.cpp">
+			</File>
+			<File 
+				RelativePath="LuaPlus\LuaStackTableIterator.cpp">
+			</File>
+			<File 
+				RelativePath="LuaPlus\LuaState.cpp">
+			</File>
+			<File 
+				RelativePath="LuaPlus\LuaState_DumpObject.cpp">
+			</File>
+			<File 
+				RelativePath="LuaPlus\LuaStateOutFile.cpp">
+			</File>
+			<File 
+				RelativePath="LuaPlus\LuaTableIterator.cpp">
+			</File>
+			<File 
+				RelativePath="LuaPlus\lwstrlib.c">
+			</File>
+			<File 
+				RelativePath="LuaPlus\popen.c">
+			</File>
+		</Filter>
+		<Filter 
+			Name="头文件"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
+			<File 
+				RelativePath="LuaPlus\auxiliar.h">
+			</File>
+			<File 
+				RelativePath="LuaPlus\LuaAutoBlock.h">
+			</File>
+			<File 
+				RelativePath="LuaPlus\LuaCall.h">
+			</File>
+			<File 
+				RelativePath="LuaPlus\LuaFunction.h">
+			</File>
+			<File 
+				RelativePath="LuaPlus\LuaHelper.h">
+			</File>
+			<File 
+				RelativePath="LuaPlus\LuaHelper_Object.h">
+			</File>
+			<File 
+				RelativePath="LuaPlus\LuaHelper_StackObject.h">
+			</File>
+			<File 
+				RelativePath="LuaPlus\LuaLink.h">
+			</File>
+			<File 
+				RelativePath="LuaPlus\LuaObject.h">
+			</File>
+			<File 
+				RelativePath="LuaPlus\LuaObject.inl">
+			</File>
+			<File 
+				RelativePath="LuaPlus\LuaPlus.h">
+			</File>
+			<File 
+				RelativePath="LuaPlus\LuaPlusCD.h">
+			</File>
+			<File 
+				RelativePath="LuaPlus\LuaPlusInternal.h">
+			</File>
+			<File 
+				RelativePath="LuaPlus\LuaStackObject.h">
+			</File>
+			<File 
+				RelativePath="LuaPlus\LuaStackObject.inl">
+			</File>
+			<File 
+				RelativePath="LuaPlus\LuaStackTableIterator.h">
+			</File>
+			<File 
+				RelativePath="LuaPlus\LuaState.h">
+			</File>
+			<File 
+				RelativePath="LuaPlus\LuaState.inl">
+			</File>
+			<File 
+				RelativePath="LuaPlus\LuaStateOutFile.h">
+			</File>
+			<File 
+				RelativePath="LuaPlus\LuaTableIterator.h">
+			</File>
+			<File 
+				RelativePath="LuaPlus\luathread.h">
+			</File>
+			<File 
+				RelativePath="LuaPlus\pt.h">
+			</File>
+			<File 
+				RelativePath="LuaPlus\srm.h">
+			</File>
+		</Filter>
+		<Filter 
+			Name="资源文件"
+			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx"
+			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}">
+			<File 
+				RelativePath="LuaPlus\src\lapi.c">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\lapi.h">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\lauxlib.c">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\lauxlib.h">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\lbaselib.c">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\lcode.c">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\lcode.h">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\ldblib.c">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\ldebug.c">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\ldebug.h">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\ldo.c">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\ldo.h">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\ldump.c">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\lfunc.c">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\lfunc.h">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\lgc.c">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\lgc.h">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\linit.c">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\liolib.c">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\llex.c">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\llex.h">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\llimits.h">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\lmathlib.c">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\lmem.c">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\lmem.h">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\loadlib.c">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\lobject.c">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\lobject.h">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\lopcodes.c">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\lopcodes.h">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\loslib.c">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\lparser.c">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\lparser.h">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\lstate.c">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\lstate.h">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\lstring.c">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\lstring.h">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\lstrlib.c">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\ltable.c">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\ltable.h">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\ltablib.c">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\ltm.c">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\ltm.h">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\lua.c">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\lua.h">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\luaconf.h">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\lualib.h">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\lundump.c">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\lundump.h">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\lvm.c">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\lvm.h">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\lzio.c">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\lzio.h">
+			</File>
+			<File 
+				RelativePath="LuaPlus\src\print.c">
+			</File>
+		</Filter>
 	</Files>
 </VisualStudioProject>
 
