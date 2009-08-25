@@ -37,17 +37,9 @@ end
 
 function hgeRenderFunc()
 	hge.Gfx_BeginScene();
-
 	hge.Gfx_Clear(0);
-
-	if time > 0 and mp.state == STATE_START then
-		hge.Gfx_RenderQuad(quad);
-		hgeES.Render(eff);
-		for i=1,MAXEFF do
-			hgeES.Render(effs[i]);
-		end
-		hgeFont.printf(font,16,16,0,fps);
-	end
+	
+	mp:Render();
 
 	hge.Gfx_EndScene();
 	return false;
@@ -66,5 +58,6 @@ function hgeGfxRestoreFunc()
 end
 
 function hgeExitFunc()
+	mp:Release();
 	return true;
 end

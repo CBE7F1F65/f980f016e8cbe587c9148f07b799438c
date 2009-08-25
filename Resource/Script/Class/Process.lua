@@ -1,14 +1,4 @@
 Process	=	{
-						keyUp		= RESCONFIGDEFAULT_KEYUP;
-						keyDown		= RESCONFIGDEFAULT_KEYDOWN;
-						keyLeft		= RESCONFIGDEFAULT_KEYLEFT;
-						keyRight	= RESCONFIGDEFAULT_KEYRIGHT;
-						
-						keyPause	= RESCONFIGDEFAULT_KEYPAUSE;
-						keySkip		= RESCONFIGDEFAULT_KEYSKIP;
-						keyEnter	= RESCONFIGDEFAULT_KEYENTER;
-						keyEscape	= RESCONFIGDEFAULT_KEYESCAPE;
-						keyCapture	= RESCONFIGDEFAULT_KEYCAPTURE;
 					}
 
 function Process:new(t)
@@ -35,10 +25,38 @@ function Process:_Init()
 	
 	self.state	=	STATE_INIT;
 	
+	self.texInit	=	NULL;
+	
 end
 
-function Process:SnapShot()
-	hge.System_Snapshot();
+function Process:Release()
+	
+	hge.Ini_SetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_KEYUP, self.keyUp);
+	hge.Ini_SetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_KEYDOWN, self.keyDown);
+	hge.Ini_SetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_KEYLEFT, self.keyLeft);
+	hge.Ini_SetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_KEYRIGHT, self.keyRight);
+	hge.Ini_SetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_KEYPAUSE, self.keyPause);
+	hge.Ini_SetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_KEYSKIP, self.keySkip);
+	hge.Ini_SetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_KEYENTER, self.keyEnter);
+	hge.Ini_SetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_KEYESCAPE, self.keyEscape);
+	hge.Ini_SetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_KEYCAPTURE, self.keyCapture);
+
+	hge.Ini_SetInt(RESCONFIGS_JOYSETTING, RESCONFIGN_JOYPAUSE, self.joyPause);
+	if __DEBUG > 0 then
+		hge.Ini_SetInt(RESCONFIGS_JOYSETTING, RESCONFIGN_DEBUG_JOYSPEEDUP, self.debug_joySpeedUp);
+	end
+
+	hge.Ini_SetInt(RESCONFIGS_VOLUME, RESCONFIGN_VOLMUSIC, self.bgmvol);
+	hge.Ini_SetInt(RESCONFIGS_VOLUME, RESCONFIGN_VOLSE, self.sevol);
+
+	hge.Ini_SetInt(RESCONFIGS_CUSTOM, RESCONFIGN_SCREENMODE, self.screenmode);
+	hge.Ini_SetString(RESCONFIGS_CUSTOM, RESCONFIGN_USERNAME, self.username);
+	
+	if self.texInit ~= NULL then
+		hge.Texture_Free(self.texInit);
+		self.texInit = NULL;
+	end
+	
 end
 
 mp = Process:new();

@@ -43,6 +43,9 @@ bool Process::_LuaRegistFunction(LuaObject * obj)
 	LuaObject _luastateobj = obj->CreateTable("luastate");
 	_luastateobj.Register("Reload", LuaFn_LuaState_Reload);
 	_luastateobj.Register("DoFile", LuaFn_LuaState_DoFile);
+	_luastateobj.Register("GetPointer", LuaFn_LuaState_GetPointer);
+	_luastateobj.Register("IntToDWORD", LuaFn_LuaState_IntToDWORD);
+	_luastateobj.Register("DWORDToInt", LuaFn_LuaState_DWORDToInt);
 
 	return true;
 }
@@ -526,6 +529,49 @@ int Process::LuaFn_LuaState_DoFile(LuaState * ls)
 	{
 		_LuaHelper_ShowError(LUAERROR_LOADINGSCRIPT, ls->GetError(iret));
 	}
+
+	ls->PushInteger(iret);
+	return 1;
+}
+
+int Process::LuaFn_LuaState_GetPointer(LuaState * ls)
+{
+	LuaStack args(ls);
+	DWORD dret = 0;
+
+	if (args[1].IsString())
+	{
+		dret = (DWORD)(args[1].GetString());
+	}
+	else if (args[1].IsNumber())
+	{
+		static lua_Number _number;
+		_number = args[1].GetNumber();
+		dret = (DWORD)(&_number);
+	}
+	
+	_LuaHelper_PushDWORD(ls, dret);
+	return 1;
+}
+
+int Process::LuaFn_LuaState_IntToDWORD(LuaState * ls)
+{
+	LuaStack args(ls);
+	DWORD dret;
+
+	dret = args[1].GetInteger();
+
+	_LuaHelper_PushDWORD(ls, dret);
+	return 1;
+}
+
+int Process::LuaFn_LuaState_DWORDToInt(LuaState * ls)
+{
+	LuaStack args(ls);
+	int iret;
+
+	LuaObject _obj = args[1];
+	iret = _LuaHelper_GetDWORD(&_obj);
 
 	ls->PushInteger(iret);
 	return 1;

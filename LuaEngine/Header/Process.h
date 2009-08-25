@@ -51,7 +51,6 @@ public:
 	static LONGLONG _LuaHelper_GetLONGLONG(LuaObject * obj);
 	static void _LuaHelper_PushQWORD(LuaState * ls, QWORD qval);
 	static QWORD _LuaHelper_GetQWORD(LuaObject * obj);
-
 	static void _LuaHelper_PushString(LuaState * ls, const char * sval);
 
 	static void _LuaHelper_GetCalculateValue(LuaObject * obj, char calchar, bool buseq, void * val);
@@ -64,12 +63,17 @@ public:
 	static int LuaFn_Global_MessageBox(LuaState * ls);
 	static int LuaFn_LuaState_Reload(LuaState * ls);
 	static int LuaFn_LuaState_DoFile(LuaState * ls);
+	static int LuaFn_LuaState_GetPointer(LuaState * ls);
+	static int LuaFn_LuaState_IntToDWORD(LuaState * ls);
+	static int LuaFn_LuaState_DWORDToInt(LuaState * ls);
 
 	/* HGE */
 	static DWORD _LuaHelper_GetColor(LuaObject * obj);
 	static void _LuaHelper_GetVertex(LuaObject * obj, hgeVertex * vertex);
 	static void _LuaHelper_GetTriple(LuaObject * obj, hgeTriple * triple);
 	static void _LuaHelper_GetQuad(LuaObject * obj, hgeQuad * quad);
+
+	static int LuaFn_hge_Struct_hgeQuad(LuaState * ls);
 
 	static int LuaFn_hge_System_SetState(LuaState * ls);
 	static int LuaFn_hge_System_GetState(LuaState * ls);

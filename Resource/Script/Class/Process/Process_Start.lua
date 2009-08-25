@@ -7,16 +7,7 @@ function Process:ProcessStart()
 		font = hgeFont.NewFont("font.fnt");
 		snd = hge.Effect_Load("menu.wav");
 		hge.Effect_Play(snd);
-		quad	=	{
-							v	=	{
-										{x=1, y=0, z=0, col=0, tx=0, ty=0},
-										{x=2, y=0, z=0, col=0, tx=0, ty=0},
-										{x=3, y=0, z=0, col=0, tx=0, ty=0},
-										{x=4, y=0, z=0, col=0, tx=0, ty=0}
-									},
-							tex = 0,
-							blend = 0,
-						};
+		quad = hge.struct.hgeQuad();
 		quad.tex = hge.Texture_Load("particles.png");
 		eff = hgeES.NewES("EffectSystem_038.effect", quad.tex);
 		hgeES.Fire(eff);
@@ -29,6 +20,7 @@ function Process:ProcessStart()
 		local _col = global.ARGB(0xff, 0xffa000);
 		for i=1, 4 do
 			quad.v[i].col = _col;
+			quad.v[i].z	=	0;
 		end
 		
 		quad.v[1].tx=96.0/128.0; quad.v[1].ty=64.0/128.0;
@@ -57,23 +49,28 @@ function Process:ProcessStart()
 	dy = dy * friction;
 	x = x + dx;
 	y = y + dy;
-	if x > 784 then
-		x = 784 - (x-784);
+	local edge = 16
+	local redge = M_CLIENT_RIGHT - edge;
+	if x > redge then
+		x = redge - (x-redge);
 		dx = -dx;
 		boom();
 	end
-	if x < 16 then
-		x = 16 + (16-x);
+	local ledge = edge;
+	if x < ledge then
+		x = ledge + (ledge-x);
 		dx = -dx;
 		boom();
 	end
-	if y > 584 then
-		y = 584 - (y-584);
+	local bedge = M_CLIENT_BOTTOM - edge;
+	if y > bedge then
+		y = bedge - (y-bedge);
 		dy = -dy;
 		boom();
 	end
-	if y < 16 then
-		y = 16 + (16-y);
+	local tedge = edge;
+	if y < tedge then
+		y = tedge + (tedge-y);
 		dy = -dy;
 		boom();
 	end

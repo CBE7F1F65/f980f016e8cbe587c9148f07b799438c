@@ -5,6 +5,10 @@ bool Process::_LuaRegistHGEFunction(LuaObject * obj)
 {
 	LuaObject _hgeobj = obj->CreateTable("hge");
 
+	LuaObject _hgestructobj = _hgeobj.CreateTable("struct");
+
+	_hgestructobj.Register("hgeQuad", LuaFn_hge_Struct_hgeQuad);
+
 	_hgeobj.Register("System_SetState", LuaFn_hge_System_SetState);
 	_hgeobj.Register("System_GetState", LuaFn_hge_System_GetState);
 	_hgeobj.Register("System_Log", LuaFn_hge_System_Log);
@@ -219,6 +223,30 @@ void Process::_LuaHelper_GetQuad(LuaObject * obj, hgeQuad * quad)
 			quad->tex = _LuaHelper_GetDWORD(&_para);
 		}
 	}
+}
+
+int Process::LuaFn_hge_Struct_hgeQuad(LuaState * ls)
+{
+	LuaStack args(ls);
+
+	LuaStackObject _table = ls->CreateTable();
+	LuaStackObject _v = _table.CreateTable("v");
+	DWORD _col = 0xffffffff;
+	for (int i=0 ;i<HGEPRIM_QUADS; i++)
+	{
+		LuaStackObject _vobj = _v.CreateTable(i+1);
+		_vobj.SetNumber("x", 0);
+		_vobj.SetNumber("y", 0);
+		_vobj.SetNumber("z", 0);
+		_vobj.SetNumber("tx", 0);
+		_vobj.SetNumber("ty", 0);
+		_vobj.SetNumber("col", CDOUBLEN(_col));
+	}
+	_table.SetInteger("tex", 0);
+	_table.SetInteger("blend", BLEND_DEFAULT);
+
+	ls->PushValue(_table);
+	return 1;
 }
 
 int Process::LuaFn_hge_System_SetState(LuaState * ls)
@@ -566,11 +594,19 @@ int Process::LuaFn_hge_Resource_GetCRC(LuaState * ls)
 	LuaStack args(ls);
 	DWORD dret;
 
-	LuaObject _obj = args[1];
-	DWORD _content = _LuaHelper_GetDWORD(&_obj);
-	_obj = args[2];
-	DWORD _size = _LuaHelper_GetDWORD(&_obj); 
-	dret = hge->Resource_GetCRC((BYTE *)(_content), _size);
+	if (args[1].IsString())
+	{
+		const char * _string = args[1].GetString();
+		dret = hge->Resource_GetCRC((BYTE *)_string, strlen(_string));
+	}
+	else
+	{
+		LuaObject _obj = args[1];
+		DWORD _content = _LuaHelper_GetDWORD(&_obj);
+		_obj = args[2];
+		DWORD _size = _LuaHelper_GetDWORD(&_obj); 
+		dret = hge->Resource_GetCRC((BYTE *)(_content), _size);
+	}
 
 	_LuaHelper_PushDWORD(ls, dret);
 	return 1;

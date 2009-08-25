@@ -3,6 +3,10 @@
 
 bool Process::_LuaRegistConst(LuaObject * obj)
 {
+	// System
+	obj->SetInteger("NULL",	NULL);
+	obj->SetString("LOG_STR_FILENAME",	LOG_STR_FILENAME);
+
 	// DI
 	obj->SetInteger("DIK_ESCAPE", DIK_ESCAPE);
 	obj->SetInteger("DIK_1", DIK_1);
