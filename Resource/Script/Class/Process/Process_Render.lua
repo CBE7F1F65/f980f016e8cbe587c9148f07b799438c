@@ -1,6 +1,6 @@
 function Process:Render()
 	
---	export:ClientSetMatrix(self.worldx, self.worldy, self.worldz);
+	export:ClientSetMatrix(self.worldx, self.worldy, self.worldz);
 	
 	if self.state == STATE_INIT then
 		return self:RenderInitState();

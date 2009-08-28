@@ -7,6 +7,11 @@ bool Process::_LuaRegistConst(LuaObject * obj)
 	obj->SetInteger("NULL",	NULL);
 	obj->SetString("LOG_STR_FILENAME",	LOG_STR_FILENAME);
 
+	// D3D
+	obj->SetInteger("D3DTS_WORLD", D3DTS_WORLD);
+	obj->SetInteger("D3DTS_VIEW", D3DTS_VIEW);
+	obj->SetInteger("D3DTS_PROJECTION", D3DTS_PROJECTION);
+
 	// DI
 	obj->SetInteger("DIK_ESCAPE", DIK_ESCAPE);
 	obj->SetInteger("DIK_1", DIK_1);

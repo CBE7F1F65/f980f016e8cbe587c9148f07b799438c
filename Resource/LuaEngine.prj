@@ -1,0 +1,119 @@
+[Project ID]
+Signature=UE Proj: v.1
+[Project Information]
+Compilable=1
+Use Relative Directory=1
+Relative to Project File=1
+Project Start=D907080005001C000B000200360000004C
+Project Directory=E:\LuaEngine\Resource
+Include Sub Directories=1
+Project Tagfile=
+Project Wordfile=
+Filter=
+Using VCS=0
+Save Account=0
+Create Tagfile=0
+CTags Legacy Support=0
+Working Time=28016
+[Files]
+0=Init.lua
+[Group]
+0=Script
+1=Script - Class
+2=Script - Class - Export
+3=Script - Class - Process
+4=Script - Function
+[Files - Script]
+0=Script\Global.lua
+1=Script\CallBack.lua
+2=Script\Const.lua
+[Folders]
+Script=1
+Script - Class=1
+Script - Class - Export=1
+[Files - Script - Class]
+0=Script\Class\Process.lua
+1=Script\Class\Export.lua
+[Files - Script - Class - Export]
+0=Script\Class\Export\Export_Functions.lua
+[Files - Script - Class - Process]
+0=Script\Class\Process\Process_Title.lua
+1=Script\Class\Process\Process_Frame.lua
+2=Script\Class\Process\Process_Functions.lua
+3=Script\Class\Process\Process_GetInput.lua
+4=Script\Class\Process\Process_Init.lua
+5=Script\Class\Process\Process_PreInit.lua
+6=Script\Class\Process\Process_Render.lua
+7=Script\Class\Process\Process_Start.lua
+[uemakeXp]
+ReleaseMode=0
+[Debug Settings]
+Program Arguments=
+Selected Debugger=0
+Source Paths=
+Symbol Paths=
+Working Directory=
+[Open Files]
+Active File Display Mode=3
+Active File Index=3
+Open File Line0=0
+Open File Line1=0
+Open File Line10=0
+Open File Line11=0
+Open File Line12=0
+Open File Line13=0
+Open File Line14=546
+Open File Line2=0
+Open File Line3=0
+Open File Line4=0
+Open File Line5=0
+Open File Line6=0
+Open File Line7=0
+Open File Line8=0
+Open File Line9=0
+Open File Pos0=0
+Open File Pos1=772
+Open File Pos10=0
+Open File Pos11=0
+Open File Pos12=0
+Open File Pos13=0
+Open File Pos14=622
+Open File Pos2=92
+Open File Pos3=7
+Open File Pos4=0
+Open File Pos5=0
+Open File Pos6=0
+Open File Pos7=0
+Open File Pos8=0
+Open File Pos9=0
+Open File Window Pos0=0,1,-1,-1,-4,-30,44,58,1340,453
+Open File Window Pos1=0,1,-1,-1,-4,-30,66,87,1366,468
+Open File Window Pos10=0,1,-1,-1,-4,-30,110,145,1410,526
+Open File Window Pos11=0,1,-1,-1,-4,-30,22,29,1322,410
+Open File Window Pos12=0,1,-1,-1,-4,-30,0,0,1300,381
+Open File Window Pos13=0,1,-1,-1,-4,-30,132,174,1432,555
+Open File Window Pos14=0,1,-1,-1,-4,-30,44,58,1344,439
+Open File Window Pos2=0,1,-1,-1,-4,-30,88,116,1388,497
+Open File Window Pos3=2,3,-1,-1,-4,-30,66,87,1366,468
+Open File Window Pos4=0,1,-1,-1,-4,-30,44,58,1344,439
+Open File Window Pos5=0,1,-1,-1,-4,-30,22,29,1322,410
+Open File Window Pos6=0,1,-1,-1,-4,-30,0,0,1300,381
+Open File Window Pos7=0,1,-1,-1,-4,-30,132,174,1432,555
+Open File Window Pos8=0,1,-1,-1,-4,-30,110,145,1410,526
+Open File Window Pos9=0,1,-1,-1,-4,-30,88,116,1388,497
+Open File0=.\Script\Class\Export.lua
+Open File1=.\Script\Class\Export\Export_Functions.lua
+Open File10=.\Script\Class\Process.lua
+Open File11=.\Script\Global.lua
+Open File12=.\Script\Const.lua
+Open File13=.\Script\CallBack.lua
+Open File14=.\Init.lua
+Open File15=
+Open File2=.\Script\Class\Process\Process_Title.lua
+Open File3=.\Script\Class\Process\Process_Start.lua
+Open File4=.\Script\Class\Process\Process_Render.lua
+Open File5=.\Script\Class\Process\Process_PreInit.lua
+Open File6=.\Script\Class\Process\Process_Init.lua
+Open File7=.\Script\Class\Process\Process_GetInput.lua
+Open File8=.\Script\Class\Process\Process_Functions.lua
+Open File9=.\Script\Class\Process\Process_Frame.lua

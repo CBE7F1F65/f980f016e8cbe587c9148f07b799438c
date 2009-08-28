@@ -109,7 +109,6 @@ bool Process::_LuaRegistHGEFunction(LuaObject * obj)
 	_hgeobj.Register("Gfx_FinishBatch", LuaFn_hge_Gfx_FinishBatch);
 	_hgeobj.Register("Gfx_SetClipping", LuaFn_hge_Gfx_SetClipping);
 	_hgeobj.Register("Gfx_SetTransform", LuaFn_hge_Gfx_SetTransform);
-	_hgeobj.Register("Gfx_SetTransform", LuaFn_hge_Gfx_SetTransform);
 
 	_hgeobj.Register("Target_Create", LuaFn_hge_Target_Create);
 	_hgeobj.Register("Target_Free", LuaFn_hge_Target_Free);
@@ -1465,11 +1464,12 @@ int Process::LuaFn_hge_Gfx_SetTransform(LuaState * ls)
 	if (argscount > 1 && args[2].IsTable())
 	{
 		D3DMATRIX matrix;
+		LuaObject _obj = args[2];
 		for (int i=0; i<4; i++)
 		{
 			for (int j=0; j<4;j++)
 			{
-				matrix.m[i][j] = args[2].GetByIndex(i*4+j+1);
+				matrix.m[i][j] = _obj.GetByIndex(i+1).GetByIndex(j+1).GetNumber();
 			}
 		}
 		hge->Gfx_SetTransform((D3DTRANSFORMSTATETYPE)(args[1].GetInteger()), &matrix);

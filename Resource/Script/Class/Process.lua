@@ -27,6 +27,10 @@ function Process:_Init()
 	
 	self.texInit	=	NULL;
 	
+	self.worldx	=	0;
+	self.worldy	=	0;
+	self.worldz	=	0;
+	
 end
 
 function Process:Release()
