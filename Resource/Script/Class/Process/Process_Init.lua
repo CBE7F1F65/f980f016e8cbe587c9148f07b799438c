@@ -9,6 +9,8 @@ function Process:ProcessInit()
 		self.texInit = NULL;
 	end
 	
+	tex:Init(RESDEFAULT_DATAFOLDER..RESDEFAULT_TEXTUREDEFINE);
+	
 	time = 0;
 	self.state = STATE_TITLE;
 	return PTURN;

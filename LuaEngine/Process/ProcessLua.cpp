@@ -43,6 +43,8 @@ bool Process::_LuaRegistFunction(LuaObject * obj)
 	LuaObject _luastateobj = obj->CreateTable("luastate");
 	_luastateobj.Register("Reload", LuaFn_LuaState_Reload);
 	_luastateobj.Register("DoFile", LuaFn_LuaState_DoFile);
+	_luastateobj.Register("SetConst", LuaFn_LuaState_SetConst);
+	_luastateobj.Register("GetConst", LuaFn_LuaState_GetConst);
 	_luastateobj.Register("GetPointer", LuaFn_LuaState_GetPointer);
 	_luastateobj.Register("IntToDWORD", LuaFn_LuaState_IntToDWORD);
 	_luastateobj.Register("DWORDToInt", LuaFn_LuaState_DWORDToInt);
@@ -531,6 +533,74 @@ int Process::LuaFn_LuaState_DoFile(LuaState * ls)
 	}
 
 	ls->PushInteger(iret);
+	return 1;
+}
+
+int Process::LuaFn_LuaState_SetConst(LuaState * ls)
+{
+	LuaStack args(ls);
+
+	LuaObject _obj;
+	if (args.Count() > 2)
+	{
+		_obj = args[3];
+	}
+	else
+	{
+		_obj = ls->GetGlobals();
+	}
+	const char * constname = args[1].GetString();
+
+	switch (args[2].GetType())
+	{
+	case LUA_TBOOLEAN:
+		_obj.SetBoolean(constname, args[2].GetBoolean());
+		break;
+	case LUA_TNUMBER:
+		_obj.SetNumber(constname, args[2].GetNumber());
+		break;
+	case LUA_TSTRING:
+		_obj.SetString(constname, args[2].GetString());
+		break;
+	default:
+		_obj.SetNil(constname);
+		break;
+	}
+
+	return 0;
+}
+
+int Process::LuaFn_LuaState_GetConst(LuaState * ls)
+{
+	LuaStack args(ls);
+	int iret;
+
+	LuaObject _obj;
+	if (args.Count() > 1)
+	{
+		_obj = args[2];
+	}
+	else
+	{
+		_obj = ls->GetGlobals();
+	}
+    _obj = _obj.GetByName(args[1].GetString());
+	switch (_obj.Type())
+	{
+	case LUA_TBOOLEAN:
+		ls->PushBoolean(_obj.GetBoolean());
+		break;
+	case LUA_TNUMBER:
+		ls->PushNumber(_obj.GetNumber());
+		break;
+	case LUA_TSTRING:
+		ls->PushString(_obj.GetString());
+		break;
+	default:
+		ls->PushNil();
+		break;
+	}
+
 	return 1;
 }
 

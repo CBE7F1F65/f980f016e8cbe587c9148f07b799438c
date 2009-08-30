@@ -61,6 +61,8 @@ function Process:Release()
 		self.texInit = NULL;
 	end
 	
+	tex:Release();
+	
 end
 
 mp = Process:new();

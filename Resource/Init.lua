@@ -3,8 +3,11 @@ luaFileTable	=	{
 									"Script/Global.lua",
 									"Script/CallBack.lua",
 									"Script/Class/*.lua",
+									"Script/Class/Table/*.lua",
 									"Script/Class/Export/*.lua",
 									"Script/Class/Process/*.lua",
+									"Script/Class/Data/*.lua",
+									"Script/Class/Data/Texture/*.lua",
 								}
 								
 function luaDoFiles()
