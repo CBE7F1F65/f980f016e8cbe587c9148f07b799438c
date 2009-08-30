@@ -1,0 +1,2 @@
+function Data:SaveBinary()
+end

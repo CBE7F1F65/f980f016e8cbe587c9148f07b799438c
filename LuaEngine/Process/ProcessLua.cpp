@@ -38,6 +38,8 @@ bool Process::_LuaRegistFunction(LuaObject * obj)
 	_globalobj.Register("GetARGB", LuaFn_Global_GetARGB);
 	_globalobj.Register("SetARGB", LuaFn_Global_SetARGB);
 	_globalobj.Register("GetLocalTime", LuaFn_Global_GetLocalTime);
+	_globalobj.Register("GetPrivateProfileString", LuaFn_Global_GetPrivateProfileString);
+	_globalobj.Register("WritePrivateProfileString", LuaFn_Global_WritePrivateProfileString);
 	_globalobj.Register("MessageBox", LuaFn_Global_MessageBox);
 
 	LuaObject _luastateobj = obj->CreateTable("luastate");
@@ -447,6 +449,26 @@ int Process::LuaFn_Global_GetLocalTime(LuaState * ls)
 	return 2;
 }
 
+int Process::LuaFn_Global_GetPrivateProfileString(LuaState * ls)
+{
+	LuaStack args(ls);
+	char sret[M_STRINGMAX];
+
+	GetPrivateProfileString(args[1].GetString(), args[2].GetString(), args[3].GetString(), sret, M_STRINGMAX, args[4].GetString());
+
+	_LuaHelper_PushString(ls, sret);
+	return 1;
+}
+
+int Process::LuaFn_Global_WritePrivateProfileString(LuaState * ls)
+{
+	LuaStack args(ls);
+
+	WritePrivateProfileString(args[1].GetString(), args[2].GetString(), args[3].GetString(), args[4].GetString());
+
+	return 0;
+}
+
 int Process::LuaFn_Global_MessageBox(LuaState * ls)
 {
 	LuaStack args(ls);
@@ -594,7 +616,7 @@ int Process::LuaFn_LuaState_GetConst(LuaState * ls)
 		ls->PushNumber(_obj.GetNumber());
 		break;
 	case LUA_TSTRING:
-		ls->PushString(_obj.GetString());
+		_LuaHelper_PushString(ls, _obj.GetString());
 		break;
 	default:
 		ls->PushNil();

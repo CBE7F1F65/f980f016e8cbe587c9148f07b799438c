@@ -7,6 +7,7 @@ luaFileTable	=	{
 									"Script/Class/Export/*.lua",
 									"Script/Class/Process/*.lua",
 									"Script/Class/Data/*.lua",
+									"Script/Class/Data/Data/*.lua",
 									"Script/Class/Data/Texture/*.lua",
 								}
 								

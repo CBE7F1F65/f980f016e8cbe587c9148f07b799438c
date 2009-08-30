@@ -9,6 +9,7 @@ function Process:ProcessInit()
 		self.texInit = NULL;
 	end
 	
+	data:Init(hge.Ini_GetString(RESCONFIGS_RESOURCE, RESCONFIGN_RESOURCEFILE, RESCONFIGDEFAULT_RESOURCEFILE));
 	tex:Init(RESDEFAULT_DATAFOLDER..RESDEFAULT_TEXTUREDEFINE);
 	
 	time = 0;
