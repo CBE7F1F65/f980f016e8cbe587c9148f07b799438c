@@ -1749,20 +1749,23 @@ int Process::LuaFn_hge_Gfx_RenderTextToTarget(LuaState * ls)
 
 int Process::LuaFn_hgeEX_SetTextureNumber(LuaState * ls)
 {
-	if (texnum)
-	{
-		return 0;
-	}
-
 	LuaStack args(ls);
 
 	texnum = args[1].GetInteger();
+	HTEXTURE * _texset = NULL;
+
+	DWORD _size = sizeof(HTEXTURE) * texnum;
 	if (texnum > 0)
 	{
-		DWORD _size = sizeof(HTEXTURE) * texnum;
-		texset = (HTEXTURE *)malloc(_size);
-		ZeroMemory(texset, _size);
+		_texset = (HTEXTURE *)malloc(_size);
+		ZeroMemory(_texset, _size);
 	}
+	if (texset)
+	{
+		memcpy(_texset, texset, _size);
+		free(texset);
+	}
+	texset = _texset;
 	return 0;
 }
 

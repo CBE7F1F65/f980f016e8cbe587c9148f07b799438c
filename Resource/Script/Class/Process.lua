@@ -62,6 +62,9 @@ function Process:Release()
 	end
 	
 	tex:Release();
+	se:Release();
+	spim:Release();
+	effm:Release();
 	
 end
 

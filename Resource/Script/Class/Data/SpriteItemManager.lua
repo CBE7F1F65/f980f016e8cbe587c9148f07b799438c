@@ -17,4 +17,12 @@ function SpriteItemManager:_Init()
 	self.texh	=	{};
 end
 
+function SpriteItemManager:Release()
+	self.tex	=	{};
+	self.texx	=	{};
+	self.texy	=	{};
+	self.texw	=	{};
+	self.texh	=	{};
+end
+
 spim = SpriteItemManager:new();

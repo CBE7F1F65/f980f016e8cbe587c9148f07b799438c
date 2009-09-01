@@ -15,8 +15,7 @@ function Texture:_Init()
 end
 
 function Texture:Release()
-	local ntex = table.getn(self.tex);
-	for i=1, ntex do
+	for i in pairs(self.tex) do
 		if self.tex[i] ~= nil and self.tex[i] ~= 0 then
 			hge.Texture_Free(self.tex[i]);
 			self.tex[i] = 0;

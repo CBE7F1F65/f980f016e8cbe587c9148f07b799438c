@@ -13,4 +13,8 @@ function EffectManager:_Init()
 	self.filename	=	{};
 end
 
+function EffectManager:Release()
+	self.filename = {};
+end
+
 effm = EffectManager:new();

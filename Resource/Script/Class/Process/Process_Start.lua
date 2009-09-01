@@ -5,13 +5,9 @@ function Process:ProcessStart()
 	if time == 1 then
 
 		font = hgeFont.NewFont("Graphic/Font/font.fnt");
-		snd = hge.Effect_Load("SE/menu.wav");
-		hge.Effect_Play(snd);
 		quad = hge.struct.hgeQuad();
 		quad.tex = TEX_PARTICLES;
---		quad.tex = hge.Texture_Load("particles.png");
 		eff = effm:NewES(EFF_HOSHI);
---		eff = hgeES.NewES("EffectSystem_038.effect", quad.tex);
 		hgeES.Fire(eff);
 		for i=1,MAXEFF do
 			effs[i] = hgeES.NewES(eff);

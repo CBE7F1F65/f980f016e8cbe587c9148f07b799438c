@@ -83,6 +83,7 @@ RESDEFAULT_DATAFOLDER			=	"Data/"
 	RESDEFAULT_TEXTUREDEFINE		=	"TextureDefine.table"
 	RESDEFAULT_SPRITEITEMDEFINE	=	"SpriteItemDefine.table"
 	RESDEFAULT_EFFECTDEFINE			=	"EffectDefine.table"
+	RESDEFAULT_SEDEFINE					=	"SEDefine.table"
 
 PQUIT		=	0;
 PGO			=	1;

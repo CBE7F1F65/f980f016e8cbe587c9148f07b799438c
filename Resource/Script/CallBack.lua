@@ -1,4 +1,4 @@
-snd=0;
+--snd=0;
 x=0;
 y=0;
 dx=0;
@@ -16,11 +16,13 @@ spitem=0;
 function boom()
 	local pan = (x-400)/4;
 	local pitch = (dx*dx+dy*dy)*0.0005+0.2;
-	hge.Effect_Play(snd, 100, pan, pitch);
+	hge.Effect_Play(SE_MENU, 100, pan, pitch);
+--	hge.Effect_Play(snd, 100, pan, pitch);
 end
 
 function hgeFrameFunc()
 	if hge.Input_GetDIKey(DIK_BACK, DIKEY_DOWN) then
+		mp:Release();
 		luastate.Reload();
 		return false;
 	end

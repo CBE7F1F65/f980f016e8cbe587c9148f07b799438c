@@ -9,13 +9,13 @@ luaFileTable	=	{
 									"Script/Class/Data/*.lua",
 									"Script/Class/Data/Data/*.lua",
 									"Script/Class/Data/Texture/*.lua",
+									"Script/Class/Data/SE/*.lua",
 									"Script/Class/Data/SpriteItemManager/*.lua",
 									"Script/Class/Data/EffectManager/*.lua",
 								}
 								
 function luaDoFiles()
-	local tablelength = table.getn(luaFileTable);
-	for i=1, tablelength do
+	for i in pairs(luaFileTable) do
 		local iret = luastate.DoFile(luaFileTable[i]);
 		if iret ~= 0 then
 			return false;
