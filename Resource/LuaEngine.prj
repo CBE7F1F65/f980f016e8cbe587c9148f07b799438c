@@ -26,6 +26,7 @@ Working Time=63798
 5=Script - Class - Data
 6=Script - Class - Data - Texture
 7=Script - Class - Table
+8=Script - Class - Data - SpriteItemManager
 [Files - Script]
 0=Script\Global.lua
 1=Script\CallBack.lua
@@ -37,6 +38,7 @@ Script - Class - Data=1
 Script - Class - Data - Texture=1
 Script - Class - Export=1
 Script - Class - Process=1
+Script - Class - Data - SpriteItemManager=1
 [Files - Script - Class]
 0=Script\Class\Process.lua
 1=Script\Class\Export.lua
@@ -150,7 +152,10 @@ Open File8=.\Script\Class\Process\Process_Functions.lua
 Open File9=.\Script\Class\Process\Process_Frame.lua
 [Files - Script - Class - Data]
 0=Script\Class\Data\Texture.lua
+1=Script\Class\Data\SpriteItemManager.lua
 [Files - Script - Class - Data - Texture]
 0=Script\Class\Data\Texture\Texture_Functions.lua
 [Files - Script - Class - Table]
 0=Script\Class\Table\Table_Functions.lua
+[Files - Script - Class - Data - SpriteItemManager]
+0=Script\Class\Data\SpriteItemManager\SpriteItemManager_Functions.lua
