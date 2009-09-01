@@ -1,4 +1,4 @@
-Index	Filename	Texname
-0	Graphic\battle.png	TEX_BATTLE
-1	Graphic\musiclist.png	TEX_MUSICLIST
-2	Graphic\select.png	TEX_SELECT
+Index	Texname	Filename
+1	TEX_BATTLE	Graphic\battle.png
+2	TEX_MUSICLIST	Graphic\musiclist.png
+3	TEX_SELECT	Graphic\select.png

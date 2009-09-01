@@ -224,12 +224,12 @@ int Process::LuaFn_hgeSprite_SetColor(LuaState * ls)
 		int i=-1;
 		if (argscount > 2)
 		{
-			DWORD col;
-			_obj = args[3];
-			col = _LuaHelper_GetColor(&_obj);
 			i = args[3].GetInteger();
-			_sprite->SetColor(col, i);
 		}
+		DWORD col;
+		_obj = args[2];
+		col = _LuaHelper_GetColor(&_obj);
+		_sprite->SetColor(col, i);
 	}
 
 	return 0;

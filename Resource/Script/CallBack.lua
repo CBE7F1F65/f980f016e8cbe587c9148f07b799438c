@@ -11,6 +11,7 @@ font=0;
 MAXEFF=0;
 eff=0;
 effs={};
+spitem=0;
 
 function boom()
 	local pan = (x-400)/4;

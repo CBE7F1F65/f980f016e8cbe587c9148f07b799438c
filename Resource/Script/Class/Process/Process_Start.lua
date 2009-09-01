@@ -27,6 +27,8 @@ function Process:ProcessStart()
 		quad.v[2].tx=128.0/128.0; quad.v[2].ty=64.0/128.0;
 		quad.v[3].tx=128.0/128.0; quad.v[3].ty=96.0/128.0;
 		quad.v[4].tx=96.0/128.0; quad.v[4].ty=96.0/128.0;
+		
+		spitem = spim:NewSprite(SI_BATTLE_1);
 
 	end
 

@@ -80,7 +80,8 @@ RESCONFIGS_RESOURCE				=	"Resource"
 	RESCONFIGDEFAULT_PASSWORD			=	"h5nc"
 
 RESDEFAULT_DATAFOLDER			=	"Data/"
-	RESDEFAULT_TEXTUREDEFINE	=	"TextureDefine.table"
+	RESDEFAULT_TEXTUREDEFINE		=	"TextureDefine.table"
+	RESDEFAULT_SPRITEITEMDEFINE	=	"SpriteItemDefine.table"
 
 PQUIT		=	0;
 PGO			=	1;
@@ -109,3 +110,8 @@ M_JOYKEYMAX	=	0x20;
 
 RESLOADING_PCK	=	"Loading.pck";
 RESLOADING_TEX	=	"Loading/Loading.tex";
+
+M_FFFFFFFF	=	global.ARGB(0xff, 0xffffff);
+
+MB	=	global.MessageBox;
+LOG	=	hge.System_Log;

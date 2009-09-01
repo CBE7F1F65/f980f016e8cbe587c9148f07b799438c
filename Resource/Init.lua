@@ -9,6 +9,7 @@ luaFileTable	=	{
 									"Script/Class/Data/*.lua",
 									"Script/Class/Data/Data/*.lua",
 									"Script/Class/Data/Texture/*.lua",
+									"Script/Class/Data/SpriteItemManager/*.lua",
 								}
 								
 function luaDoFiles()
@@ -41,7 +42,7 @@ function SystemInitial()
 	if hge.Ini_GetInt(RESCONFIGS_SYSTEM, RESCONFIGN_USE3DMODE, RESCONFIGDEFAULT_USE3DMODE) == 0 then
 		export:ClientSet2DMode();
 	end
-
+	
 	time = 0;
 	return true;
 end

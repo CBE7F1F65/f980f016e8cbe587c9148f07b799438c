@@ -10,7 +10,7 @@ function Table:_GetCell(linestr, charformat, initpos)
 		substr = string.sub(linestr, startpos, endpos-1);
 	end
 	
-	if charformat == "n" then
+	if charformat == "n" or charformat == "f" then
 		substr = tonumber(substr);
 	end
 	if charformat == "x" then

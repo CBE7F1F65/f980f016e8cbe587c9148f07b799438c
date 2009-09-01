@@ -13,6 +13,10 @@ function Process:Render()
 			hgeES.Render(effs[i]);
 		end
 		hgeFont.printf(font,16,16,0,fps);
+		
+		hgeSprite.SetColor(spitem, M_FFFFFFFF);
+		hgeSprite.SetBlendMode(spitem, BLEND_DEFAULT);
+		hgeSprite.Render(spitem, 256, 256);
 	end
 	
 end
@@ -22,7 +26,7 @@ function Process:RenderInitState()
 		local quad=hge.struct.hgeQuad();
 		quad.blend = BLEND_DEFAULT;
 		quad.tex = self.texInit;
-		local _col = global.ARGB(0xff, 0xffffff);
+		local _col = M_FFFFFFFF;
 		for i=1, 4 do
 			quad.v[i].col = _col;
 		end
