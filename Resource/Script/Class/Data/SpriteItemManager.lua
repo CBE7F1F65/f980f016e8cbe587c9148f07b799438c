@@ -17,7 +17,4 @@ function SpriteItemManager:_Init()
 	self.texh	=	{};
 end
 
-function SpriteItemManager:Release()
-end
-
 spim = SpriteItemManager:new();

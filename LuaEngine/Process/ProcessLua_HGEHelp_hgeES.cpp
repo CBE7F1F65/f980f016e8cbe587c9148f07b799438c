@@ -84,19 +84,13 @@ int Process::LuaFn_hgeES_NewES(LuaState * ls)
 		if (!args[1].IsNumber())
 		{
 			HTEXTURE _htexture = 0;
-			HTEXTURE * _htexset = 0;
 			if (argscount > 1)
 			{
 				_obj = args[2];
 				_htexture = (HTEXTURE)(_LuaHelper_GetDWORD(&_obj));
-				if (argscount > 2)
-				{
-					_obj = args[3];
-					_htexset = (HTEXTURE *)(_LuaHelper_GetDWORD(&_obj));
-				}
 			}
 			const char * filename = args[1].GetString();
-			_es = _Helper_New_hgeES(filename, _htexture, _htexset);
+			_es = _Helper_New_hgeES(filename, _htexture, texset);
 		}
 		else
 		{

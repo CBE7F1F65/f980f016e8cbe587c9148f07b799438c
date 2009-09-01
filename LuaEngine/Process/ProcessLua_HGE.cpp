@@ -5,10 +5,6 @@ bool Process::_LuaRegistHGEFunction(LuaObject * obj)
 {
 	LuaObject _hgeobj = obj->CreateTable("hge");
 
-	LuaObject _hgestructobj = _hgeobj.CreateTable("struct");
-
-	_hgestructobj.Register("hgeQuad", LuaFn_hge_Struct_hgeQuad);
-
 	_hgeobj.Register("System_SetState", LuaFn_hge_System_SetState);
 	_hgeobj.Register("System_GetState", LuaFn_hge_System_GetState);
 	_hgeobj.Register("System_Log", LuaFn_hge_System_Log);
@@ -126,6 +122,14 @@ bool Process::_LuaRegistHGEFunction(LuaObject * obj)
 	_hgeobj.Register("Gfx_RenderText", LuaFn_hge_Gfx_RenderText);
 	_hgeobj.Register("Gfx_RenderTextToTarget", LuaFn_hge_Gfx_RenderTextToTarget);
 
+	LuaObject _hgestructobj = _hgeobj.CreateTable("struct");
+
+	_hgestructobj.Register("hgeQuad", LuaFn_hge_Struct_hgeQuad);
+
+	LuaObject _hgeexobj = obj->CreateTable("hgeEX");
+	_hgeexobj.Register("SetTextureNumber", LuaFn_hgeEX_SetTextureNumber);
+	_hgeexobj.Register("RegisterTextures", LuaFn_hgeEX_RegisterTextures);
+
 	return true;
 }
 
@@ -221,6 +225,23 @@ void Process::_LuaHelper_GetQuad(LuaObject * obj, hgeQuad * quad)
 		{
 			quad->tex = _LuaHelper_GetDWORD(&_para);
 		}
+	}
+}
+
+void Process::_LuaHelper_hge_DeleteAllTexture()
+{
+	for (int i=0; i<texnum; i++)
+	{
+		if (texset[i])
+		{
+			hge->Texture_Free(texset[i]);
+			texset[i] = NULL;
+		}
+	}
+	if (texset)
+	{
+		free(texset);
+		texset = NULL;
 	}
 }
 
@@ -1724,4 +1745,46 @@ int Process::LuaFn_hge_Gfx_RenderTextToTarget(LuaState * ls)
 
 	_LuaHelper_PushDWORD(ls, dret);
 	return 1;
+}
+
+int Process::LuaFn_hgeEX_SetTextureNumber(LuaState * ls)
+{
+	if (texnum)
+	{
+		return 0;
+	}
+
+	LuaStack args(ls);
+
+	texnum = args[1].GetInteger();
+	if (texnum > 0)
+	{
+		DWORD _size = sizeof(HTEXTURE) * texnum;
+		texset = (HTEXTURE *)malloc(_size);
+		ZeroMemory(texset, _size);
+	}
+	return 0;
+}
+
+int Process::LuaFn_hgeEX_RegisterTextures(LuaState * ls)
+{
+	if (!texnum)
+	{
+		return 0;
+	}
+
+	LuaStack args(ls);
+
+	LuaObject _table = args[1];
+	LuaObject _obj;
+	for (int i=0; i<texnum; i++)
+	{
+		_obj = _table.GetByIndex(i+1);
+		if (_obj.IsNil())
+		{
+			continue;
+		}
+		texset[i] = (HTEXTURE)_LuaHelper_GetDWORD(&_obj);
+	}
+	return 0;
 }

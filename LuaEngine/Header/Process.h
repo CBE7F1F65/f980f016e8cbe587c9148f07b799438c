@@ -77,6 +77,8 @@ public:
 	static void _LuaHelper_GetTriple(LuaObject * obj, hgeTriple * triple);
 	static void _LuaHelper_GetQuad(LuaObject * obj, hgeQuad * quad);
 
+	static void _LuaHelper_hge_DeleteAllTexture();
+
 	static int LuaFn_hge_Struct_hgeQuad(LuaState * ls);
 
 	static int LuaFn_hge_System_SetState(LuaState * ls);
@@ -191,6 +193,9 @@ public:
 	static int LuaFn_hge_Gfx_RenderText(LuaState * ls);
 	static int LuaFn_hge_Gfx_RenderTextToTarget(LuaState * ls);
 
+	static int LuaFn_hgeEX_SetTextureNumber(LuaState * ls);
+	static int LuaFn_hgeEX_RegisterTextures(LuaState * ls);
+
 	/* HGE Help */
 
 	static hgeFont * _Helper_New_hgeFont();
@@ -288,6 +293,8 @@ public:
 
 public:
 	static HGE * hge;
+	static int texnum;
+	static HTEXTURE * texset;
 	static list<hgeFont *>fontList;
 	static list<hgeSprite *>spriteList;
 	static list<hgeEffectSystem *>esList;

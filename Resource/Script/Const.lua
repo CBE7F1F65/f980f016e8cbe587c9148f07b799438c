@@ -82,6 +82,7 @@ RESCONFIGS_RESOURCE				=	"Resource"
 RESDEFAULT_DATAFOLDER			=	"Data/"
 	RESDEFAULT_TEXTUREDEFINE		=	"TextureDefine.table"
 	RESDEFAULT_SPRITEITEMDEFINE	=	"SpriteItemDefine.table"
+	RESDEFAULT_EFFECTDEFINE			=	"EffectDefine.table"
 
 PQUIT		=	0;
 PGO			=	1;
@@ -108,7 +109,7 @@ STATE_INIT							=	11;
 M_KEYKEYMAX	=	0x100;
 M_JOYKEYMAX	=	0x20;
 
-RESLOADING_PCK	=	"Loading.pck";
+RESLOADING_PCK	=	"Graphic/Loading.pck";
 RESLOADING_TEX	=	"Loading/Loading.tex";
 
 M_FFFFFFFF	=	global.ARGB(0xff, 0xffffff);

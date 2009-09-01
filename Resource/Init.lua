@@ -10,6 +10,7 @@ luaFileTable	=	{
 									"Script/Class/Data/Data/*.lua",
 									"Script/Class/Data/Texture/*.lua",
 									"Script/Class/Data/SpriteItemManager/*.lua",
+									"Script/Class/Data/EffectManager/*.lua",
 								}
 								
 function luaDoFiles()

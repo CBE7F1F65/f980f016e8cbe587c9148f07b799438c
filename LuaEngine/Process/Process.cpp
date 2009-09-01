@@ -2,6 +2,8 @@
 #include "../Header/LuaConstDefine.h"
 
 HGE * Process::hge;
+int Process::texnum = 0;
+HTEXTURE * Process::texset = NULL;
 list<hgeFont *> Process::fontList;
 list<hgeSprite *> Process::spriteList;
 list<hgeEffectSystem *> Process::esList;
@@ -213,6 +215,7 @@ void Process::ClientInitial()
 
 void Process::Release()
 {
+	_LuaHelper_hge_DeleteAllTexture();
 	_LuaHelper_hgeFont_DeleteAllFont();
 	_LuaHelper_hgeSprite_DeleteAllSprite();
 	_LuaHelper_hgeES_DeleteAllES();
