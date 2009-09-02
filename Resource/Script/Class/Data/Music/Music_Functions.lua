@@ -21,7 +21,7 @@ end
 function Music:MusicSlide(slidetime, tovol, topan, topitch)
 	if hge.Channel_IsPlaying(self.channel) then
 		if tovol == nil or tovol < 0 then
-			tovol = mp.bgmvol;
+			tovol = 0;
 		end
 		if topan == nil then
 			topan = M_DEFAULT_PAN;
@@ -49,7 +49,7 @@ function Music:MusicChange(stream, bforce)
 	if hge.Channel_IsPlaying(self.channel) == false or self.nowstream ~= stream or bforce then
 		self.nowstream = stream;
 		if self.channel ~= NULL then
-			self:MusicSlide(0);
+			self:MusicSlide(0, mp.bgmvol);
 			hge.Channel_Stop(self.channel);
 		end
 		self.channel = hge.Stream_Play(stream, true, mp.bgmvol);
