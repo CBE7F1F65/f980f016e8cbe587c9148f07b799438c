@@ -27,6 +27,7 @@ function Process:ProcessStart()
 		quad.v[4].tx=96.0/128.0; quad.v[4].ty=96.0/128.0;
 		
 		spitem = spim:NewSprite(SI_BATTLE_1);
+		music:MusicChange(MUS_01);
 
 	end
 

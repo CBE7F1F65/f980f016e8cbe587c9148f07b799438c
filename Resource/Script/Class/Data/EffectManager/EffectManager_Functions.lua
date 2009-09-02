@@ -1,6 +1,6 @@
 function EffectManager:NewES(effindex, sptex)
 	if sptex == nil then
-		sptex = 0;
+		sptex = NULL;
 	end
 	return hgeES.NewES(self.filename[effindex], sptex);
 end

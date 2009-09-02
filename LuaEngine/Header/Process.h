@@ -295,6 +295,7 @@ public:
 	static HGE * hge;
 	static int texnum;
 	static HTEXTURE * texset;
+	static hgeChannelSyncInfo channelsyncinfo;
 	static list<hgeFont *>fontList;
 	static list<hgeSprite *>spriteList;
 	static list<hgeEffectSystem *>esList;

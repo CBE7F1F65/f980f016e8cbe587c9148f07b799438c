@@ -58,13 +58,15 @@ function Process:Release()
 	
 	if self.texInit ~= NULL then
 		hge.Texture_Free(self.texInit);
-		self.texInit = NULL;
 	end
 	
 	tex:Release();
 	se:Release();
 	spim:Release();
 	effm:Release();
+	music:Release();
+	
+	self:_Init();
 	
 end
 

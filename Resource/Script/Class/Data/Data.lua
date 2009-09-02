@@ -17,6 +17,7 @@ function Data:Init(filename)
 end
 
 function Data:Release()
+	self:_Init();
 end
 
 data = Data:new();

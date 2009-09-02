@@ -13,7 +13,7 @@ end
 
 function Export:GetPassword()
 	local szPassword = hge.Ini_GetString(RESCONFIGS_RESOURCE, RESCONFIGN_PASSWORD, RESCONFIGDEFAULT_PASSWORD);
-	local password = luastate.DWORDToInt(hge.Resource_GetCRC(szPassword));
+	local password = hge.Resource_GetCRC(szPassword);
 	return password;
 end
 

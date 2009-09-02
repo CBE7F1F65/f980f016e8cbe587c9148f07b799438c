@@ -612,12 +612,12 @@ int Process::LuaFn_hge_Resource_AddFileInPack(LuaState * ls)
 int Process::LuaFn_hge_Resource_GetCRC(LuaState * ls)
 {
 	LuaStack args(ls);
-	DWORD dret;
+	int iret;
 
 	if (args[1].IsString())
 	{
 		const char * _string = args[1].GetString();
-		dret = hge->Resource_GetCRC((BYTE *)_string, strlen(_string));
+		iret = hge->Resource_GetCRC((BYTE *)_string, strlen(_string));
 	}
 	else
 	{
@@ -625,10 +625,11 @@ int Process::LuaFn_hge_Resource_GetCRC(LuaState * ls)
 		DWORD _content = _LuaHelper_GetDWORD(&_obj);
 		_obj = args[2];
 		DWORD _size = _LuaHelper_GetDWORD(&_obj); 
-		dret = hge->Resource_GetCRC((BYTE *)(_content), _size);
+		iret = hge->Resource_GetCRC((BYTE *)(_content), _size);
 	}
 
-	_LuaHelper_PushDWORD(ls, dret);
+	ls->PushInteger(iret);
+//	_LuaHelper_PushDWORD(ls, dret);
 	return 1;
 }
 
@@ -1058,20 +1059,10 @@ int Process::LuaFn_hge_Channel_SetPos(LuaState * ls)
 int Process::LuaFn_hge_Channel_SetStartPos(LuaState * ls)
 {
 	LuaStack args(ls);
-	hgeChannelSyncInfo csi;
-
-	LuaObject _alllength = args[2].GetByName("alllength");
-	csi.allLength = _LuaHelper_GetQWORD(&_alllength);
-	LuaObject _introlength = args[2].GetByName("introlength");
-	csi.introLength = _LuaHelper_GetQWORD(&_introlength);
-	LuaObject _startpos = args[2].GetByName("startpos");
-	csi.startPos = _LuaHelper_GetQWORD(&_startpos);
-	LuaObject _sync = args[2].GetByName("sync");
-	csi.sync = _LuaHelper_GetDWORD(&_sync);
 
 	LuaObject _obj = args[1];
 	HCHANNEL _hchannel = (HCHANNEL)(_LuaHelper_GetDWORD(&_obj));
-	hge->Channel_SetStartPos(_hchannel, &csi);
+	hge->Channel_SetStartPos(_hchannel, &channelsyncinfo);
 
 	return 0;
 }
@@ -1115,20 +1106,41 @@ int Process::LuaFn_hge_Channel_IsSliding(LuaState * ls)
 int Process::LuaFn_hge_Channel_SetLoop(LuaState * ls)
 {
 	LuaStack args(ls);
-	hgeChannelSyncInfo csi;
 
-	LuaObject _alllength = args[2].GetByName("alllength");
-	csi.allLength = _LuaHelper_GetQWORD(&_alllength);
-	LuaObject _introlength = args[2].GetByName("introlength");
-	csi.introLength = _LuaHelper_GetQWORD(&_introlength);
-	LuaObject _startpos = args[2].GetByName("startpos");
-	csi.startPos = _LuaHelper_GetQWORD(&_startpos);
-	LuaObject _sync = args[2].GetByName("sync");
-	csi.sync = _LuaHelper_GetDWORD(&_sync);
+	LuaObject _obj;
+	_obj = args[2];
+	if (_obj.IsTable())
+	{
+		LuaObject _alllength = _obj.GetByName("alllength");
+		channelsyncinfo.allLength = _LuaHelper_GetQWORD(&_alllength);
+		LuaObject _introlength = _obj.GetByName("introlength");
+		channelsyncinfo.introLength = _LuaHelper_GetQWORD(&_introlength);
+		LuaObject _startpos = _obj.GetByName("startpos");
+		channelsyncinfo.startPos = _LuaHelper_GetQWORD(&_startpos);
+		LuaObject _sync = _obj.GetByName("sync");
+		if (!_sync.IsNil())
+		{
+			channelsyncinfo.sync = _LuaHelper_GetDWORD(&_sync);
+		}
+	}
+	else
+	{
+		_obj = args[2];
+		channelsyncinfo.startPos = _LuaHelper_GetQWORD(&_obj);
+		_obj = args[3];
+		channelsyncinfo.introLength = _LuaHelper_GetQWORD(&_obj);
+		_obj = args[4];
+		channelsyncinfo.allLength = _LuaHelper_GetQWORD(&_obj);
+		if (args.Count() > 4)
+		{
+			_obj = args[5];
+			channelsyncinfo.sync = _LuaHelper_GetQWORD(&_obj);
+		}
+	}
 
-	LuaObject _obj = args[1];
+	_obj = args[1];
 	HCHANNEL _hchannel = (HCHANNEL)(_LuaHelper_GetDWORD(&_obj));
-	hge->Channel_SetLoop(_hchannel, &csi);
+	hge->Channel_SetLoop(_hchannel, &channelsyncinfo);
 
 	return 0;
 }
@@ -1136,20 +1148,10 @@ int Process::LuaFn_hge_Channel_SetLoop(LuaState * ls)
 int Process::LuaFn_hge_Channel_RemoveLoop(LuaState * ls)
 {
 	LuaStack args(ls);
-	hgeChannelSyncInfo csi;
-
-	LuaObject _alllength = args[2].GetByName("alllength");
-	csi.allLength = _LuaHelper_GetQWORD(&_alllength);
-	LuaObject _introlength = args[2].GetByName("introlength");
-	csi.introLength = _LuaHelper_GetQWORD(&_introlength);
-	LuaObject _startpos = args[2].GetByName("startpos");
-	csi.startPos = _LuaHelper_GetQWORD(&_startpos);
-	LuaObject _sync = args[2].GetByName("sync");
-	csi.sync = _LuaHelper_GetDWORD(&_sync);
 
 	LuaObject _obj = args[1];
 	HCHANNEL _hchannel = (HCHANNEL)(_LuaHelper_GetDWORD(&_obj));
-	hge->Channel_RemoveLoop(_hchannel, &csi);
+	hge->Channel_RemoveLoop(_hchannel, &channelsyncinfo);
 
 	return 0;
 }

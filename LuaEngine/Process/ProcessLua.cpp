@@ -107,8 +107,17 @@ bool Process::LuaClearCallBackFunctions()
 
 DWORD Process::_LuaHelper_GetDWORD(LuaObject * obj)
 {
-	lua_Number lnval = obj->GetNumber();
-	return CUINTN(lnval);
+	DWORD dret;
+	if (obj->IsString())
+	{
+		sscanf(obj->GetString(), "%d", &dret);
+	}
+	else
+	{
+		lua_Number lnval = obj->GetNumber();
+		dret = CUINTN(lnval);
+	}
+	return dret;
 }
 
 void Process::_LuaHelper_PushDWORD(LuaState * ls, DWORD dval)
@@ -119,8 +128,17 @@ void Process::_LuaHelper_PushDWORD(LuaState * ls, DWORD dval)
 
 LONGLONG Process::_LuaHelper_GetLONGLONG(LuaObject * obj)
 {
-	lua_Number lnval = obj->GetNumber();
-	return CLONGLONGN(lnval);
+	LONGLONG llret;
+	if (obj->IsString())
+	{
+		sscanf(obj->GetString(), "%d", &llret);
+	}
+	else
+	{
+		lua_Number lnval = obj->GetNumber();
+		llret = CLONGLONGN(lnval);
+	}
+	return llret;
 }
 
 void Process::_LuaHelper_PushLONGLONG(LuaState * ls, LONGLONG llval)
@@ -131,8 +149,17 @@ void Process::_LuaHelper_PushLONGLONG(LuaState * ls, LONGLONG llval)
 
 QWORD Process::_LuaHelper_GetQWORD(LuaObject * obj)
 {
-	lua_Number lnval = obj->GetNumber();
-	return CULONGLONGN(lnval);
+	QWORD qret;
+	if (obj->IsString())
+	{
+		sscanf(obj->GetString(), "%d", &qret);
+	}
+	else
+	{
+		lua_Number lnval = obj->GetNumber();
+		qret = CULONGLONGN(lnval);
+	}
+	return qret;
 }
 
 void Process::_LuaHelper_PushQWORD(LuaState * ls, QWORD qval)

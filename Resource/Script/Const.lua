@@ -84,6 +84,7 @@ RESDEFAULT_DATAFOLDER			=	"Data/"
 	RESDEFAULT_SPRITEITEMDEFINE	=	"SpriteItemDefine.table"
 	RESDEFAULT_EFFECTDEFINE			=	"EffectDefine.table"
 	RESDEFAULT_SEDEFINE					=	"SEDefine.table"
+	RESDEFAULT_MUSICDEFINE			=	"MusicDefine.table"
 
 PQUIT		=	0;
 PGO			=	1;
@@ -112,6 +113,10 @@ M_JOYKEYMAX	=	0x20;
 
 RESLOADING_PCK	=	"Graphic/Loading.pck";
 RESLOADING_TEX	=	"Loading/Loading.tex";
+
+
+M_DEFAULT_PAN = -101
+M_DEFAULT_PITCH = -1
 
 M_FFFFFFFF	=	global.ARGB(0xff, 0xffffff);
 

@@ -4,6 +4,7 @@
 HGE * Process::hge;
 int Process::texnum = 0;
 HTEXTURE * Process::texset = NULL;
+hgeChannelSyncInfo Process::channelsyncinfo;
 list<hgeFont *> Process::fontList;
 list<hgeSprite *> Process::spriteList;
 list<hgeEffectSystem *> Process::esList;
