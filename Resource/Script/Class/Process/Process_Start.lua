@@ -1,35 +1,6 @@
 function Process:ProcessStart()
 	
 	time = time + 1;
-	
-	if time == 1 then
-
-		font = hgeFont.NewFont("Graphic/Font/font.fnt");
-		quad = hge.struct.hgeQuad();
-		quad.tex = TEX_PARTICLES;
-		eff = effm:NewES(EFF_HOSHI);
-		hgeES.Fire(eff);
-		for i=1,MAXEFF do
-			effs[i] = hgeES.NewES(eff);
-			hgeES.Fire(effs[i]);
-		end
-		quad.blend = BLEND_DEFAULT;
-		
-		local _col = global.ARGB(0xff, 0xffa000);
-		for i=1, 4 do
-			quad.v[i].col = _col;
-			quad.v[i].z	=	0;
-		end
-		
-		quad.v[1].tx=96.0/128.0; quad.v[1].ty=64.0/128.0;
-		quad.v[2].tx=128.0/128.0; quad.v[2].ty=64.0/128.0;
-		quad.v[3].tx=128.0/128.0; quad.v[3].ty=96.0/128.0;
-		quad.v[4].tx=96.0/128.0; quad.v[4].ty=96.0/128.0;
-		
-		spitem = spim:NewSprite(SI_BATTLE_1);
-		music:MusicChange(MUS_01);
-
-	end
 
 	local dt = hge.Timer_GetDelta();
 
@@ -75,11 +46,6 @@ function Process:ProcessStart()
 		dy = -dy;
 		boom();
 	end
-
-	quad.v[1].x=x-16; quad.v[1].y=y-16;
-	quad.v[2].x=x+16; quad.v[2].y=y-16;
-	quad.v[3].x=x+16; quad.v[3].y=y+16;
-	quad.v[4].x=x-16; quad.v[4].y=y+16;
 	
 	hgeES.MoveTo(eff, x, y);
 	hgeES.Update(eff);

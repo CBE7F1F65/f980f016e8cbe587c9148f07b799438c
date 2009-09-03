@@ -131,7 +131,7 @@ LONGLONG Process::_LuaHelper_GetLONGLONG(LuaObject * obj)
 	LONGLONG llret;
 	if (obj->IsString())
 	{
-		sscanf(obj->GetString(), "%d", &llret);
+		sscanf(obj->GetString(), "%I64d", &llret);
 	}
 	else
 	{
@@ -152,7 +152,7 @@ QWORD Process::_LuaHelper_GetQWORD(LuaObject * obj)
 	QWORD qret;
 	if (obj->IsString())
 	{
-		sscanf(obj->GetString(), "%d", &qret);
+		sscanf(obj->GetString(), "%I64u", &qret);
 	}
 	else
 	{
