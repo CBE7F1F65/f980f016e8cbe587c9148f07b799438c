@@ -136,7 +136,7 @@ int Process::LuaFn_hgeSprite_Render(LuaState * ls)
 	if (argscount > 3)
 	{
 		float hscale=1.0f;
-		float vscale=1.0f;
+		float vscale=0.0f;
 		if (argscount > 4)
 		{
 			hscale = args[5].GetFloat();

@@ -1,23 +1,3 @@
-x=0;
-y=0;
-dx=0;
-dy=0;
-friction=0.98
-speed=90;
-fps=0;
-font=0;
-MAXEFF=0;
-eff=0;
-effs={};
-spitem=0;
-spball=0;
-
-function boom()
-	local pan = (x-400)/4;
-	local pitch = (dx*dx+dy*dy)*0.0005+0.2;
-	hge.Effect_Play(SE_MENU, 100, pan, pitch);
-end
-
 function hgeFrameFunc()
 	if hge.Input_GetDIKey(DIK_BACK, DIKEY_DOWN) then
 		mp:Release();

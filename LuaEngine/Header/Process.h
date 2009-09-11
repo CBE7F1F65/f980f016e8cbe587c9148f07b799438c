@@ -56,6 +56,11 @@ public:
 	static void _LuaHelper_GetCalculateValue(LuaObject * obj, char calchar, bool buseq, void * val);
 
 	static int LuaFn_Global_Calculate(LuaState * ls);
+	static int LuaFn_Global_DIST(LuaState * ls);
+	static int LuaFn_Global_DIST2(LuaState * ls);
+	static int LuaFn_Global_SIGN(LuaState * ls);
+	static int LuaFn_Global_ROLL(LuaState * ls);
+	static int LuaFn_Global_INTER(LuaState * ls);
 	static int LuaFn_Global_ARGB(LuaState * ls);
 	static int LuaFn_Global_GetARGB(LuaState * ls);
 	static int LuaFn_Global_SetARGB(LuaState * ls);

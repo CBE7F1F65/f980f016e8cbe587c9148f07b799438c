@@ -35,6 +35,14 @@
 	#undef DEFAULT_RESOURCEPATH
 #endif
 
+#ifndef DIST
+	#define DIST(X1, Y1, X2, Y2)	(sqrtf(((X1)-(X2))*((X1)-(X2)) + ((Y1)-(Y2))*((Y1)-(Y2))))
+	#define DIST2(X1, Y1, X2, Y2)	(((X1)-(X2))*((X1)-(X2)) + ((Y1)-(Y2))*((Y1)-(Y2)))
+	#define SIGN(X)					((((X)&1)<<1)-1)
+	#define ROLL(X, T)				(((X)%(2*(T)))/(T)*(T) - SIGN((X)%(2*(T))/(T)) * ((X)%(T)))
+	#define INTER(A, B, X)			(((B)-(A))*(X)+(A))
+#endif
+
 #define DEFAULT_INITLUAFILE			"Init.lua"
 #define LUAFN_SYSTEMINITIAL			"SystemInitial"
 #define LUAFN_HGEFRAMEFUNC			"hgeFrameFunc"

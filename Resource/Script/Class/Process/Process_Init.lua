@@ -18,17 +18,7 @@ function Process:ProcessInit()
 
 
 	font = hgeFont.NewFont("Graphic/Font/font.fnt");
-	eff = effm:NewES(EFF_HOSHI);
-	hgeES.Fire(eff);
-	for i=1,MAXEFF do
-		effs[i] = hgeES.NewES(eff);
-		hgeES.Fire(effs[i]);
-	end
-	
-	spball = spim:NewSprite(SI_BALL);
-	spitem = spim:NewSprite(SI_BATTLE_1);
-	music:MusicChange(MUS_01);
-	
+			
 	time = 0;
 	self.state = STATE_TITLE;
 	return PTURN;

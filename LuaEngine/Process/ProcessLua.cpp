@@ -34,6 +34,11 @@ bool Process::_LuaRegistFunction(LuaObject * obj)
 {
 	LuaObject _globalobj = obj->CreateTable("global");
 	_globalobj.Register("Calculate", LuaFn_Global_Calculate);
+	_globalobj.Register("DIST", LuaFn_Global_DIST);
+	_globalobj.Register("DIST2", LuaFn_Global_DIST2);
+	_globalobj.Register("SIGN", LuaFn_Global_SIGN);
+	_globalobj.Register("ROLL", LuaFn_Global_ROLL);
+	_globalobj.Register("INTER", LuaFn_Global_INTER);
 	_globalobj.Register("ARGB", LuaFn_Global_ARGB);
 	_globalobj.Register("GetARGB", LuaFn_Global_GetARGB);
 	_globalobj.Register("SetARGB", LuaFn_Global_SetARGB);
@@ -356,6 +361,61 @@ int Process::LuaFn_Global_Calculate(LuaState * ls)
 	{
 		_LuaHelper_PushLONGLONG(ls, lret);
 	}
+	return 1;
+}
+
+int Process::LuaFn_Global_DIST(LuaState * ls)
+{
+	LuaStack args(ls);
+	lua_Number lnret;
+
+	lnret = DIST(args[1].GetNumber(), args[2].GetNumber(), args[3].GetNumber(), args[4].GetNumber());
+
+	ls->PushNumber(lnret);
+	return 1;
+}
+
+int Process::LuaFn_Global_DIST2(LuaState * ls)
+{
+	LuaStack args(ls);
+	lua_Number lnret;
+
+	lnret = DIST2(args[1].GetNumber(), args[2].GetNumber(), args[3].GetNumber(), args[4].GetNumber());
+
+	ls->PushNumber(lnret);
+	return 1;
+}
+
+int Process::LuaFn_Global_SIGN(LuaState * ls)
+{
+	LuaStack args(ls);
+	int iret;
+
+	iret = SIGN(args[1].GetInteger());
+
+	ls->PushInteger(iret);
+	return 1;
+}
+
+int Process::LuaFn_Global_ROLL(LuaState * ls)
+{
+	LuaStack args(ls);
+	int iret;
+
+	iret = ROLL(args[1].GetInteger(), args[2].GetInteger());
+
+	ls->PushInteger(iret);
+	return 1;
+}
+
+int Process::LuaFn_Global_INTER(LuaState * ls)
+{
+	LuaStack args(ls);
+	lua_Number lnret;
+
+	lnret = INTER(args[1].GetNumber(), args[2].GetNumber(), args[3].GetNumber());
+
+	ls->PushNumber(lnret);
 	return 1;
 }
 

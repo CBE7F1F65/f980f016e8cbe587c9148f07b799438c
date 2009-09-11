@@ -22,6 +22,7 @@ function Process:_Init()
 	self.keyCapture	= RESCONFIGDEFAULT_KEYCAPTURE;
 	
 	self.joyPause		=	RESCONFIGDEFAULT_JOYPAUSE;
+	self.joyEnter		=	RESCONFIGDEFAULT_JOYENTER;
 	
 	self.state	=	STATE_INIT;
 	

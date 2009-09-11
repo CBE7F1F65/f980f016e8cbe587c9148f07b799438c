@@ -6,20 +6,10 @@ function Process:Render()
 		return self:RenderInitState();
 	end
 	
-	if time > 0 and mp.state == STATE_START then
-		hgeES.Render(eff);
-		for i=1,MAXEFF do
-			hgeES.Render(effs[i]);
-		end
-		hgeFont.printf(font,16,16,0,fps);
-		
-		hgeSprite.SetColor(spball, global.ARGB(0xff, 0xffaa00));
-		hgeSprite.SetBlendMode(spball, BLEND_DEFAULT);
-		hgeSprite.Render(spball, x, y);
-		
-		hgeSprite.SetColor(spitem, M_FFFFFFFF);
-		hgeSprite.SetBlendMode(spitem, BLEND_DEFAULT);
-		hgeSprite.Render(spitem, 256, 256);
+	hgeFont.printf(font,16,16,0,hge.Timer_GetFPS(35));
+	if time > 0 and mp.state == STATE_TITLE then
+		sel:Render();
+		hgeSprite.RenderEx(spim.sprites.titles.sptitle, M_CLIENT_CENTER_X, M_CLIENT_CENTER_Y - 96, 0, 2.5)
 	end
 	
 end

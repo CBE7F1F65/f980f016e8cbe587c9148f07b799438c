@@ -11,6 +11,7 @@ function Process:_IniFileRebuild(inifilename)
 	hge.Ini_SetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_KEYCAPTURE, RESCONFIGDEFAULT_KEYCAPTURE);
 	
 	hge.Ini_SetInt(RESCONFIGS_JOYSETTING, RESCONFIGN_JOYPAUSE, RESCONFIGDEFAULT_JOYPAUSE);
+	hge.Ini_SetInt(RESCONFIGS_JOYSETTING, RESCONFIGN_JOYENTER, RESCONFIGDEFAULT_JOYENTER);
 
 	hge.Ini_SetInt(RESCONFIGS_VOLUME, RESCONFIGN_VOLMUSIC, RESCONFIGDEFAULT_VOLMUSIC);
 	hge.Ini_SetInt(RESCONFIGS_VOLUME, RESCONFIGN_VOLSE, RESCONFIGDEFAULT_VOLSE);
@@ -47,6 +48,7 @@ function Process:ProcessPreInitial()
 	self.keyCapture	= hge.Ini_GetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_KEYCAPTURE, RESCONFIGDEFAULT_KEYCAPTURE);
 
 	self.joyPause		= hge.Ini_GetInt(RESCONFIGS_JOYSETTING, RESCONFIGN_JOYPAUSE, RESCONFIGDEFAULT_JOYPAUSE);
+	self.joyEnter		=	hge.Ini_GetInt(RESCONFIGS_JOYSETTING, RESCONFIGN_JOYENTER, RESCONFIGDEFAULT_JOYENTER);
 	if __DEBUG > 0 then
 		self.debug_joySpeedUp = hge.Ini_GetInt(RESCONFIGS_JOYSETTING, RESCONFIGN_DEBUG_JOYSPEEDUP, RESCONFIGDEFAULT_DEBUG_JOYSPEEDUP);
 	end
@@ -85,7 +87,10 @@ function Process:ProcessPreInitial()
 	end
 	hge.System_SetState(HGE_RENDERSKIP, self.renderskip);
 	
-	hge.Resource_AttachPack(RESLOADING_PCK, export:GetPassword());
-	self.texInit = hge.Texture_Load(RESLOADING_TEX);
+	if hge.Resource_AttachPack(RESLOADING_PCK, export:GetPassword()) then
+		self.texInit = hge.Texture_Load(RESLOADING_TEX);
+	else
+		self.texInit = NULL;
+	end
 	return PGO;
 end
