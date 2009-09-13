@@ -1,2 +1,5 @@
 Index	SEName	Filename
-1	SE_MENU	SE\menu.wav
+1	SE_SYSTEM_SELECT	SE\system_select.wav
+2	SE_SYSTEM_OK	SE\system_ok.wav
+3	SE_SYSTEM_CANCEL	SE\system_cancel.wav
+4	SE_SYSTEM_PAUSE	SE\system_pause.wav

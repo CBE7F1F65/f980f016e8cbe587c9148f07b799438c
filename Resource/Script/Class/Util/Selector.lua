@@ -18,6 +18,7 @@ function Selector:_Init()
 	self.saveas = 0;
 	self.exiting = false;
 	self.nowindex = 0;
+	self.pushtimer = 0;
 	self.able = false;
 end
 

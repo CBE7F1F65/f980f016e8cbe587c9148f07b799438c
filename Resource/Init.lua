@@ -9,7 +9,7 @@ luaFileTable	=	{
 									"Script/Class/Data/*.lua",
 									"Script/Class/Data/Data/*.lua",
 									"Script/Class/Data/Texture/*.lua",
-									"Script/Class/Data/SE/*.lua",
+									"Script/Class/Data/SEManager/*.lua",
 									"Script/Class/Data/Music/*.lua",
 									"Script/Class/Data/SpriteItemManager/*.lua",
 									"Script/Class/Data/EffectManager/*.lua",

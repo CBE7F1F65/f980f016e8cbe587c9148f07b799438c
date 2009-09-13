@@ -33,10 +33,40 @@ function Selector:_DeleteSelection()
 	return self.nowindex;
 end
 
+function Selector:_MoveSelection(nmove)
+	self.nowindex = self.nowindex + nmove;
+	if self.nowindex > self.selnum then
+		self.nowindex = 1;
+	elseif self.nowindex <= 0 then
+		self.nowindex = self.selnum;
+	end
+	self.timer = M_FADETIME;
+	se:Push(SE_SYSTEM_SELECT);
+end
+
+function Selector:_UpdatePushKey(key1, key2)
+	if hge.Input_GetDIKey(key1) or hge.Input_GetDIKey(key2) then
+		self.pushtimer = self.pushtimer + 1;
+		if self.pushtimer == M_PUSH_FIRST then
+			self.pushtimer = M_PUSH_ROLLTO;
+		end
+		if self.pushtimer == M_PUSH_ROLLTO then
+			hge.Input_SetDIKey(key1, false);
+			hge.Input_SetDIKey(key2, false);
+			return true;
+		end
+	else
+		self.pushtimer = 0;
+	end
+	return false;
+end
+
 function Selector:Action()
 	self.timer = self.timer + 1;
 	if self.timer <= M_FADETIME then
 		self.alpha = 0xff * self.timer / M_FADETIME;
+	else
+		self.alpha = 0xff;
 	end
 	if self.exiting then
 		if self.timer >= M_FADETIME then
@@ -46,21 +76,17 @@ function Selector:Action()
 		return 0;
 	end
 	
+	self:_UpdatePushKey(mp.keyDown, mp.keyUp);
 	if hge.Input_GetDIKey(mp.keyDown, DIKEY_DOWN) then
-		self.nowindex = self.nowindex + 1;
-		if self.nowindex > self.selnum then
-			self.nowindex = 1;
-		end
+		self:_MoveSelection(1);
 	elseif hge.Input_GetDIKey(mp.keyUp, DIKEY_DOWN) then
-		self.nowindex = self.nowindex - 1;
-		if self.nowindex <= 0 then
-			self.nowindex = self.selnum;
-		end
+		self:_MoveSelection(-1);
 	end
 	
 	if hge.Input_GetDIKey(mp.keyEnter, DIKEY_DOWN) then
 		self.exiting = true;
 		self.timer = 0;
+		se:Push(SE_SYSTEM_OK);
 	end
 	
 	local tscale = global.ROLL(self.timer, M_FADETIME) / M_FADETIME / 4 + 1.0;

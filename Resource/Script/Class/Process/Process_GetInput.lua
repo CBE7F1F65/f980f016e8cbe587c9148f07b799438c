@@ -18,4 +18,7 @@ function Process:GetInput()
 	if hge.Input_GetDIJoy(self.joyEnter) then
 		hge.Input_SetDIKey(self.keyEnter);
 	end
+	if hge.Input_GetDIJoy(self.joyCancel) then
+		hge.Input_SetDIKey(self.keyCancel);
+	end
 end

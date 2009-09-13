@@ -17,6 +17,7 @@ function Process:Frame()
 		retval = self:ProcessInit();
 	end
 	
+	self:_FrameEnd();
 	
 	if retval == PTITLE then
 		time = 0;
@@ -33,4 +34,8 @@ function Process:Frame()
 	end
 	
 	return PGO;
+end
+
+function Process:_FrameEnd()
+	se:Play();
 end
