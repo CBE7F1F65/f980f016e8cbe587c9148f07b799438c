@@ -24,16 +24,24 @@ function Selector:NewSelection(defaultindex, saveas)
 	self.exiting = false;
 end
 
+function Selector:CloseSelection()
+	self.able = false;
+	self.selinfo = {};
+end
+
 function Selector:_DeleteSelection()
 	if self.saveas ~= nil and self.saveas >= 1 then
 		self.saved[self.saveas] = self.nowindex;
 	end
-	self.able = false;
-	self.selinfo = {};
+	self:CloseSelection();
 	return self.nowindex;
 end
 
-function Selector:_MoveSelection(nmove)
+function Selector:MoveToSelection(selindex, bplayse)
+	self:_MoveSelection(selindex-self.nowindex, bplayse);
+end
+
+function Selector:_MoveSelection(nmove, bplayse)
 	self.nowindex = self.nowindex + nmove;
 	if self.nowindex > self.selnum then
 		self.nowindex = 1;
@@ -41,7 +49,9 @@ function Selector:_MoveSelection(nmove)
 		self.nowindex = self.selnum;
 	end
 	self.timer = M_FADETIME;
-	se:Push(SE_SYSTEM_SELECT);
+	if bplayse == nil or bplayse == true then
+		se:Push(SE_SYSTEM_SELECT);
+	end
 end
 
 function Selector:_UpdatePushKey(key1, key2)
