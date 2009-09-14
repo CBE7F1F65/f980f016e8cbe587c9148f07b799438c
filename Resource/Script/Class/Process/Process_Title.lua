@@ -2,9 +2,11 @@ function Process:ProcessTitle()
 	
 	time = time + 1;
 	if time == 1 then
-		spim.sprites.sptitle = spim:NewSprite(SI_TITLE);
+		spim:Clear();
 		spim.sprites.titles = {};
-		spim.sprites.titles.sptitle = spim:NewSprite(SI_TITLE);
+		spim.sprites.titles.sptitle = spim:Push(SILAYER_BACKGROUND, SI_TITLE,
+			M_CLIENT_CENTER_X, M_CLIENT_CENTER_Y - 96,
+			0, 2.5);
 		
 		self:_PusheSelection(SELSAVE_TITLE);
 		

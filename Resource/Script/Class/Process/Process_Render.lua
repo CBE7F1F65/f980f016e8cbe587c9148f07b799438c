@@ -6,11 +6,17 @@ function Process:Render()
 		return self:RenderInitState();
 	end
 	
-	hgeFont.printf(font,16,16,0,hge.Timer_GetFPS(35));
-	if time > 0 and mp.state == STATE_TITLE then
-		sel:Render();
-		hgeSprite.RenderEx(spim.sprites.titles.sptitle, M_CLIENT_CENTER_X, M_CLIENT_CENTER_Y - 96, 0, 2.5)
+	if time > 0 then
+		if mp.state == STATE_TITLE then
+			spim:RenderSprites(spim.sprites.titles);
+			sel:Render();
+		end
+		if mp.state == STATE_START then
+			spim:RenderSprites(spim.sprites.games);
+		end
 	end
+	
+	hgeFont.printf(font, 16, 16, 0, string.format("%.2f", hge.Timer_GetFPS(35)));
 	
 end
 

@@ -44,6 +44,7 @@ bool Process::FrameFunc()
 	if (state->CheckError())
 	{
 		_LuaHelper_ShowError(LUAERROR_LUAERROR, state->GetError());
+		return false;
 	}
 	return bret;
 #else
@@ -70,6 +71,7 @@ bool Process::RenderFunc()
 	if (state->CheckError())
 	{
 		_LuaHelper_ShowError(LUAERROR_LUAERROR, state->GetError());
+		return false;
 	}
 	return bret;
 #else
@@ -96,6 +98,7 @@ bool Process::FocusLostFunc()
 	if (state->CheckError())
 	{
 		_LuaHelper_ShowError(LUAERROR_LUAERROR, state->GetError());
+		return true;
 	}
 	return bret;
 #else
@@ -122,6 +125,7 @@ bool Process::FocusGainFunc()
 	if (state->CheckError())
 	{
 		_LuaHelper_ShowError(LUAERROR_LUAERROR, state->GetError());
+		return true;
 	}
 	return bret;
 #else
@@ -148,6 +152,7 @@ bool Process::GfxRestoreFunc()
 	if (state->CheckError())
 	{
 		_LuaHelper_ShowError(LUAERROR_LUAERROR, state->GetError());
+		return true;
 	}
 	return bret;
 #else
@@ -174,6 +179,7 @@ bool Process::ExitFunc()
 	if (state->CheckError())
 	{
 		_LuaHelper_ShowError(LUAERROR_LUAERROR, state->GetError());
+		return true;
 	}
 	return bret;
 #else

@@ -133,19 +133,33 @@ int Process::LuaFn_hgeSprite_Render(LuaState * ls)
 
 	int argscount = args.Count();
 
-	if (argscount > 3)
+	if (argscount > 2)
 	{
+		float rot = 0.0f;
 		float hscale=1.0f;
 		float vscale=0.0f;
-		if (argscount > 4)
+		if (argscount > 3)
 		{
-			hscale = args[5].GetFloat();
-			if (argscount > 5)
+			if (!args[4].IsNil())
 			{
-				vscale = args[6].GetFloat();
+				rot = args[4].GetFloat();
+			}
+			if (argscount > 4)
+			{
+				if (!args[5].IsNil())
+				{
+					hscale = args[5].GetFloat();
+				}
+				if (argscount > 5)
+				{
+					if (!args[6].IsNil())
+					{
+						vscale = args[6].GetFloat();
+					}
+				}
 			}
 		}
-		_sprite->RenderEx(args[2].GetFloat(), args[3].GetFloat(), args[4].GetFloat(), hscale, vscale);
+		_sprite->RenderEx(args[2].GetFloat(), args[3].GetFloat(), rot, hscale, vscale);
 	}
 	else
 	{

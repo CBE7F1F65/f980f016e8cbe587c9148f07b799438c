@@ -709,9 +709,10 @@ int Process::LuaFn_hge_Random_Seed(LuaState * ls)
 	{
 		seed = args[1].GetInteger();
 	}
-	hge->Random_Seed(seed);
+	seed = hge->Random_Seed(seed);
 
-	return 0;
+	ls->PushInteger(seed);
+	return 1;
 }
 
 int Process::LuaFn_hge_Random_Int(LuaState * ls)

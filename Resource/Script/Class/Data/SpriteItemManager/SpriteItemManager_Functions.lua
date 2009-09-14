@@ -36,3 +36,54 @@ function SpriteItemManager:Init(tablefilename)
 		self.texh[siindex] = texh;
 	end
 end
+
+function SpriteItemManager:Push(layer, spriteindex, _x, _y, _rot, _hscale, _vscale, color)
+	local spriteitem = 
+		{
+			sprite = self:NewSprite(spriteindex);
+			x = _x;
+			y = _y;
+			rot = _rot;
+			hscale = _hscale;
+			vscale = _vscale;
+			color = _color;
+		}
+	if self.renderlist[layer] == nil then
+		self.renderlist[layer] = {};
+	end
+	local tindex = table.getn(self.renderlist[layer]) + 1;
+	self.renderlist[layer][tindex] = spriteitem;
+	return spriteitem;
+end
+
+function SpriteItemManager:Clear(items)
+	for i, it in pairs(self.renderlist) do
+		for j, jt in pairs(it) do
+			local bdelete = true;
+			if items ~= nil then
+				bdelete = false;
+				for k, kt in pairs(items) do
+					if kt == jt then
+						bdelete = true;
+						break;
+					end
+				end
+			end
+			hgeSprite.DeleteSprite(jt.sprite);
+			jt = nil;
+		end
+	end
+end
+
+function SpriteItemManager:RenderSprites()
+	for i, it in pairs(self.renderlist) do
+		for j, jt in pairs(it) do
+			if jt.color ~= nil then
+				hgeSprite.SetColor(jt.sprite, jt.color);
+			end
+			if jt.x > M_RENDEROVERRANGE and jt.y > M_RENDEROVERRANGE then
+				hgeSprite.RenderEx(jt.sprite, jt.x, jt.y, jt.rot, jt.hscale, jt.vscale);
+			end
+		end
+	end
+end

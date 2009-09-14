@@ -75,6 +75,12 @@ public:
 	static int LuaFn_LuaState_GetPointer(LuaState * ls);
 	static int LuaFn_LuaState_IntToDWORD(LuaState * ls);
 	static int LuaFn_LuaState_DWORDToInt(LuaState * ls);
+	static int LuaFn_LuaState_And(LuaState * ls);
+	static int LuaFn_LuaState_Or(LuaState * ls);
+	static int LuaFn_LuaState_Xor(LuaState * ls);
+	static int LuaFn_LuaState_Not(LuaState * ls);
+	static int LuaFn_LuaState_LShift(LuaState * ls);
+	static int LuaFn_LuaState_RShift(LuaState * ls);
 
 	/* HGE */
 	static DWORD _LuaHelper_GetColor(LuaObject * obj);

@@ -10,6 +10,8 @@ function Data:new(t)
 end
 
 function Data:_Init()
+	self.d = {};
+	self.dt = {};
 end
 
 function Data:Init(filename)

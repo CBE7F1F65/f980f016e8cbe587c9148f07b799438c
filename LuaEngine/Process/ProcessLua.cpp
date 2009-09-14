@@ -55,6 +55,12 @@ bool Process::_LuaRegistFunction(LuaObject * obj)
 	_luastateobj.Register("GetPointer", LuaFn_LuaState_GetPointer);
 	_luastateobj.Register("IntToDWORD", LuaFn_LuaState_IntToDWORD);
 	_luastateobj.Register("DWORDToInt", LuaFn_LuaState_DWORDToInt);
+	_luastateobj.Register("And", LuaFn_LuaState_And);
+	_luastateobj.Register("Or", LuaFn_LuaState_Or);
+	_luastateobj.Register("Xor", LuaFn_LuaState_Xor);
+	_luastateobj.Register("Not", LuaFn_LuaState_Not);
+	_luastateobj.Register("LShift", LuaFn_LuaState_LShift);
+	_luastateobj.Register("RShift", LuaFn_LuaState_RShift);
 
 	return true;
 }
@@ -751,6 +757,72 @@ int Process::LuaFn_LuaState_DWORDToInt(LuaState * ls)
 
 	LuaObject _obj = args[1];
 	iret = _LuaHelper_GetDWORD(&_obj);
+
+	ls->PushInteger(iret);
+	return 1;
+}
+
+int Process::LuaFn_LuaState_And(LuaState * ls)
+{
+	LuaStack args(ls);
+	int iret;
+
+	iret = (args[1].GetInteger()) & (args[2].GetInteger());
+
+	ls->PushInteger(iret);
+	return 1;
+}
+
+int Process::LuaFn_LuaState_Or(LuaState * ls)
+{
+	LuaStack args(ls);
+	int iret;
+
+	iret = (args[1].GetInteger()) | (args[2].GetInteger());
+
+	ls->PushInteger(iret);
+	return 1;
+}
+
+int Process::LuaFn_LuaState_Xor(LuaState * ls)
+{
+	LuaStack args(ls);
+	int iret;
+
+	iret = (args[1].GetInteger()) ^ (args[2].GetInteger());
+
+	ls->PushInteger(iret);
+	return 1;
+}
+
+int Process::LuaFn_LuaState_Not(LuaState * ls)
+{
+	LuaStack args(ls);
+	int iret;
+
+	iret = ~(args[1].GetInteger());
+
+	ls->PushInteger(iret);
+	return 1;
+}
+
+int Process::LuaFn_LuaState_LShift(LuaState * ls)
+{
+	LuaStack args(ls);
+	int iret;
+
+	iret = (args[1].GetInteger()) << (args[2].GetInteger());
+
+	ls->PushInteger(iret);
+	return 1;
+}
+
+int Process::LuaFn_LuaState_RShift(LuaState * ls)
+{
+	LuaStack args(ls);
+	int iret;
+
+	iret = (args[1].GetInteger()) >> (args[2].GetInteger());
 
 	ls->PushInteger(iret);
 	return 1;
