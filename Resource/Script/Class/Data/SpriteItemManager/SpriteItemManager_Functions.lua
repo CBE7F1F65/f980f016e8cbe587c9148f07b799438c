@@ -37,10 +37,11 @@ function SpriteItemManager:Init(tablefilename)
 	end
 end
 
-function SpriteItemManager:Push(layer, spriteindex, _x, _y, _rot, _hscale, _vscale, color)
+function SpriteItemManager:Push(layer, _able, spriteindex, _x, _y, _rot, _hscale, _vscale, color)
 	local spriteitem = 
 		{
 			sprite = self:NewSprite(spriteindex);
+			able = _able;
 			x = _x;
 			y = _y;
 			rot = _rot;
@@ -56,21 +57,25 @@ function SpriteItemManager:Push(layer, spriteindex, _x, _y, _rot, _hscale, _vsca
 	return spriteitem;
 end
 
-function SpriteItemManager:Clear(items)
+function SpriteItemManager:ClearItems(items)
 	for i, it in pairs(self.renderlist) do
 		for j, jt in pairs(it) do
-			local bdelete = true;
-			if items ~= nil then
-				bdelete = false;
-				for k, kt in pairs(items) do
-					if kt == jt then
-						bdelete = true;
-						break;
-					end
+			for k, kt in pairs(items) do
+				if kt == jt then
+					hgeSprite.DeleteSprite(jt.sprite);
+					break;
 				end
 			end
-			hgeSprite.DeleteSprite(jt.sprite);
 			jt = nil;
+		end
+	end
+end
+
+function SpriteItemManager:Clear()
+	for i, it in pairs(self.renderlist) do
+		for j, jt in pairs(it) do
+--			hgeSprite.DeleteSprite(jt.sprite);
+--			jt = nil;
 		end
 	end
 end
@@ -81,7 +86,7 @@ function SpriteItemManager:RenderSprites()
 			if jt.color ~= nil then
 				hgeSprite.SetColor(jt.sprite, jt.color);
 			end
-			if jt.x > M_RENDEROVERRANGE and jt.y > M_RENDEROVERRANGE then
+			if jt.able then
 				hgeSprite.RenderEx(jt.sprite, jt.x, jt.y, jt.rot, jt.hscale, jt.vscale);
 			end
 		end

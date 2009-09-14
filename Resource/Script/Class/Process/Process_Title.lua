@@ -4,7 +4,7 @@ function Process:ProcessTitle()
 	if time == 1 then
 		spim:Clear();
 		spim.sprites.titles = {};
-		spim.sprites.titles.sptitle = spim:Push(SILAYER_BACKGROUND, SI_TITLE,
+		spim.sprites.titles.sptitle = spim:Push(SILAYER_BACKGROUND, true, SI_TITLE,
 			M_CLIENT_CENTER_X, M_CLIENT_CENTER_Y - 96,
 			0, 2.5);
 		

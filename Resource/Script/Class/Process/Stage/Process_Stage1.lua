@@ -1,25 +1,19 @@
 function Process:_ResetStage1()
 	local randval = hge.Random_Int(1, 3);
 	local games = spim.sprites.games;
-	games.spstage1_V.x = M_RENDEROVERRANGE;
-	games.spstage1_V.y = M_RENDEROVERRANGE;
-	games.spstage1_O.x = M_RENDEROVERRANGE;
-	games.spstage1_O.y = M_RENDEROVERRANGE;
-	games.spstage1_W.x = M_RENDEROVERRANGE;
-	games.spstage1_W.y = M_RENDEROVERRANGE;
+	games.spstage1_V.able = false;
+	games.spstage1_O.able = false;
+	games.spstage1_W.able = false;
 	data.dt.stage1_rand = randval;
 	local tox = data.dt.stage1_cx;
 	local toy = data.dt.stage1_cy;
 	
 	if randval == 1 then
-		games.spstage1_V.x = tox;
-		games.spstage1_V.y = toy;
+	games.spstage1_V.able = true;
 	elseif randval == 2 then
-		games.spstage1_O.x = tox;
-		games.spstage1_O.y = toy;
+	games.spstage1_O.able = true;
 	elseif randval == 3 then
-		games.spstage1_W.x = tox;
-		games.spstage1_W.y = toy;
+	games.spstage1_W.able = true;
 	end
 end
 
@@ -61,10 +55,10 @@ function Process:_UpdateStage1()
 end
 
 function Process:_InitStage1()
-	spim.sprites.games.spstage1_V = spim:Push(SILAYER_GAMESPRITE, SI_OBJ_V, 
-		M_RENDEROVERRANGE, M_RENDEROVERRANGE, 0);
-	spim.sprites.games.spstage1_O = spim:Push(SILAYER_GAMESPRITE, SI_OBJ_O, 
-		M_RENDEROVERRANGE, M_RENDEROVERRANGE, 0);
-	spim.sprites.games.spstage1_W = spim:Push(SILAYER_GAMESPRITE, SI_OBJ_W, 
-		M_RENDEROVERRANGE, M_RENDEROVERRANGE, 0);
+	spim.sprites.games.spstage1_V = spim:Push(SILAYER_GAMESPRITE, false, SI_OBJ_V, 
+		data.dt.stage1_cx, data.dt.stage1_cy, 0);
+	spim.sprites.games.spstage1_O = spim:Push(SILAYER_GAMESPRITE, false, SI_OBJ_O, 
+		data.dt.stage1_cx, data.dt.stage1_cy, 0);
+	spim.sprites.games.spstage1_W = spim:Push(SILAYER_GAMESPRITE, false, SI_OBJ_W, 
+		data.dt.stage1_cx, data.dt.stage1_cy, 0);
 end

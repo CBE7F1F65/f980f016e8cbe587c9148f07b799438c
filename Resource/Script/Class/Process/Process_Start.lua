@@ -66,7 +66,7 @@ function Process:_StartPrep()
 	data.dt.stage1_cy = data.dt.stage1_h / 2 + data.dt.stage1_y;
 	spim.sprites.games = {};
 	spim.sprites.games.spstage1 = spim:Push(
-		SILAYER_GAMEGROUND,
+		SILAYER_GAMEGROUND, true,
 		SI_BLANK_POINT,
 		data.dt.stage1_cx, data.dt.stage1_cy, 0,
 		data.dt.stage1_w, data.dt.stage1_h
@@ -78,7 +78,7 @@ function Process:_StartPrep()
 	data.dt.stage2_cx = data.dt.stage2_w / 2 + data.dt.stage2_x;
 	data.dt.stage2_cy = data.dt.stage2_h / 2 + data.dt.stage2_y;
 	spim.sprites.games.spstage2 = spim:Push(
-		SILAYER_GAMEGROUND,
+		SILAYER_GAMEGROUND, true,
 		SI_BLANK_POINT,
 		data.dt.stage2_cx, data.dt.stage2_cy, 0,
 		data.dt.stage2_w, data.dt.stage2_h
@@ -90,7 +90,7 @@ function Process:_StartPrep()
 	data.dt.stage3_cx = data.dt.stage3_w / 2 + data.dt.stage3_x;
 	data.dt.stage3_cy = data.dt.stage3_h / 2 + data.dt.stage3_y;
 	spim.sprites.games.spstage3 = spim:Push(
-		SILAYER_GAMEGROUND,
+		SILAYER_GAMEGROUND, true,
 		SI_BLANK_POINT,
 		data.dt.stage3_cx, data.dt.stage3_cy, 0,
 		data.dt.stage3_w, data.dt.stage3_h
@@ -102,7 +102,7 @@ function Process:_StartPrep()
 	data.dt.stage4_cx = data.dt.stage4_w / 2 + data.dt.stage4_x;
 	data.dt.stage4_cy = data.dt.stage4_h / 2 + data.dt.stage4_y;
 	spim.sprites.games.spstage4 = spim:Push(
-		SILAYER_GAMEGROUND,
+		SILAYER_GAMEGROUND, true,
 		SI_BLANK_POINT,
 		data.dt.stage4_cx, data.dt.stage4_cy, 0,
 		data.dt.stage4_w, data.dt.stage4_h
@@ -114,7 +114,7 @@ function Process:_StartPrep()
 	data.dt.stage5_cx = data.dt.stage5_w / 2 + data.dt.stage5_x;
 	data.dt.stage5_cy = data.dt.stage5_h / 2 + data.dt.stage5_y;
 	spim.sprites.games.spstage5 = spim:Push(
-		SILAYER_GAMEGROUND,
+		SILAYER_GAMEGROUND, true,
 		SI_BLANK_POINT,
 		data.dt.stage5_cx, data.dt.stage5_cy, 0,
 		data.dt.stage5_w, data.dt.stage5_h
