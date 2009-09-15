@@ -68,6 +68,7 @@ public:
 	static int LuaFn_Global_GetPrivateProfileString(LuaState * ls);
 	static int LuaFn_Global_WritePrivateProfileString(LuaState * ls);
 	static int LuaFn_Global_MessageBox(LuaState * ls);
+	static int LuaFn_Global_GetOpenFileName(LuaState * ls);
 	static int LuaFn_LuaState_Reload(LuaState * ls);
 	static int LuaFn_LuaState_DoFile(LuaState * ls);
 	static int LuaFn_LuaState_SetConst(LuaState * ls);

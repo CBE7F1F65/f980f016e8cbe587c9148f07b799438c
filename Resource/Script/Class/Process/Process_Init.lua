@@ -17,9 +17,7 @@ function Process:ProcessInit()
 	music:Init(RESDEFAULT_DATAFOLDER..RESDEFAULT_MUSICDEFINE);
 
 
-	font = hgeFont.NewFont("Graphic/Font/font.fnt");
-			
-	time = 0;
-	self.state = STATE_TITLE;
-	return PTURN;
+	self.font = hgeFont.NewFont(RESDEFAULT_FONTFILE);
+	
+	return PTITLE;
 end

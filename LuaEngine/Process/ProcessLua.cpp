@@ -46,6 +46,7 @@ bool Process::_LuaRegistFunction(LuaObject * obj)
 	_globalobj.Register("GetPrivateProfileString", LuaFn_Global_GetPrivateProfileString);
 	_globalobj.Register("WritePrivateProfileString", LuaFn_Global_WritePrivateProfileString);
 	_globalobj.Register("MessageBox", LuaFn_Global_MessageBox);
+	_globalobj.Register("GetOpenFileName", LuaFn_Global_GetOpenFileName);
 
 	LuaObject _luastateobj = obj->CreateTable("luastate");
 	_luastateobj.Register("Reload", LuaFn_LuaState_Reload);
@@ -585,10 +586,40 @@ int Process::LuaFn_Global_MessageBox(LuaState * ls)
 			}
 		}
 	}
-	iret = MessageBox(NULL, stext, scaption, (UINT)type);
+	iret = MessageBox(hge->System_GetState(HGE_HWND), stext, scaption, (UINT)type);
 
 	ls->PushInteger(iret);
 	return 1;
+}
+
+int Process::LuaFn_Global_GetOpenFileName(LuaState * ls)
+{
+	LuaStack args(ls);
+	char sret[MAX_PATH];
+	char strFilter[MAX_PATH];
+	char strDefExt[MAX_PATH];
+	char strTitle[MAX_PATH];
+	strcpy(strFilter, args[1].GetString());
+	strcpy(strDefExt, args[2].GetString());
+	strcpy(strTitle, args[3].GetString());
+
+	OPENFILENAME ofn;
+	ZeroMemory(&ofn, sizeof(OPENFILENAME));
+	ofn.lStructSize = sizeof(OPENFILENAME);
+	ofn.hwndOwner = hge->System_GetState(HGE_HWND);
+	ofn.lpstrFile = sret;
+	ofn.nMaxFile = MAX_PATH;
+	ofn.lpstrFilter = strFilter;
+	ofn.lpstrDefExt = strDefExt;
+	ofn.lpstrTitle = strTitle;
+	ofn.Flags = OFN_OVERWRITEPROMPT;
+
+	if (GetOpenFileName(&ofn))
+	{
+		_LuaHelper_PushString(ls, sret);
+		return 1;
+	}
+	return 0;
 }
 
 int Process::LuaFn_LuaState_Reload(LuaState * ls)
@@ -845,7 +876,7 @@ void Process::_LuaHelper_ShowError(int errortype, const char * err)
 	default:
 		strcpy(msgtitle, "Error!");
 	}
-	MessageBox(NULL, err, msgtitle, MB_OK);
+	MessageBox(hge->System_GetState(HGE_HWND), err, msgtitle, MB_OK);
 	if (!hge->System_GetState(HGE_LOGFILE) || !strlen(hge->System_GetState(HGE_LOGFILE)))
 	{
 		hge->System_SetState(HGE_LOGFILE, LOG_STR_FILENAME);

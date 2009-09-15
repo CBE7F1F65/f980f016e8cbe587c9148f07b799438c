@@ -8,15 +8,17 @@ function Process:Render()
 	
 	if time > 0 then
 		if mp.state == STATE_TITLE then
-			spim:RenderSprites(spim.sprites.titles);
-			sel:Render();
+			self:_RenderTitle();
 		end
 		if mp.state == STATE_START then
-			spim:RenderSprites(spim.sprites.games);
+			self:_RenderStart();
+		end
+		if mp.state == STATE_OVER then
+			self:_RenderOver();
 		end
 	end
 	
-	hgeFont.printf(font, 16, 16, 0, string.format("%.2f", hge.Timer_GetFPS(35)));
+	hgeFont.printf(self.font, 0, 0, 0, string.format("%.2f", hge.Timer_GetFPS(35)));
 	
 end
 

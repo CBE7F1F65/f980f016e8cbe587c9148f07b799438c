@@ -15,6 +15,8 @@ function Process:Frame()
 		retval = self:ProcessTitle();
 	elseif self.state == STATE_INIT then
 		retval = self:ProcessInit();
+	elseif self.state == STATE_OVER then
+		retval = self:ProcessOver();
 	end
 	
 	self:_FrameEnd();

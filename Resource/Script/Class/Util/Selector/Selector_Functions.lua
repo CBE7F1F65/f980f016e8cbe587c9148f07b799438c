@@ -12,6 +12,20 @@ function Selector:PushSelector(spriteid, x, y, scalefactor)
 	self.alpha = 0;
 end
 
+function Selector:ClearSaved(saveas)
+	if saveas ~= nil then
+		self.saved[saveas] = nil;
+		return;
+	end
+	for i, it in pairs(self.saved) do
+		self.saved[i] = nil;
+	end
+end
+
+function Selector:IsSaved(saveas)
+	return self.saved[saveas] ~= nil;
+end
+
 function Selector:NewSelection(defaultindex, saveas)
 	self.selnum = table.getn(self.selinfo);
 	if defaultindex == nil or defaultindex < 1 or defaultindex > self.selnum then

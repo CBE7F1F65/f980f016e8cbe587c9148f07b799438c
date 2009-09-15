@@ -2,11 +2,11 @@ SpriteItemManager	=	{
 										}
 
 function SpriteItemManager:new(t)
-    local t = t or {};
-    self.__index = self;
-    setmetatable( t, self );
-    t:_Init();
-    return t;
+	local t = t or {};
+	self.__index = self;
+	setmetatable( t, self );
+	t:_Init();
+	return t;
 end
 
 function SpriteItemManager:_Init()
@@ -16,7 +16,6 @@ function SpriteItemManager:_Init()
 	self.texw	=	{};
 	self.texh	=	{};
 	self.sprites = {};
-	self.renderlist = {};
 end
 
 function SpriteItemManager:Release()
