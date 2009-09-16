@@ -16,8 +16,11 @@ function Process:ProcessInit()
 	se:Init(RESDEFAULT_DATAFOLDER..RESDEFAULT_SEDEFINE);
 	music:Init(RESDEFAULT_DATAFOLDER..RESDEFAULT_MUSICDEFINE);
 
-
 	self.font = hgeFont.NewFont(RESDEFAULT_FONTFILE);
+	
+	data.dt.replaying = false;
+	data.dt.active = false;
+	data.dt.rpydata = {};
 	
 	return PTITLE;
 end

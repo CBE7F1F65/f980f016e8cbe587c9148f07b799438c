@@ -9,9 +9,30 @@ function Process:ProcessTitle()
 			M_CLIENT_CENTER_X, M_CLIENT_CENTER_Y - 96,
 			0, 2.5);
 		
+		data.dt.rpyloaded = false;
+		data.dt.replaying = false;
 		self:_PushSelection(SELSAVE_TITLE);
 		
 		music:MusicChange(MUS_01);
+	end
+	
+	if data.dt.rpyloaded then
+		local filename, content, length = global.ReceiveOpenFileName(export:GetPassword());
+		local failed = false;
+		if filename == "" or length <= 0 or luastate.DWORDToInt(content) == NULL then
+			failed = true;
+		else
+			MB(global.ReadMemory(content, 0));
+			hge.Resource_Free(content);
+		end
+		if failed then
+			return PTITLE;
+		end
+		data.dt.replaying = true;
+		sel.saved[SELSAVE_DIFFICULT] = 4;
+		time = 0;
+		self.state = STATE_START;
+		return PTURN;
 	end
 	
 	if hge.Input_GetDIKey(self.keyCancel, DIKEY_DOWN) then
@@ -29,8 +50,13 @@ function Process:ProcessTitle()
 	end
 	
 	local selret = sel:Action();
-	if selret > 0 and not sel:IsSaved(SELSAVE_DIFFICULT) then
-		self:_PushSelection(SELSAVE_DIFFICULT, self.nowdifflv);
+	if not sel:IsSaved(SELSAVE_DIFFICULT) then
+		if selret == 1 then
+			self:_PushSelection(SELSAVE_DIFFICULT, self.nowdifflv);
+		elseif selret == 2 then
+			global.SetOpenFileName("Replay File (*.rpy)|*.rpy", "rpy", "Load Replay");
+			data.dt.rpyloaded = true;
+		end
 	end
 	
 	if sel:IsSaved(SELSAVE_DIFFICULT) then

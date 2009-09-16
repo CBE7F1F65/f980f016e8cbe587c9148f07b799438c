@@ -46,7 +46,12 @@ bool Process::_LuaRegistFunction(LuaObject * obj)
 	_globalobj.Register("GetPrivateProfileString", LuaFn_Global_GetPrivateProfileString);
 	_globalobj.Register("WritePrivateProfileString", LuaFn_Global_WritePrivateProfileString);
 	_globalobj.Register("MessageBox", LuaFn_Global_MessageBox);
-	_globalobj.Register("GetOpenFileName", LuaFn_Global_GetOpenFileName);
+	_globalobj.Register("SetOpenFileName", LuaFn_Global_SetOpenFileName);
+	_globalobj.Register("ReceiveOpenFileName", LuaFn_Global_ReceiveOpenFileName);
+	_globalobj.Register("Malloc", LuaFn_Global_Malloc);
+	_globalobj.Register("Free", LuaFn_Global_Free);
+	_globalobj.Register("WriteMemory", LuaFn_Global_WriteMemory);
+	_globalobj.Register("ReadMemory", LuaFn_Global_ReadMemory);
 
 	LuaObject _luastateobj = obj->CreateTable("luastate");
 	_luastateobj.Register("Reload", LuaFn_LuaState_Reload);
@@ -592,34 +597,221 @@ int Process::LuaFn_Global_MessageBox(LuaState * ls)
 	return 1;
 }
 
-int Process::LuaFn_Global_GetOpenFileName(LuaState * ls)
+int Process::LuaFn_Global_SetOpenFileName(LuaState * ls)
 {
 	LuaStack args(ls);
-	char sret[MAX_PATH];
-	char strFilter[MAX_PATH];
-	char strDefExt[MAX_PATH];
-	char strTitle[MAX_PATH];
-	strcpy(strFilter, args[1].GetString());
-	strcpy(strDefExt, args[2].GetString());
-	strcpy(strTitle, args[3].GetString());
 
-	OPENFILENAME ofn;
-	ZeroMemory(&ofn, sizeof(OPENFILENAME));
-	ofn.lStructSize = sizeof(OPENFILENAME);
-	ofn.hwndOwner = hge->System_GetState(HGE_HWND);
-	ofn.lpstrFile = sret;
-	ofn.nMaxFile = MAX_PATH;
-	ofn.lpstrFilter = strFilter;
-	ofn.lpstrDefExt = strDefExt;
-	ofn.lpstrTitle = strTitle;
-	ofn.Flags = OFN_OVERWRITEPROMPT;
-
-	if (GetOpenFileName(&ofn))
+	if (ofns.flag)
 	{
-		_LuaHelper_PushString(ls, sret);
+		ls->PushBoolean(false);
 		return 1;
 	}
+
+	ReleaseOpenFileNameContent();
+	ZeroMemory(&ofns, sizeof(OpenFileNameStruct));
+
+	bool bsave = false;
+	strcpy(ofns.strfilter, args[1].GetString());
+	for (int i=0; i<strlen(ofns.strfilter); i++)
+	{
+		if (ofns.strfilter[i] == '|')
+		{
+			ofns.strfilter[i] = '\0';
+		}
+	}
+	strcpy(ofns.strdefext, args[2].GetString());
+	strcpy(ofns.strtitle, args[3].GetString());
+	if (args.Count() > 3)
+	{
+		LuaObject _obj = args[4];
+		ofns.content = _LuaHelper_GetDWORD(&_obj);
+		ofns.length = args[5].GetInteger();
+		bsave = true;
+	}
+
+	ofns.ofn.lStructSize = sizeof(OPENFILENAME);
+	ofns.ofn.hwndOwner = hge->System_GetState(HGE_HWND);
+	ofns.ofn.lpstrFile = ofns.filename;
+	ofns.ofn.nMaxFile = MAX_PATH;
+	ofns.ofn.lpstrFilter = ofns.strfilter;
+	ofns.ofn.lpstrDefExt = ofns.strdefext;
+	ofns.ofn.lpstrTitle = ofns.strtitle;
+	if (bsave)
+	{
+		ofns.ofn.Flags = OFN_OVERWRITEPROMPT;
+	}
+
+	ofns.flag = bsave ? OFNFLAG_TOSAVE : OFNFLAG_TOOPEN;
+
+	ls->PushBoolean(true);
+	return 1;
+}
+
+int Process::LuaFn_Global_ReceiveOpenFileName(LuaState * ls)
+{
+	LuaStack args(ls);
+
+	int argscount = args.Count();
+	char filename[MAX_PATH];
+	int password = 0;
+
+	if (ofns.flag == OFNFLAG_SAVED && ofns.content && ofns.length)
+	{
+		if (args.Count() > 0)
+		{
+			password = args[1].GetInteger();
+		}
+		if (argscount > 1)
+		{
+			strcpy(filename, args[2].GetString());
+		}
+		else
+		{
+			SYSTEMTIME systime;
+			GetLocalTime(&systime);
+
+			strcpy(filename, "");
+			sprintf(filename, "%04d_%02d_%02d_%02d_%02d_%02d_%04d",
+				systime.wYear, systime.wMonth, systime.wDay, systime.wHour, systime.wMinute, systime.wSecond, systime.wMilliseconds);
+		}
+		hgeMemoryFile memfile;
+		memfile.data = (BYTE *)(ofns.content);
+		memfile.filename = filename;
+		memfile.size = ofns.length;
+		hge->Resource_CreatePack(ofns.filename, password, &memfile, NULL);
+
+		ReleaseOpenFileNameContent();
+		ofns.flag = OFNFLAG_NULL;
+
+		_LuaHelper_PushString(ls, ofns.filename);
+		return 1;
+	}
+	if (ofns.flag == OFNFLAG_OPENED)
+	{
+		ReleaseOpenFileNameContent();
+		if (argscount > 0)
+		{
+			password = args[1].GetInteger();
+		}
+		DWORD dret = NULL;
+		int iret = 0;
+		if (hge->Resource_AttachPack(ofns.filename, password))
+		{
+			if (argscount > 1)
+			{
+				strcpy(filename, args[2].GetString());
+			}
+			else
+			{
+				strcpy(filename, hge->Resource_GetPackFirstFileName(ofns.filename));
+			}
+			dret = (DWORD)hge->Resource_Load(filename, (DWORD *)&(iret));
+		}
+		ofns.flag = OFNFLAG_NULL;
+
+		_LuaHelper_PushString(ls, ofns.filename);
+		_LuaHelper_PushDWORD(ls, dret);
+		ls->PushInteger(iret);
+		return 3;
+	}
+
 	return 0;
+}
+
+int Process::LuaFn_Global_Malloc(LuaState * ls)
+{
+	LuaStack args(ls);
+	DWORD dret = NULL;
+
+	dret = _Helper_Malloc(args[1].GetInteger());
+
+	_LuaHelper_PushDWORD(ls, dret);
+	return 1;
+}
+
+int Process::LuaFn_Global_Free(LuaState * ls)
+{
+	LuaStack args(ls);
+	bool bret;
+
+	if (args.Count() > 0)
+	{
+		LuaObject _obj = args[1];
+		bret = _LuaHelper_Free(_LuaHelper_GetDWORD(&_obj));
+	}
+	else
+	{
+		bret = _LuaHelper_FreeAll();
+	}
+
+	ls->PushBoolean(bret);
+	return 1;
+}
+
+int Process::LuaFn_Global_WriteMemory(LuaState * ls)
+{
+	LuaStack args(ls);
+
+	LuaObject _obj = args[1];
+	DWORD memory = _LuaHelper_GetDWORD(&_obj);
+	int content = args[3].GetInteger();
+	memcpy((void *)(memory + args[2].GetInteger()), &content, sizeof(DWORD));
+
+	return 0;
+}
+
+int Process::LuaFn_Global_ReadMemory(LuaState * ls)
+{
+	LuaStack args(ls);
+	int iret;
+
+	LuaObject _obj = args[1];
+	DWORD memory = _LuaHelper_GetDWORD(&_obj);
+	memcpy(&iret, (void *)(memory + args[2].GetInteger()), sizeof(DWORD));
+
+	ls->PushInteger(iret);
+	return 1;
+}
+
+DWORD Process::_Helper_Malloc(int length)
+{
+	DWORD content = (DWORD)malloc(length * sizeof(BYTE));
+	if (content)
+	{
+		mallocList.push_back(content);
+	}
+	return content;
+}
+
+bool Process::_LuaHelper_Free(DWORD content)
+{
+	if (!content)
+	{
+		return false;
+	}
+	for (list<DWORD>::iterator it=mallocList.begin(); it!=mallocList.end(); it++)
+	{
+		if (content == *it)
+		{
+			free((void *)content);
+			it = mallocList.erase(it);
+			return true;
+		}
+	}
+	return false;
+}
+
+bool Process::_LuaHelper_FreeAll()
+{
+	for (list<DWORD>::iterator it=mallocList.begin(); it!=mallocList.end(); it++)
+	{
+		if (*it)
+		{
+			free((void *)(*it));
+		}
+	}
+	mallocList.clear();
+	return true;
 }
 
 int Process::LuaFn_LuaState_Reload(LuaState * ls)

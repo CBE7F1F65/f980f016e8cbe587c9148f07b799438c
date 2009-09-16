@@ -109,12 +109,12 @@ function Process:ProcessPreInitial()
 		self.sevol < 0 or self.sevol > 100 or
 		self.renderskip < 0 or self.renderskip > 3 or
 		self.nowdifflv < 1 or self.nowdifflv > 4 then
-		self:_IniFileRebuild();
+		self:_IniFileRebuild(inifilename);
 		return self:ProcessPreInitial();
 	end
 	if __DEBUG > 0 then
 		if self.debug_joySpeedUp < 0 or self.debug_joySpeedUp > M_JOYKEYMAX then
-			self:_IniFileRebuild();
+			self:_IniFileRebuild(inifilename);
 			return self:ProcessPreInitial();
 		end
 	end

@@ -3,6 +3,25 @@
 
 #include "MainDependency.h"
 //#define __NOTUSELUA
+
+#define OFNFLAG_NULL	NULL
+#define OFNFLAG_TOOPEN	0x01
+#define OFNFLAG_TOSAVE	0x02
+#define OFNFLAG_OPENED	0x04
+#define OFNFLAG_SAVED	0x08
+
+struct OpenFileNameStruct 
+{
+	BYTE flag;
+	int length;
+	DWORD content;
+	OPENFILENAME ofn;
+	char filename[MAX_PATH];
+	char strfilter[MAX_PATH];
+	char strdefext[MAX_PATH];
+	char strtitle[MAX_PATH];
+};
+
 static class Process
 {
 public:
@@ -26,6 +45,9 @@ public:
 	static bool GfxRestoreFuncSelf();
 	static bool ExitFuncSelf();
 #endif
+
+	static bool DispatchOpenFileName();
+	static bool ReleaseOpenFileNameContent();
 
 	static bool LuaInitial();
 	static bool LuaRegistFunction();
@@ -68,7 +90,17 @@ public:
 	static int LuaFn_Global_GetPrivateProfileString(LuaState * ls);
 	static int LuaFn_Global_WritePrivateProfileString(LuaState * ls);
 	static int LuaFn_Global_MessageBox(LuaState * ls);
-	static int LuaFn_Global_GetOpenFileName(LuaState * ls);
+	static int LuaFn_Global_SetOpenFileName(LuaState * ls);
+	static int LuaFn_Global_ReceiveOpenFileName(LuaState * ls);
+	static int LuaFn_Global_Malloc(LuaState * ls);
+	static int LuaFn_Global_Free(LuaState * ls);
+	static int LuaFn_Global_WriteMemory(LuaState * ls);
+	static int LuaFn_Global_ReadMemory(LuaState * ls);
+
+	static DWORD _Helper_Malloc(int length);
+	static bool _LuaHelper_Free(DWORD content);
+	static bool _LuaHelper_FreeAll();
+
 	static int LuaFn_LuaState_Reload(LuaState * ls);
 	static int LuaFn_LuaState_DoFile(LuaState * ls);
 	static int LuaFn_LuaState_SetConst(LuaState * ls);
@@ -311,6 +343,7 @@ public:
 	static list<hgeFont *>fontList;
 	static list<hgeSprite *>spriteList;
 	static list<hgeEffectSystem *>esList;
+	static list<DWORD>mallocList;
 	static LuaStateOwner state;
 
 	static LuaFunction<bool> * framefunc;
@@ -319,6 +352,8 @@ public:
 	static LuaFunction<bool> * focusgainfunc;
 	static LuaFunction<bool> * gfxrestorefunc;
 	static LuaFunction<bool> * exitfunc;
+
+	static OpenFileNameStruct ofns;
 }mp;
 
 #endif

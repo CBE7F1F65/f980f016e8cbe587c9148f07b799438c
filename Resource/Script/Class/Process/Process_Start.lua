@@ -26,6 +26,7 @@ function Process:ProcessStart()
 		end
 		
 		if bret then
+			data.dt.active = false;
 			self.state = STATE_OVER;
 			time = 0;
 			return PTURN;
@@ -36,6 +37,7 @@ function Process:ProcessStart()
 end
 
 function Process:_StartPrep()
+	data.dt.active = true;
 	spim:Clear();
 	data.d.seed = hge.Random_Seed();
 	self.nowdifflv = sel.saved[SELSAVE_DIFFICULT];

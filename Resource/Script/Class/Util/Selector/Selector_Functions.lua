@@ -1,10 +1,6 @@
 function Selector:PushSelector(spriteid, x, y, scalefactor)
 	local tindex = table.getn(self.selinfo) + 1;
-	self.selinfo[tindex] = {};
-	self.selinfo[tindex].sprite = spim:NewSprite(spriteid);
-	self.selinfo[tindex].x = x;
-	self.selinfo[tindex].y = y;
-	self.selinfo[tindex].scale = 1.0;
+	self.selinfo[tindex] = spim:Push(true, spriteid, x, y, 0, 1);
 	if scalefactor == nil then
 		scalefactor = 1.0;
 	end
@@ -40,6 +36,7 @@ end
 
 function Selector:CloseSelection()
 	self.able = false;
+	spim:Clear(self.selinfo);
 	self.selinfo = {};
 end
 
@@ -116,9 +113,9 @@ function Selector:Action()
 	local tscale = global.ROLL(self.timer, M_FADETIME) / M_FADETIME / 4 + 1.0;
 	for i, it in pairs(self.selinfo) do
 		if self.nowindex == i then
-			it.scale = tscale;
+			it.hscale = tscale * it.scalefactor;
 		else
-			it.scale = 1.0;
+			it.hscale = it.scalefactor;
 		end
 	end
 	return 0;
@@ -129,7 +126,6 @@ function Selector:Render()
 		return;
 	end
 	for i, it in pairs(self.selinfo) do
-		hgeSprite.SetColor(it.sprite, global.ARGB(self.alpha, 0xffffff));
-		hgeSprite.RenderEx(it.sprite, it.x, it.y, 0, it.scale * it.scalefactor);
+		spim:RenderItem(it);
 	end
 end

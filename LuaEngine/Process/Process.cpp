@@ -8,6 +8,7 @@ hgeChannelSyncInfo Process::channelsyncinfo;
 list<hgeFont *> Process::fontList;
 list<hgeSprite *> Process::spriteList;
 list<hgeEffectSystem *> Process::esList;
+list<DWORD> Process::mallocList;
 LuaStateOwner Process::state;
 
 LuaFunction<bool> * Process::framefunc = NULL;
@@ -17,8 +18,11 @@ LuaFunction<bool> * Process::focusgainfunc = NULL;
 LuaFunction<bool> * Process::gfxrestorefunc = NULL;
 LuaFunction<bool> * Process::exitfunc = NULL;
 
+OpenFileNameStruct Process::ofns;
+
 Process::Process()
 {
+	ofns.flag = OFNFLAG_NULL;
 }
 
 Process::~Process()
@@ -46,6 +50,7 @@ bool Process::FrameFunc()
 		_LuaHelper_ShowError(LUAERROR_LUAERROR, state->GetError());
 		return false;
 	}
+	DispatchOpenFileName();
 	return bret;
 #else
 	return FrameFuncSelf();
@@ -220,8 +225,42 @@ void Process::ClientInitial()
 	}
 }
 
+bool Process::DispatchOpenFileName()
+{
+	bool bret = false;
+	if (ofns.flag == OFNFLAG_TOOPEN)
+	{
+		if (GetOpenFileName(&(ofns.ofn)))
+		{
+			bret = true;
+		}
+		ofns.flag = OFNFLAG_OPENED;
+	}
+	else if (ofns.flag == OFNFLAG_TOSAVE)
+	{
+		if (GetSaveFileName(&(ofns.ofn)))
+		{
+			bret = false;
+		}
+		ofns.flag = OFNFLAG_SAVED;
+	}
+	return bret;
+}
+
+bool Process::ReleaseOpenFileNameContent()
+{
+	if (ofns.content)
+	{
+		ofns.content = NULL;
+		return true;
+	}
+	return false;
+}
+
 void Process::Release()
 {
+	ReleaseOpenFileNameContent();
+	_LuaHelper_FreeAll();
 	_LuaHelper_hge_DeleteAllTexture();
 	_LuaHelper_hgeFont_DeleteAllFont();
 	_LuaHelper_hgeSprite_DeleteAllSprite();

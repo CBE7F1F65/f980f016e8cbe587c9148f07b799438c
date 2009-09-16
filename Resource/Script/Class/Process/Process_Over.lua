@@ -6,10 +6,23 @@ function Process:ProcessOver()
 		music:MusicChange(MUS_01);
 	end
 	
+	if data.dt.rpysaved then
+		local filename = global.ReceiveOpenFileName(export:GetPassword());
+		hge.Input_SetDIKey(self.keyCancel);
+		global.Free(data.dt.rpycontent);
+		data.dt.rpycontent = NULL;
+	end
+	
 	local selret;
 	selret = sel:Action();
-	if selret == 1 then
-		global.GetOpenFileName("Backup   Files   (*.bak)\0*.bak\0All   (*.*)\0*.*\0", "bak", "dakai")
+	if selret == 1 and not data.dt.rpysaved and not sel:IsSaved(SELSAVE_CONFIRM) then
+		data.dt.rpylength = table.getn(data.dt.rpydata) * 4;
+		data.dt.rpycontent = global.Malloc(data.dt.rpylength);
+		for i, it in pairs(data.dt.rpydata) do
+			global.WriteMemory(data.dt.rpycontent, (i-1) * 4, it);
+		end
+		global.SetOpenFileName("Replay File (*.rpy)|*.rpy", "rpy", "Save Replay", data.dt.rpycontent, data.dt.rpylength);
+		data.dt.rpysaved = true;
 	end
 	if selret > 1 and not sel:IsSaved(SELSAVE_CONFIRM) then
 		data.dt.over_selection = selret;
@@ -76,6 +89,7 @@ function Process:_ReInitProcessOver()
 	sel:ClearSaved(SELSAVE_CONFIRM);
 	sel:ClearSaved(SELSAVE_OVER);
 	self:_PushSelection(SELSAVE_OVER, data.dt.over_selection);
+	data.dt.rpysaved = false;
 end
 
 function Process:_RenderOver()
