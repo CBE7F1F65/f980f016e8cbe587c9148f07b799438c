@@ -18,9 +18,5 @@ function Process:ProcessInit()
 
 	self.font = hgeFont.NewFont(RESDEFAULT_FONTFILE);
 	
-	data.dt.replaying = false;
-	data.dt.active = false;
-	data.dt.rpydata = {};
-	
 	return PTITLE;
 end

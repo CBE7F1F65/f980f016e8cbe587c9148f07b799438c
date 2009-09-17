@@ -48,6 +48,9 @@ function Process:_Init()
 	self.worldy	=	0;
 	self.worldz	=	0;
 	
+	self.replaying = false;
+	self.active = false;
+	
 end
 
 function Process:Release()

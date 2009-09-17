@@ -9,19 +9,14 @@ function Process:ProcessOver()
 	if data.dt.rpysaved then
 		local filename = global.ReceiveOpenFileName(export:GetPassword());
 		hge.Input_SetDIKey(self.keyCancel);
-		global.Free(data.dt.rpycontent);
-		data.dt.rpycontent = NULL;
+		data:FreeReplayContent();
 	end
 	
 	local selret;
 	selret = sel:Action();
 	if selret == 1 and not data.dt.rpysaved and not sel:IsSaved(SELSAVE_CONFIRM) then
-		data.dt.rpylength = table.getn(data.dt.rpydata) * 4;
-		data.dt.rpycontent = global.Malloc(data.dt.rpylength);
-		for i, it in pairs(data.dt.rpydata) do
-			global.WriteMemory(data.dt.rpycontent, (i-1) * 4, it);
-		end
-		global.SetOpenFileName("Replay File (*.rpy)|*.rpy", "rpy", "Save Replay", data.dt.rpycontent, data.dt.rpylength);
+		local content, length = data:SaveReplayContent()
+		global.SetOpenFileName("Replay File (*.rpy)|*.rpy", "rpy", "Save Replay", content, length);
 		data.dt.rpysaved = true;
 	end
 	if selret > 1 and not sel:IsSaved(SELSAVE_CONFIRM) then

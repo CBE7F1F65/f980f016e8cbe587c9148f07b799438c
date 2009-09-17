@@ -12,6 +12,12 @@ end
 function Data:_Init()
 	self.d = {};
 	self.dt = {};
+	self.rpyheader = {}
+	self.rpyheader.name = {};
+	self.rpydata = {};
+	self.headerlength = 32;
+	self.replaycontent = NULL;
+	self.replaylength = 0;
 end
 
 function Data:Init(filename)
@@ -20,6 +26,7 @@ end
 
 function Data:Release()
 	self:_Init();
+	self:ClearReplayData();
 end
 
 data = Data:new();

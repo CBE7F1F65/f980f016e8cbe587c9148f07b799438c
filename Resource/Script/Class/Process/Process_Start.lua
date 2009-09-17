@@ -26,7 +26,6 @@ function Process:ProcessStart()
 		end
 		
 		if bret then
-			data.dt.active = false;
 			self.state = STATE_OVER;
 			time = 0;
 			return PTURN;
@@ -37,10 +36,17 @@ function Process:ProcessStart()
 end
 
 function Process:_StartPrep()
-	data.dt.active = true;
+	self:SetActive(true);
 	spim:Clear();
-	data.d.seed = hge.Random_Seed();
-	self.nowdifflv = sel.saved[SELSAVE_DIFFICULT];
+	local active, replaying = self:CheckActive();
+	if replaying then
+		local name, difficult, stage, seed = data:GetReplayHeader();
+		data.d.seed = hge.Random_Seed(seed);
+		self.nowdifflv = difficult;
+	else
+		data.d.seed = hge.Random_Seed();
+		self.nowdifflv = sel.saved[SELSAVE_DIFFICULT];
+	end
 	data.dt.font = hgeFont.NewFont(RESDEFAULT_FONTFILE);
 	hgeFont.SetScale(data.dt.font, 2);
 	local bit1 = hge.Random_Int(0, 4);
@@ -60,6 +66,10 @@ function Process:_StartPrep()
 				data.d.stage = luastate.Xor(data.d.stage, 0x1F);
 			end
 		end
+	end
+	
+	if replaying then
+		data:PushReplayHeader("", self.nowdifflv, data.d.stage, data.d.seed);
 	end
 	
 	data.dt.stage1_x = M_CLIENT_LEFT;

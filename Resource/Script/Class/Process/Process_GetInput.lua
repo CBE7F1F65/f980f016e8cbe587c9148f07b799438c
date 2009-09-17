@@ -13,24 +13,26 @@ function Process:GetInput()
 		hge.Input_SetDIKey(self.keyCancel);
 	end
 	
-	if data.dt.replaying then
-		if luastate.And(data.dt.rpydata[time], M_BITTEST_12) > 0 then
-			data.dt.replaying = false;
-			data.dt.rpydata = {};
-			return PTITLE;
+	local active, replaying = self:CheckActive();
+	if replaying then
+		local rpydata = data:GetReplayData();
+		if luastate.And(rpydata, M_BITTEST_12) > 0 then
+			self:SetActive(false, false);
+			data:ClearReplayData();
+			return PGO;
 		end
-		hge.Input_SetDIKey(self.keyLeft, luastate.And(data.dt.rpydata[time], M_BITTEST_1) > 0);
-		hge.Input_SetDIKey(self.keyRight, luastate.And(data.dt.rpydata[time], M_BITTEST_2) > 0);
-		hge.Input_SetDIKey(self.keyUp, luastate.And(data.dt.rpydata[time], M_BITTEST_3) > 0);
-		hge.Input_SetDIKey(self.keyDown, luastate.And(data.dt.rpydata[time], M_BITTEST_4) > 0);
-		hge.Input_SetDIKey(self.keyA, luastate.And(data.dt.rpydata[time], M_BITTEST_5) > 0);
-		hge.Input_SetDIKey(self.keyS, luastate.And(data.dt.rpydata[time], M_BITTEST_6) > 0);
-		hge.Input_SetDIKey(self.keyD, luastate.And(data.dt.rpydata[time], M_BITTEST_7) > 0);
-		hge.Input_SetDIKey(self.keyZ, luastate.And(data.dt.rpydata[time], M_BITTEST_8) > 0);
-		hge.Input_SetDIKey(self.keyX, luastate.And(data.dt.rpydata[time], M_BITTEST_9) > 0);
-		hge.Input_SetDIKey(self.keyC, luastate.And(data.dt.rpydata[time], M_BITTEST_10) > 0);
-		hge.Input_SetDIKey(self.keySpace, luastate.And(data.dt.rpydata[time], M_BITTEST_11) > 0);
-		data.dt.replayfps = luastate.RShift(data.dt.rpydata, 12) / 200;
+		hge.Input_SetDIKey(self.keyLeft, luastate.And(rpydata, M_BITTEST_1) > 0);
+		hge.Input_SetDIKey(self.keyRight, luastate.And(rpydata, M_BITTEST_2) > 0);
+		hge.Input_SetDIKey(self.keyUp, luastate.And(rpydata, M_BITTEST_3) > 0);
+		hge.Input_SetDIKey(self.keyDown, luastate.And(rpydata, M_BITTEST_4) > 0);
+		hge.Input_SetDIKey(self.keyA, luastate.And(rpydata, M_BITTEST_5) > 0);
+		hge.Input_SetDIKey(self.keyS, luastate.And(rpydata, M_BITTEST_6) > 0);
+		hge.Input_SetDIKey(self.keyD, luastate.And(rpydata, M_BITTEST_7) > 0);
+		hge.Input_SetDIKey(self.keyZ, luastate.And(rpydata, M_BITTEST_8) > 0);
+		hge.Input_SetDIKey(self.keyX, luastate.And(rpydata, M_BITTEST_9) > 0);
+		hge.Input_SetDIKey(self.keyC, luastate.And(rpydata, M_BITTEST_10) > 0);
+		hge.Input_SetDIKey(self.keySpace, luastate.And(rpydata, M_BITTEST_11) > 0);
+		data.dt.replayfps = luastate.RShift(rpydata, 12) / 200;
 		return;
 	end
 	
@@ -66,20 +68,46 @@ function Process:GetInput()
 		hge.Input_SetDIKey(self.keyC);
 	end
 	
-	if data.dt.active then
+	if active then
 		local nowinput = 0;
-		nowinput = luastate.Or(nowinput, luastate.LShift(hge.Input_GetDIKey(self.keyLeft), 0));
-		nowinput = luastate.Or(nowinput, luastate.LShift(hge.Input_GetDIKey(self.keyRight), 1));
-		nowinput = luastate.Or(nowinput, luastate.LShift(hge.Input_GetDIKey(self.keyUp), 2));
-		nowinput = luastate.Or(nowinput, luastate.LShift(hge.Input_GetDIKey(self.keyDown), 3));
-		nowinput = luastate.Or(nowinput, luastate.LShift(hge.Input_GetDIKey(self.keyA), 4));
-		nowinput = luastate.Or(nowinput, luastate.LShift(hge.Input_GetDIKey(self.keyS), 5));
-		nowinput = luastate.Or(nowinput, luastate.LShift(hge.Input_GetDIKey(self.keyD), 6));
-		nowinput = luastate.Or(nowinput, luastate.LShift(hge.Input_GetDIKey(self.keyZ), 7));
-		nowinput = luastate.Or(nowinput, luastate.LShift(hge.Input_GetDIKey(self.keyX), 8));
-		nowinput = luastate.Or(nowinput, luastate.LShift(hge.Input_GetDIKey(self.keyC), 9));
-		nowinput = luastate.Or(nowinput, luastate.LShift(hge.Input_GetDIKey(self.keySpace), 10));
+		if hge.Input_GetDIKey(self.keyLeft) then
+			nowinput = luastate.Or(nowinput, luastate.LShift(1, 0));
+		end
+		if hge.Input_GetDIKey(self.keyRight) then
+			nowinput = luastate.Or(nowinput, luastate.LShift(1, 1));
+		end
+		if hge.Input_GetDIKey(self.keyUp) then
+			nowinput = luastate.Or(nowinput, luastate.LShift(1, 2));
+		end
+		if hge.Input_GetDIKey(self.keyDown) then
+			nowinput = luastate.Or(nowinput, luastate.LShift(1, 3));
+		end
+		if hge.Input_GetDIKey(self.keyA) then
+			nowinput = luastate.Or(nowinput, luastate.LShift(1, 4));
+		end
+		if hge.Input_GetDIKey(self.keyS) then
+			nowinput = luastate.Or(nowinput, luastate.LShift(1, 5));
+		end
+		if hge.Input_GetDIKey(self.keyD) then
+			nowinput = luastate.Or(nowinput, luastate.LShift(1, 6));
+		end
+		if hge.Input_GetDIKey(self.keyZ) then
+			nowinput = luastate.Or(nowinput, luastate.LShift(1, 7));
+		end
+		if hge.Input_GetDIKey(self.keyX) then
+			nowinput = luastate.Or(nowinput, luastate.LShift(1, 8));
+		end
+		if hge.Input_GetDIKey(self.keyC) then
+			nowinput = luastate.Or(nowinput, luastate.LShift(1, 9));
+		end
+		if hge.Input_GetDIKey(self.keySpace) then
+			nowinput = luastate.Or(nowinput, luastate.LShift(1, 10));
+		end
 		nowinput = luastate.Or(nowinput, luastate.LShift(hge.Timer_GetFPS() * 200, 12));
-		data.dt.rpydata[time] = nowinput;
+		if self.state == STATE_OVER then
+			nowinput = luastate.Or(nowinput, luastate.LShift(1, 10));
+			self:SetActive(false, false);
+		end
+		data:PushReplayData(nowinput);
 	end
 end

@@ -22,6 +22,7 @@ function Process:Frame()
 	self:_FrameEnd();
 	
 	if retval == PTITLE then
+		self:_PreInitTitle();
 		time = 0;
 		self.state = STATE_TITLE;
 		retval = PTURN;
