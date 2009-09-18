@@ -11,6 +11,7 @@ end
 
 function EffectManager:_Init()
 	self.filename	=	{};
+	self.effects = {};
 end
 
 function EffectManager:Release()

@@ -17,20 +17,19 @@ function Process:ProcessTitle()
 	if data.dt.rpyloaded then
 		local filename, content, length = global.ReceiveOpenFileName(export:GetPassword());
 		local failed = false;
+		data.dt.rpyloaded = false;
 		if filename == nil or filename == "" or length <= 0 or luastate.DWORDToInt(content) == NULL then
 			failed = true;
 		else
-			if data:LoadReplayContent(content, length) > 0 then
-				hge.Resource_Free(content);
-			else
+			if data:LoadReplayContent(content, length) <= 0 then
 				failed = true;
 			end
+			hge.Resource_Free(content);
 		end
 		if failed then
 			return PTITLE;
 		end
 		self:SetActive(true, true);
-		sel.saved[SELSAVE_DIFFICULT] = 4;
 		time = 0;
 		self.state = STATE_START;
 		return PTURN;

@@ -1,5 +1,6 @@
 #include "../Header/Process.h"
 #include "../Header/LuaConstDefine.h"
+#include "../resource_dialog.h"
 
 bool Process::LuaInitial()
 {
@@ -46,6 +47,7 @@ bool Process::_LuaRegistFunction(LuaObject * obj)
 	_globalobj.Register("GetPrivateProfileString", LuaFn_Global_GetPrivateProfileString);
 	_globalobj.Register("WritePrivateProfileString", LuaFn_Global_WritePrivateProfileString);
 	_globalobj.Register("MessageBox", LuaFn_Global_MessageBox);
+	_globalobj.Register("InputBox", LuaFn_Global_InputBox);
 	_globalobj.Register("SetOpenFileName", LuaFn_Global_SetOpenFileName);
 	_globalobj.Register("ReceiveOpenFileName", LuaFn_Global_ReceiveOpenFileName);
 	_globalobj.Register("Malloc", LuaFn_Global_Malloc);
@@ -595,6 +597,71 @@ int Process::LuaFn_Global_MessageBox(LuaState * ls)
 
 	ls->PushInteger(iret);
 	return 1;
+}
+
+BOOL CALLBACK Process::DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	switch (uMsg)
+	{
+	case WM_INITDIALOG:
+		SetWindowText(hwndDlg, dbs.title);
+		SetDlgItemText(hwndDlg, IDC_EDIT_COMMENT, dbs.comment);
+		SetDlgItemText(hwndDlg, IDC_EDIT, dbs.str);
+		return TRUE;
+	case WM_COMMAND:
+		if (HIWORD(wParam) == BN_CLICKED)
+		{
+			switch (LOWORD(wParam))
+			{
+			case IDOK:
+				GetDlgItemText(hwndDlg, IDC_EDIT, dbs.str, MAX_PATH);
+				EndDialog(hwndDlg, 0);
+				return TRUE;
+				break;
+			case IDCANCEL:
+				EndDialog(hwndDlg, 0);
+				return TRUE;
+			}
+		}
+		return FALSE;
+	case WM_CLOSE:
+		EndDialog(hwndDlg, 0);
+		return TRUE;
+	}
+	return FALSE;
+}
+
+int Process::LuaFn_Global_InputBox(LuaState * ls)
+{
+	LuaStack args(ls);
+
+	ZeroMemory(&dbs, sizeof(DialogBoxStruct));
+	int argscount = args.Count();
+	if (argscount > 0)
+	{
+		strcpy(dbs.title, args[1].GetString());
+		if (argscount > 1)
+		{
+			strcpy(dbs.comment, args[2].GetString());
+			if (argscount > 2)
+			{
+				strcpy(dbs.str, args[3].GetString());
+			}
+		}
+	}
+	int iret = DialogBox(NULL, MAKEINTRESOURCE(IDD_DIALOG), hge->System_GetState(HGE_HWND), Process::DialogProc);
+	if (iret == -1)
+	{
+		ZeroMemory(&dbs, sizeof(DialogBoxStruct));
+	}
+	else
+	{
+		_LuaHelper_PushString(ls, dbs.str);
+		ZeroMemory(&dbs, sizeof(DialogBoxStruct));
+		return 1;
+	}
+
+	return 0;
 }
 
 int Process::LuaFn_Global_SetOpenFileName(LuaState * ls)

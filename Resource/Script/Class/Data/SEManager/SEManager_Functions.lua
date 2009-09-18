@@ -41,3 +41,10 @@ function SEManager:Play()
 		end
 	end
 end
+
+function SEManager:Stop(seindex)
+	local seitem = self.playlist[seindex];
+	if seitem ~= nil and seitem.channel ~= nil then
+		hge.Channel_Stop(seitem.channel);
+	end
+end

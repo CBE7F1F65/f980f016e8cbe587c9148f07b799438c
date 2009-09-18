@@ -33,6 +33,18 @@ function Music:MusicSlide(slidetime, tovol, topan, topitch)
 	end
 end
 
+function Music:MusicPause()
+	if hge.Channel_IsPlaying(self.channel) then
+		hge.Channel_Pause(self.channel);
+	end
+end
+
+function Music:MusicResume()
+	if not hge.Channel_IsPlaying(self.channel) then
+		hge.Channel_Resume(self.channel);
+	end
+end
+
 function Music:MusicChange(stream, bforce)
 	if stream == nil then
 		stream = 0;

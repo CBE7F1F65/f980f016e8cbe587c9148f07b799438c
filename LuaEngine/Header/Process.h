@@ -22,6 +22,13 @@ struct OpenFileNameStruct
 	char strtitle[MAX_PATH];
 };
 
+struct DialogBoxStruct 
+{
+	char title[MAX_PATH];
+	char comment[MAX_PATH];
+	char str[MAX_PATH];
+};
+
 static class Process
 {
 public:
@@ -77,6 +84,8 @@ public:
 
 	static void _LuaHelper_GetCalculateValue(LuaObject * obj, char calchar, bool buseq, void * val);
 
+	static BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
 	static int LuaFn_Global_Calculate(LuaState * ls);
 	static int LuaFn_Global_DIST(LuaState * ls);
 	static int LuaFn_Global_DIST2(LuaState * ls);
@@ -90,6 +99,7 @@ public:
 	static int LuaFn_Global_GetPrivateProfileString(LuaState * ls);
 	static int LuaFn_Global_WritePrivateProfileString(LuaState * ls);
 	static int LuaFn_Global_MessageBox(LuaState * ls);
+	static int LuaFn_Global_InputBox(LuaState * ls);
 	static int LuaFn_Global_SetOpenFileName(LuaState * ls);
 	static int LuaFn_Global_ReceiveOpenFileName(LuaState * ls);
 	static int LuaFn_Global_Malloc(LuaState * ls);
@@ -354,6 +364,7 @@ public:
 	static LuaFunction<bool> * exitfunc;
 
 	static OpenFileNameStruct ofns;
+	static DialogBoxStruct dbs;
 }mp;
 
 #endif

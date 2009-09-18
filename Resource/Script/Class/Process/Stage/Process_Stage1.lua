@@ -64,10 +64,10 @@ function Process:_UpdateStage1()
 	end
 	if data.dt.stage1_npop < data.dt.stage1_npopmax / 3 and timer % 8 < 4 then
 		spim.sprites.games.spstage1_slot.color = global.ARGB(0xff, 0xffff00);
-		spim.sprites.games.spstage1.color = global.ARGB(0xff, 0xFF0000);
+		spim.sprites.games.spstage1.color = global.ARGB(M_STAGE_FLASHALPHA, M_STAGECOLOR_1);
 	else
 		spim.sprites.games.spstage1_slot.color = global.ARGB(0xff, 0x7fffff);
-		spim.sprites.games.spstage1.color = global.ARGB(0x80, 0xFF0000);
+		spim.sprites.games.spstage1.color = global.ARGB(M_STAGE_NORMALALPHA, M_STAGECOLOR_1);
 	end
 	spim.sprites.games.spstage1_slot.vscale = data.dt.stage1_npop;
 	
@@ -84,7 +84,7 @@ function Process:_InitStage1()
 		
 	data.dt.stage1_npopmax = data.dt.stage5_y - data.dt.stage1_y - 8;
 	data.dt.stage1_npop = data.dt.stage1_npopmax;
-	data.dt.stage1_npopminus = data.dt.stage1_npopmax / 300;
+	data.dt.stage1_npopminus = data.dt.stage1_npopmax / 400;
 	data.dt.stage1_npopadd = data.dt.stage1_npopmax / 3 * 2;
 	spim.sprites.games.spstage1_slot = spim:Push(true, SI_BLANK_POINT, 
 		data.dt.stage1_w + data.dt.stage1_x - 5, data.dt.stage1_y + 4, 0, 8, data.dt.stage1_npop);
@@ -94,6 +94,9 @@ end
 
 function Process:_RenderStart_Stage1()
 	local games = spim.sprites.games;
+	if games == nil then
+		return;
+	end
 	spim:RenderItem(games.spstage1_V);
 	spim:RenderItem(games.spstage1_O);
 	spim:RenderItem(games.spstage1_W);
@@ -110,7 +113,7 @@ function Process:_RenderStart_Stage1()
 	
 	local arrange = HGETEXT_CENTER;
 	ty = data.dt.stage1_y;
-	hgeFont.printf(data.dt.font, tx - txoffset * 2, ty, arrange, "A");
-	hgeFont.printf(data.dt.font, tx - txoffset, ty, arrange, "S");
-	hgeFont.printf(data.dt.font, tx, ty, arrange, "D");
+	hgeFont.printf(self.gamefont, tx - txoffset * 2, ty, arrange, "A");
+	hgeFont.printf(self.gamefont, tx - txoffset, ty, arrange, "S");
+	hgeFont.printf(self.gamefont, tx, ty, arrange, "D");
 end

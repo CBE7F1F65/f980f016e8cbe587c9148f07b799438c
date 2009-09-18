@@ -51,6 +51,9 @@ function Process:_Init()
 	self.replaying = false;
 	self.active = false;
 	
+	self.font = NULL;
+	self.gamefont = NULL;
+	
 end
 
 function Process:Release()
@@ -76,7 +79,7 @@ function Process:Release()
 
 	hge.Ini_SetInt(RESCONFIGS_CUSTOM, RESCONFIGN_SCREENMODE, self.screenmode);
 	hge.Ini_SetInt(RESCONFIGS_CUSTOM, RESCONFIGN_DIFFICULT, self.nowdifflv);
-	hge.Ini_SetString(RESCONFIGS_CUSTOM, RESCONFIGN_USERNAME, self.username);
+--	hge.Ini_SetString(RESCONFIGS_CUSTOM, RESCONFIGN_USERNAME, self.username);
 	
 	if self.texInit ~= NULL then
 		hge.Texture_Free(self.texInit);

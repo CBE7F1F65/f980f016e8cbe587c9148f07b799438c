@@ -10,12 +10,11 @@ function Data:new(t)
 end
 
 function Data:_Init()
-	self.d = {};
 	self.dt = {};
 	self.rpyheader = {}
 	self.rpyheader.name = {};
 	self.rpydata = {};
-	self.headerlength = 32;
+	self.headerlength = 44;
 	self.replaycontent = NULL;
 	self.replaylength = 0;
 end

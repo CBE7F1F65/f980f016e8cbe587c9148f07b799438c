@@ -90,7 +90,7 @@ function Process:ProcessPreInitial()
 	self.sevol			= hge.Ini_GetInt(RESCONFIGS_VOLUME, RESCONFIGN_VOLSE, RESCONFIGDEFAULT_VOLSE);
 
 	self.screenmode	= hge.Ini_GetInt(RESCONFIGS_CUSTOM, RESCONFIGN_SCREENMODE, RESCONFIGDEFAULT_SCREENMODE);
-	self.username		= hge.Ini_GetString(RESCONFIGS_CUSTOM, RESCONFIGN_USERNAME, RESCONFIGDEFAULT_USERNAME);
+--	self.username		= hge.Ini_GetString(RESCONFIGS_CUSTOM, RESCONFIGN_USERNAME, RESCONFIGDEFAULT_USERNAME);
 	self.renderskip	= hge.Ini_GetInt(RESCONFIGS_CUSTOM, RESCONFIGN_RENDERSKIP, RESCONFIGDEFAULT_RENDERSKIP);
 	self.nowdifflv	=	hge.Ini_GetInt(RESCONFIGS_CUSTOM, RESCONFIGN_DIFFICULT, RESCONFIGDEFAULT_DIFFICULT);
 
@@ -128,5 +128,8 @@ function Process:ProcessPreInitial()
 	else
 		self.texInit = NULL;
 	end
+	
+	export:GetUsername();
+	
 	return PGO;
 end

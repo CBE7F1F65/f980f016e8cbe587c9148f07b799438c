@@ -16,9 +16,16 @@ function Process:Render()
 		if mp.state == STATE_OVER then
 			self:_RenderOver();
 		end
+		if mp.state == STATE_PAUSE then
+			self:_RenderPause();
+		end
 	end
 	
 	hgeFont.printf(self.font, 0, 0, 0, string.format("%.2f", hge.Timer_GetFPS(35)));
+	local active, replaying = self:CheckActive();
+	if replaying and data.dt.replayfps ~= nil then
+		hgeFont.printf(self.font, 0, 16, 0, string.format("%.2f", data.dt.replayfps));
+	end
 	
 end
 

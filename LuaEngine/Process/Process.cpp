@@ -19,6 +19,7 @@ LuaFunction<bool> * Process::gfxrestorefunc = NULL;
 LuaFunction<bool> * Process::exitfunc = NULL;
 
 OpenFileNameStruct Process::ofns;
+DialogBoxStruct Process::dbs;
 
 Process::Process()
 {

@@ -2,6 +2,7 @@ function Process:ProcessOver()
 	
 	time = time + 1;
 	if time == 1 then
+		self:Dead();
 		self:_InitProcessOver();
 		music:MusicChange(MUS_01);
 	end
@@ -89,9 +90,11 @@ end
 
 function Process:_RenderOver()
 	self:_RenderStart();
-	spim:RenderItem(spim.sprites.overs.spgameover_bg);
-	spim:RenderItem(spim.sprites.overs.spgameover);
-	spim:RenderItem(spim.sprites.overs.spretry);
-	spim:RenderItem(spim.sprites.overs.spbacktotitle);
+	if spim.sprites.overs ~= nil then
+		spim:RenderItem(spim.sprites.overs.spgameover_bg);
+		spim:RenderItem(spim.sprites.overs.spgameover);
+		spim:RenderItem(spim.sprites.overs.spretry);
+		spim:RenderItem(spim.sprites.overs.spbacktotitle);
+	end
 	sel:Render();
 end

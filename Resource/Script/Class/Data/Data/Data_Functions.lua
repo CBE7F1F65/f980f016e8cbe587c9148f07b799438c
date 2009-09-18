@@ -1,41 +1,100 @@
-function Data:_StringToDWORD(str, nums)
-	if nums == nil or nums == 1 then
-		return 0;
+function Data:_StringToDWORD(str)
+	local dret1 = 0;
+	local dret2 = 0;
+	local dret3 = 0;
+	local dret4 = 0;
+	for i=1, string.len(str) do
+		if i <= 3 then
+			dret1 = luastate.LShift(string.byte(str, i), (i-1) * 8) + dret1;
+		elseif i <= 6 then
+			dret2 = luastate.LShift(string.byte(str, i), (i-4) * 8) + dret2;
+		elseif i <= 9 then
+			dret3 = luastate.LShift(string.byte(str, i), (i-7) * 8) + dret3;
+		elseif i <= 12 then
+			dret4 = luastate.LShift(string.byte(str, i), (i-10) * 8) + dret4;
+		end
 	end
-	if nums == 4 then
-		return 0, 0, 0, 0;
-	end
+	return dret1, dret2, dret3, dret4;
 end
 
 function Data:_DWORDToString(d1, d2, d3, d4)
-	return "RPY";
+	local sret = "";
+	local tbyte = 0;
+	local i = 0;
+	repeat
+		i = i + 1;
+		local tshift;
+		if i <= 3 then
+			tshift = (i-1) * 8;
+			tbyte = luastate.RShift(luastate.And(d1, luastate.LShift(0xFF, tshift)), tshift);
+		elseif i <= 6 then
+			tshift = (i-4) * 8;
+			tbyte = luastate.RShift(luastate.And(d2, luastate.LShift(0xFF, tshift)), tshift);
+		elseif i <= 9 then
+			tshift = (i-7) * 8;
+			tbyte = luastate.RShift(luastate.And(d3, luastate.LShift(0xFF, tshift)), tshift);
+		elseif i <= 12 then
+			tshift = (i-10) * 8;
+			tbyte = luastate.RShift(luastate.And(d4, luastate.LShift(0xFF, tshift)), tshift);
+		end
+		if tbyte == 0 then
+			break;
+		end
+		sret = sret..string.char(tbyte);
+	until tbyte == 0;
+	return sret;
 end
 
 function Data:PushReplayHeader(name, difficult, stage, seed)
 	self.rpyheader.sign = self:_StringToDWORD(M_REPLAYSIGN);
 	self.rpyheader.magicnumber = M_REPLAYMAGICNUMBER;
-	self.rpyheader.name[1], self.rpyheader.name[2], self.rpyheader.name[3], self.rpyheader.name[4] = self:_StringToDWORD(name, 4);
+	self.rpyheader.name[1], self.rpyheader.name[2], self.rpyheader.name[3], self.rpyheader.name[4] = self:_StringToDWORD(name);
 	self.rpyheader.diffstage = luastate.LShift(difficult, 16) + stage;
 	self.rpyheader.seed = seed;
+	self.rpyheader.lifetime = 0;
+	self.rpyheader.pausetime = 0;
+	self.rpyheader.score = 0;
+end
+
+function Data:UpdateReplayHeader(lifetime)
+	if lifetime == nil then
+		self.rpyheader.pausetime = self.rpyheader.pausetime + 1;
+	else
+		self.rpyheader.lifetime = self.rpyheader.lifetime + math.floor(lifetime * M_INTTIMEFACTOR);
+	end
+end
+
+function Data:UpdateScore(score)
+	if score ~= nil and score > 0 then
+		self.rpyheader.score = self.rpyheader.score + score;
+	end
 end
 
 function Data:PushReplayData(data, index)
 	if index == nil then
 		index = time;
 	end
-	self.rpydata[index] = data;
+	if index < 0 then
+		index = table.getn(self.rpydata) + 1;
+	end
+	if index > 0 then
+		self.rpydata[index] = data;
+	end
 end
 
 function Data:GetReplayHeader()
 	local name = self:_DWORDToString(self.rpyheader.name[1], self.rpyheader.name[2], self.rpyheader.name[3], self.rpyheader.name[4]);
 	local difficult = luastate.RShift(self.rpyheader.diffstage, 16);
-	local stage = luastate.And(self.rpyHeader.diffstage, 0xFFFF);
-	return name, difficult, stage, self.rpyheader.seed;
+	local stage = luastate.And(self.rpyheader.diffstage, 0xFFFF);
+	return name, difficult, stage, self.rpyheader.seed, self.rpyheader.lifetime, self.rpyheader.pausetime, self.rpyheader.score;
 end
 
 function Data:GetReplayData(index)
 	if index == nil then
 		index = time;
+	end
+	if index < 0 then
+		index = table.getn(self.rpydata);
 	end
 	return self.rpydata[index];
 end
@@ -67,15 +126,23 @@ function Data:SaveReplayContent()
 	nowoffset	= nowoffset + 4;
 	global.WriteMemory(self.replaycontent, nowoffset, self.rpyheader.seed);
 	nowoffset	= nowoffset + 4;
+	global.WriteMemory(self.replaycontent, nowoffset, self.rpyheader.lifetime);
+	nowoffset	= nowoffset + 4;
+	global.WriteMemory(self.replaycontent, nowoffset, self.rpyheader.pausetime);
+	nowoffset	= nowoffset + 4;
+	global.WriteMemory(self.replaycontent, nowoffset, self.rpyheader.score);
+	nowoffset	= nowoffset + 4;
 	for i, it in pairs(self.rpydata) do
-		global.WriteMemory(self.replaycontent, self.headerlength + i * 4, it);
+		if i > 0 then
+			global.WriteMemory(self.replaycontent, self.headerlength + (i-1) * 4, it);
+		end
 	end
 	return self.replaycontent, self.replaylength;
 end
 
 function Data:LoadReplayContent(content, length)
 	if length < self.headerlength then
-		return false;
+		return -1;
 	end
 	self:ClearReplayData();
 	local nowoffset = 0;
@@ -101,6 +168,12 @@ function Data:LoadReplayContent(content, length)
 	nowoffset = nowoffset + 4;
 	self.rpyheader.seed = global.ReadMemory(content, nowoffset);
 	nowoffset = nowoffset + 4;
+	self.rpyheader.lifetime = global.ReadMemory(content, nowoffset);
+	nowoffset = nowoffset + 4;
+	self.rpyheader.pausetime = global.ReadMemory(content, nowoffset);
+	nowoffset = nowoffset + 4;
+	self.rpyheader.score = global.ReadMemory(content, nowoffset);
+	nowoffset = nowoffset + 4;
 	
 	if nowoffset >= length then
 		return 0;
@@ -108,7 +181,7 @@ function Data:LoadReplayContent(content, length)
 	
 	local index = 1;
 	repeat
-		self.rpydata[index] = global.ReadMemroy(content, nowoffset);
+		self.rpydata[index] = global.ReadMemory(content, nowoffset);
 		index = index + 1;
 		nowoffset = nowoffset + 4;
 	until nowoffset >= length;
@@ -121,4 +194,8 @@ function Data:FreeReplayContent()
 		self.replaycontent = NULL;
 	end
 	self.replaylength = 0;
+end
+
+function Data:GetReplayLength()
+	return table.getn(self.rpydata);
 end

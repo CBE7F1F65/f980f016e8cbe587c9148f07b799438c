@@ -17,6 +17,15 @@ function Export:GetPassword()
 	return password;
 end
 
+function Export:GetUsername()
+	local username = hge.Ini_GetString(RESCONFIGS_CUSTOM, RESCONFIGN_USERNAME, RESCONFIGDEFAULT_USERNAME);
+	if username == RESCONFIGDEFAULT_USERNAME then
+		username = global.InputBox("Please input your name!", "Username (no longer than 12 bytes):", RESCONFIGDEFAULT_USERNAME);
+		hge.Ini_SetString(RESCONFIGS_CUSTOM, RESCONFIGN_USERNAME, username);
+	end
+	return username;
+end
+
 function Export:ClientSetMatrix(x, y, z)
 	matWorld	= 	{
 									{1, 0, 0, 0},

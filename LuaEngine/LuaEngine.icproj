@@ -5,7 +5,7 @@
 	Name="LuaEngine"
 	ProjectGUID="{12CC1A4E-7D0F-4D2D-96B3-2E9DD8E11824}"
 	VCNestedProjectGUID="{03DD9750-BB83-4659-823A-E18EA4162B59}"
-	VCNestedProjectCRC32="736379332"
+	VCNestedProjectCRC32="839673401"
 	VCNestedProjectFileName="LuaEngine.vcproj"
 	Keyword="Win32Proj">
 	<Configurations>
@@ -21,38 +21,45 @@
 				Name="CppCmplrTool"
 				Optimization="0"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;__DEBUG"
+				MinimalRebuild="FALSE"
+				ExceptionHandling="TRUE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
+				WarningLevel="1"
+				Detect64BitPortabilityProblems="FALSE"
 				DebugInformationFormat="4"/>
 			<Tool 
+				Name="CustomTool"/>
+			<Tool 
 				Name="LinkerTool"
-				DelayImpLib="DelayImp.lib"
 				OutputFile="$(OutDir)/LuaEngine.exe"
 				LinkIncremental="2"
 				DelayLoadDLLs="hge.dll"
-				GenerateDebugInformation="1"
+				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/LuaEngine.pdb"
 				SubSystem="2"
 				TargetMachine="1"/>
 			<Tool 
-				Name="LibrarianTool"/>
-			<Tool 
-				Name="ResCmplrTool"/>
-			<Tool 
 				Name="MidlCmplrTool"/>
 			<Tool 
-				Name="BscMakeTool"/>
+				Name="PostBuildEventTool"/>
 			<Tool 
 				Name="PreBuildEventTool"/>
 			<Tool 
 				Name="PreLinkEventTool"/>
 			<Tool 
-				Name="PostBuildEventTool"/>
+				Name="ResCmplrTool"/>
 			<Tool 
-				Name="CustomTool"/>
+				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool 
-				Name="CustomNodeTool"/>
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool 
+				Name="VCWebDeploymentTool"/>
+			<Tool 
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool 
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
 		<Configuration 
 			Name="Release|Win32">
@@ -62,94 +69,162 @@
 				IntermediateDirectory="Release"
 				ConfigurationType="1"
 				CharacterSet="2"
-				WholeProgramOptimization="1"/>
+				WholeProgramOptimization="TRUE"/>
 			<Tool 
 				Name="CppCmplrTool"
 				Optimization="1000"
-				GlobalOptimizations="1"
+				GlobalOptimizations="TRUE"
 				InlineFunctionExpansion="2"
-				EnableIntrinsicFunctions="1"
-				ImproveFloatingPointConsistency="1"
+				EnableIntrinsicFunctions="TRUE"
+				ImproveFloatingPointConsistency="TRUE"
 				FavorSizeOrSpeed="1"
-				OmitFramePointers="1"
-				EnableFiberSafeOptimizations="1"
-				OptimizeForWindowsApplication="1"
+				OmitFramePointers="TRUE"
+				EnableFiberSafeOptimizations="TRUE"
+				WholeProgramOptimization="TRUE"
+				OptimizeForWindowsApplication="TRUE"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;__DEBUG"
 				RuntimeLibrary="0"
-				UsePrecompiledHeader="0"/>
+				UsePrecompiledHeader="0"
+				WarningLevel="1"
+				Detect64BitPortabilityProblems="FALSE"
+				DebugInformationFormat="0"/>
+			<Tool 
+				Name="CustomTool"/>
 			<Tool 
 				Name="LinkerTool"
-				DelayImpLib="DelayImp.lib"
 				OutputFile="$(OutDir)/LuaEngine.exe"
 				LinkIncremental="1"
 				IgnoreDefaultLibraryNames="LIBCMT.lib"
 				DelayLoadDLLs="hge.dll"
-				GenerateDebugInformation="1"
+				GenerateDebugInformation="TRUE"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
 				TargetMachine="1"/>
 			<Tool 
-				Name="LibrarianTool"/>
-			<Tool 
-				Name="ResCmplrTool"/>
-			<Tool 
 				Name="MidlCmplrTool"/>
 			<Tool 
-				Name="BscMakeTool"/>
+				Name="PostBuildEventTool"/>
 			<Tool 
 				Name="PreBuildEventTool"/>
 			<Tool 
 				Name="PreLinkEventTool"/>
 			<Tool 
-				Name="PostBuildEventTool"/>
+				Name="ResCmplrTool"/>
 			<Tool 
-				Name="CustomTool"/>
+				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool 
-				Name="CustomNodeTool"/>
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool 
+				Name="VCWebDeploymentTool"/>
+			<Tool 
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool 
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
 		</Configuration>
 	</Configurations>
 	<Files>
-		<File 
-			RelativePath=".\Core\InitDllLoader.cpp"/>
-		<File 
-			RelativePath=".\Core\Main.cpp"/>
-		<File 
-			RelativePath=".\Class\DataFactory.cpp"/>
-		<File 
-			RelativePath=".\Class\FileFactory.cpp"/>
-		<File 
-			RelativePath=".\Process\Process.cpp"/>
-		<File 
-			RelativePath=".\Process\ProcessLua.cpp"/>
-		<File 
-			RelativePath=".\Process\ProcessLua_Const.cpp"/>
-		<File 
-			RelativePath=".\Process\ProcessLua_HGE.cpp"/>
-		<File 
-			RelativePath=".\Process\ProcessLua_HGEHelp.cpp"/>
-		<File 
-			RelativePath=".\Process\ProcessLua_HGEHelp_hgeES.cpp"/>
-		<File 
-			RelativePath=".\Process\ProcessLua_HGEHelp_hgeFont.cpp"/>
-		<File 
-			RelativePath=".\Process\ProcessLua_HGEHelp_hgeSprite.cpp"/>
-		<File 
-			RelativePath=".\Process\ProcessSelf.cpp"/>
-		<File 
-			RelativePath=".\Header\Const.h"/>
-		<File 
-			RelativePath=".\Header\LuaConstDefine.h"/>
-		<File 
-			RelativePath=".\Header\Main.h"/>
-		<File 
-			RelativePath=".\Header\MainDependency.h"/>
-		<File 
-			RelativePath=".\Header\Process.h"/>
-		<File 
-			RelativePath=".\Header\DataFactory.h"/>
-		<File 
-			RelativePath=".\Header\FileFactory.h"/>
+		<Filter 
+			Name="源文件"
+			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
+			<Filter 
+				Name="Core"
+				Filter="">
+				<File 
+					RelativePath=".\Core\InitDllLoader.cpp">
+				</File>
+				<File 
+					RelativePath=".\Core\Main.cpp">
+				</File>
+			</Filter>
+			<Filter 
+				Name="Class"
+				Filter="">
+				<File 
+					RelativePath=".\Class\DataFactory.cpp">
+				</File>
+				<File 
+					RelativePath=".\Class\FileFactory.cpp">
+				</File>
+			</Filter>
+			<Filter 
+				Name="Process"
+				Filter="">
+				<File 
+					RelativePath=".\Process\Process.cpp">
+				</File>
+				<File 
+					RelativePath=".\Process\ProcessLua.cpp">
+				</File>
+				<File 
+					RelativePath=".\Process\ProcessLua_Const.cpp">
+				</File>
+				<File 
+					RelativePath=".\Process\ProcessLua_HGE.cpp">
+				</File>
+				<File 
+					RelativePath=".\Process\ProcessLua_HGEHelp.cpp">
+				</File>
+				<File 
+					RelativePath=".\Process\ProcessLua_HGEHelp_hgeES.cpp">
+				</File>
+				<File 
+					RelativePath=".\Process\ProcessLua_HGEHelp_hgeFont.cpp">
+				</File>
+				<File 
+					RelativePath=".\Process\ProcessLua_HGEHelp_hgeSprite.cpp">
+				</File>
+				<File 
+					RelativePath=".\Process\ProcessSelf.cpp">
+				</File>
+			</Filter>
+		</Filter>
+		<Filter 
+			Name="头文件"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
+			<File 
+				RelativePath=".\resource_dialog.h">
+			</File>
+			<Filter 
+				Name="Core"
+				Filter="">
+				<File 
+					RelativePath=".\Header\Const.h">
+				</File>
+				<File 
+					RelativePath=".\Header\LuaConstDefine.h">
+				</File>
+				<File 
+					RelativePath=".\Header\Main.h">
+				</File>
+				<File 
+					RelativePath=".\Header\MainDependency.h">
+				</File>
+				<File 
+					RelativePath=".\Header\Process.h">
+				</File>
+			</Filter>
+			<Filter 
+				Name="Class"
+				Filter="">
+				<File 
+					RelativePath=".\Header\DataFactory.h">
+				</File>
+				<File 
+					RelativePath=".\Header\FileFactory.h">
+				</File>
+			</Filter>
+		</Filter>
+		<Filter 
+			Name="资源文件"
+			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx"
+			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}">
+			<File 
+				RelativePath=".\LuaEngine.rc">
+			</File>
+		</Filter>
 	</Files>
 </VisualStudioProject>
 

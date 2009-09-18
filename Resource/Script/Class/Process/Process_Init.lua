@@ -17,6 +17,8 @@ function Process:ProcessInit()
 	music:Init(RESDEFAULT_DATAFOLDER..RESDEFAULT_MUSICDEFINE);
 
 	self.font = hgeFont.NewFont(RESDEFAULT_FONTFILE);
+	self.gamefont = hgeFont.NewFont(RESDEFAULT_FONTFILE);
+	hgeFont.SetScale(self.gamefont, 2);
 	
 	return PTITLE;
 end

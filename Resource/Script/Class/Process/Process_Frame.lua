@@ -6,17 +6,25 @@ function Process:Frame()
 		hge.System_SetState(HGE_HIDEMOUSE, mp.screenmode);
 	end
 	
-	self:GetInput();
-	
 	local retval = PTITLE;
-	if self.state == STATE_START then
-		retval = self:ProcessStart();
-	elseif self.state == STATE_TITLE then
-		retval = self:ProcessTitle();
-	elseif self.state == STATE_INIT then
-		retval = self:ProcessInit();
-	elseif self.state == STATE_OVER then
-		retval = self:ProcessOver();
+	retval = self:GetInput();
+	if retval == PGO then
+		if self.state == STATE_START then
+			retval = self:ProcessStart();
+		elseif self.state == STATE_PAUSE then
+			retval = self:ProcessPause();
+			if retval ~= PGO then
+				self:_LeavePause();
+			end
+		elseif self.state == STATE_TITLE then
+			retval = self:ProcessTitle();
+		elseif self.state == STATE_INIT then
+			retval = self:ProcessInit();
+		elseif self.state == STATE_OVER then
+			retval = self:ProcessOver();
+		end
+	else
+		debugflag = 1;
 	end
 	
 	self:_FrameEnd();
