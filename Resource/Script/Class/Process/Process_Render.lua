@@ -7,24 +7,29 @@ function Process:Render()
 	end
 	
 	if time > 0 then
-		if mp.state == STATE_TITLE then
+		if self.state == STATE_TITLE then
 			self:_RenderTitle();
 		end
-		if mp.state == STATE_START then
+		if self.state == STATE_START then
 			self:_RenderStart();
 		end
-		if mp.state == STATE_OVER then
+		if self.state == STATE_OVER then
 			self:_RenderOver();
 		end
-		if mp.state == STATE_PAUSE then
+		if self.state == STATE_PAUSE then
 			self:_RenderPause();
 		end
 	end
 	
-	hgeFont.printf(self.font, 0, 0, 0, string.format("%.2f", hge.Timer_GetFPS(35)));
+	hgeFont.printf(self.font, M_CLIENT_LEFT, M_CLIENT_TOP, 0, string.format("%.2f", hge.Timer_GetFPS(35)));
 	local active, replaying = self:CheckActive();
-	if replaying and data.dt.replayfps ~= nil then
-		hgeFont.printf(self.font, 0, 16, 0, string.format("%.2f", data.dt.replayfps));
+	if self.state == STATE_START then
+		if replaying and data.dt.replayfps ~= nil then
+			hgeFont.printf(self.font, M_CLIENT_LEFT, M_CLIENT_TOP + 16, 0, string.format("%.2f", data.dt.replayfps));
+		end
+		hgeFont.printf(self.font, M_CLIENT_CENTER_X, M_CLIENT_TOP, HGETEXT_CENTER, string.format("%.5f", data:GetNowLifeTime() / M_INTTIMEFACTOR));
+		hgeFont.printf(self.font, M_CLIENT_CENTER_X, M_CLIENT_TOP + 16, HGETEXT_CENTER, time);
+		hgeFont.printf(self.font, M_CLIENT_CENTER_X, M_CLIENT_TOP + 32, HGETEXT_CENTER, data:GetNowScore());
 	end
 	
 end

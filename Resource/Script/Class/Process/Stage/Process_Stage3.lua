@@ -59,7 +59,7 @@ function Process:_UpdateStage3()
 	if data.dt.stage3_npop < 0 then
 		return true;
 	end
-	if data.dt.stage3_npop < data.dt.stage3_npopmax / 3 and timer % 8 < 4 then
+	if data.dt.stage3_npop < M_ALARMTIME * data.dt.stage3_npopminus and timer % 8 < 4 then
 		spim.sprites.games.spstage3_slot.color = global.ARGB(0xff, 0xffff00);
 		spim.sprites.games.spstage3.color = global.ARGB(M_STAGE_FLASHALPHA, M_STAGECOLOR_3);
 	else

@@ -67,7 +67,7 @@ function Process:_MoveStage4Ball(x, ypos, effectitem)
 	if ypos == data.dt.stage4_playerypos then
 		local xdiff = x - data.dt.stage4_stringx;
 		if xdiff > 0 then
-			if xdiff < data.dt.stage4_ballspeed * data.dt.stage4_alarmtime then
+			if xdiff < data.dt.stage4_ballspeed * M_ALARMTIME then
 				data.dt.stage4_alarm = true;
 				if xdiff < data.dt.stage4_ballr then
 					failed = true;
@@ -86,7 +86,6 @@ end
 function Process:_InitStage4()
 	data.dt.stage4_edge = 16;
 	data.dt.stage4_alarm = false;
-	data.dt.stage4_alarmtime = 30;
 	data.dt.stage4_topedge = data.dt.stage5_y + data.dt.stage5_h - data.dt.stage4_y;
 	data.dt.stage4_ballspeed = 1.5;
 	local racetime = (data.dt.stage4_w - data.dt.stage4_edge * 2) / data.dt.stage4_ballspeed;

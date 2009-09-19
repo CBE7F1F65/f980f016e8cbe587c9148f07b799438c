@@ -64,10 +64,24 @@ function Data:UpdateReplayHeader(lifetime)
 	end
 end
 
+function Data:GetNowLifeTime()
+	if self.rpyheader.lifetime == nil then
+		return 0;
+	end
+	return self.rpyheader.lifetime;
+end
+
 function Data:UpdateScore(score)
 	if score ~= nil and score > 0 then
 		self.rpyheader.score = self.rpyheader.score + score;
 	end
+end
+
+function Data:GetNowScore(score)
+	if self.rpyheader.score == nil then
+		return 0;
+	end
+	return self.rpyheader.score;
 end
 
 function Data:PushReplayData(data, index)

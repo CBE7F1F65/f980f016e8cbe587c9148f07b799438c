@@ -71,7 +71,11 @@ function Process:_UpdateStage2()
 		return true;
 	end
 	
-	if timer > 60 and (data.dt.stage2_bally < data.dt.stage2_edge * 2 + data.dt.stage2_y or data.dt.stage2_bally > data.dt.stage2_edge * -2 + data.dt.stage2_y + data.dt.stage2_h) and timer % 8 < 4 then
+	local alarmpredict = data.dt.stage2_bally + M_ALARMTIME * data.dt.stage2_ballyacc;
+	if timer > 60 and
+		(alarmpredict < data.dt.stage2_edge + data.dt.stage2_y or
+		alarmpredict > data.dt.stage2_y + data.dt.stage2_h - data.dt.stage2_edge) and
+		timer % 8 < 4 then
 		spim.sprites.games.spstage2.color = global.ARGB(M_STAGE_FLASHALPHA, M_STAGECOLOR_2);
 	else
 		spim.sprites.games.spstage2.color = global.ARGB(M_STAGE_NORMALALPHA, M_STAGECOLOR_2);
