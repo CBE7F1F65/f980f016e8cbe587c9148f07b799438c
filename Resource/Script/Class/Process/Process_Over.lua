@@ -2,8 +2,8 @@ function Process:ProcessOver()
 	
 	time = time + 1;
 	if time == 1 then
-		self:Dead();
 		self:_InitProcessOver();
+		self:Dead();
 		music:MusicChange(MUS_01);
 	end
 	
@@ -17,7 +17,7 @@ function Process:ProcessOver()
 	selret = sel:Action();
 	if selret == 1 and not data.dt.rpysaved and not sel:IsSaved(SELSAVE_CONFIRM) then
 		local content, length = data:SaveReplayContent()
-		global.SetOpenFileName("Replay File (*.rpy)|*.rpy", "rpy", "Save Replay", content, length);
+		global.SetOpenFileName("Replay File (*.rpy)|*.rpy", "rpy", "Save Replay", export:GetReplayFolder(), content, length);
 		data.dt.rpysaved = true;
 	end
 	if selret > 1 and not sel:IsSaved(SELSAVE_CONFIRM) then

@@ -54,7 +54,7 @@ function Process:ProcessTitle()
 		if selret == 1 then
 			self:_PushSelection(SELSAVE_DIFFICULT, self.nowdifflv);
 		elseif selret == 2 then
-			global.SetOpenFileName("Replay File (*.rpy)|*.rpy", "rpy", "Load Replay");
+			global.SetOpenFileName("Replay File (*.rpy)|*.rpy", "rpy", "Load Replay", export:GetReplayFolder());
 			data.dt.rpyloaded = true;
 		end
 	end

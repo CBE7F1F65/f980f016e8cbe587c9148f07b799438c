@@ -677,23 +677,37 @@ int Process::LuaFn_Global_SetOpenFileName(LuaState * ls)
 	ReleaseOpenFileNameContent();
 	ZeroMemory(&ofns, sizeof(OpenFileNameStruct));
 
+	int argscount = args.Count();
 	bool bsave = false;
-	strcpy(ofns.strfilter, args[1].GetString());
-	for (int i=0; i<strlen(ofns.strfilter); i++)
+	if (argscount > 0)
 	{
-		if (ofns.strfilter[i] == '|')
+		strcpy(ofns.strfilter, args[1].GetString());
+		for (int i=0; i<strlen(ofns.strfilter); i++)
 		{
-			ofns.strfilter[i] = '\0';
+			if (ofns.strfilter[i] == '|')
+			{
+				ofns.strfilter[i] = '\0';
+			}
 		}
-	}
-	strcpy(ofns.strdefext, args[2].GetString());
-	strcpy(ofns.strtitle, args[3].GetString());
-	if (args.Count() > 3)
-	{
-		LuaObject _obj = args[4];
-		ofns.content = _LuaHelper_GetDWORD(&_obj);
-		ofns.length = args[5].GetInteger();
-		bsave = true;
+		if (argscount > 1)
+		{
+			strcpy(ofns.strdefext, args[2].GetString());
+			if (argscount > 2)
+			{
+				strcpy(ofns.strtitle, args[3].GetString());
+				if (argscount > 3)
+				{
+					strcpy(ofns.strinitdir, args[4].GetString());
+					if (argscount > 4)
+					{
+						LuaObject _obj = args[5];
+						ofns.content = _LuaHelper_GetDWORD(&_obj);
+						ofns.length = args[6].GetInteger();
+						bsave = true;
+					}
+				}
+			}
+		}
 	}
 
 	ofns.ofn.lStructSize = sizeof(OPENFILENAME);
@@ -703,6 +717,7 @@ int Process::LuaFn_Global_SetOpenFileName(LuaState * ls)
 	ofns.ofn.lpstrFilter = ofns.strfilter;
 	ofns.ofn.lpstrDefExt = ofns.strdefext;
 	ofns.ofn.lpstrTitle = ofns.strtitle;
+	ofns.ofn.lpstrInitialDir = ofns.strinitdir;
 	if (bsave)
 	{
 		ofns.ofn.Flags = OFN_OVERWRITEPROMPT;

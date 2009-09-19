@@ -152,6 +152,7 @@ M_JOYKEYMAX	=	0x20;
 RESLOADING_PCK	=	"Graphic/Loading.pck";
 RESLOADING_TEX	=	"Loading/Loading.tex";
 
+M_REPLAYFOLDER	=	"Replay/"
 
 M_DEFAULT_PAN = -101
 M_DEFAULT_PITCH = -1

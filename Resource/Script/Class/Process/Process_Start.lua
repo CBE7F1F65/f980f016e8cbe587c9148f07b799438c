@@ -10,15 +10,15 @@ function Process:ProcessStart()
 		local bret;
 		if data.dt.havestage1 then
 			bret = self:_UpdateStage1();
-			bret = false;
+--			bret = false;
 		end
 		if not bret and data.dt.havestage2 then
 			bret = self:_UpdateStage2();
-			bret = false;
+--			bret = false;
 		end
 		if not bret and data.dt.havestage3 then
 			bret = self:_UpdateStage3();
-			bret = false;
+--			bret = false;
 		end
 		if not bret and data.dt.havestage4 then
 			bret = self:_UpdateStage4();

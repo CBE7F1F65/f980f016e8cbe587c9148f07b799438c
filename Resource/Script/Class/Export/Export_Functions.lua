@@ -26,6 +26,10 @@ function Export:GetUsername()
 	return username;
 end
 
+function Export:GetReplayFolder()
+	return hge.Resource_MakePath(M_REPLAYFOLDER);
+end
+
 function Export:ClientSetMatrix(x, y, z)
 	matWorld	= 	{
 									{1, 0, 0, 0},

@@ -20,6 +20,7 @@ struct OpenFileNameStruct
 	char strfilter[MAX_PATH];
 	char strdefext[MAX_PATH];
 	char strtitle[MAX_PATH];
+	char strinitdir[MAX_PATH];
 };
 
 struct DialogBoxStruct 
