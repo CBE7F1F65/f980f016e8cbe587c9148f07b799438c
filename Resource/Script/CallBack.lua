@@ -10,6 +10,12 @@ function hgeFrameFunc()
 	if hge.Input_GetDIKey(mp.keyCapture, DIKEY_DOWN) then
 		mp:SnapShot();
 	end
+	if hge.Input_GetDIKey(mp.keySkip) or
+		hge.Input_GetDIJoy(mp.debug_joySpeedUp) then
+		hge.System_SetState(HGE_FRAMESKIP, M_FASTFRAMESKIP);
+	else
+		hge.System_SetState(HGE_FRAMESKIP, M_DEFAULT_FRAMESKIP);
+	end
 	if mp:Frame() == PQUIT then
 		return true;
 	end

@@ -10,28 +10,62 @@ function Process:ProcessStart()
 		local bret;
 		if data.dt.havestage1 then
 			bret = self:_UpdateStage1();
-			bret = false;
+			if debug_ignore_1 then
+				bret = false;
+			end
+			if bret then
+				se:Push(SE_GAME_GAMEOVER, data.dt.stage1_cx);
+			end
 		end
 		if not bret and data.dt.havestage2 then
 			bret = self:_UpdateStage2();
-			bret = false;
+			if debug_ignore_2 then
+				bret = false;
+			end
+			if bret then
+				se:Push(SE_GAME_GAMEOVER, data.dt.stage2_cx);
+			end
 		end
 		if not bret and data.dt.havestage3 then
 			bret = self:_UpdateStage3();
-			bret = false;
+			if debug_ignore_3 then
+				bret = false;
+			end
+			if bret then
+				se:Push(SE_GAME_GAMEOVER, data.dt.stage3_cx);
+			end
 		end
 		if not bret and data.dt.havestage4 then
 			bret = self:_UpdateStage4();
-			bret = false;
+			if debug_ignore_4 then
+				bret = false;
+			end
+			if bret then
+				se:Push(SE_GAME_GAMEOVER, data.dt.stage4_cx);
+			end
 		end
 		if not bret and data.dt.havestage5 then
 			bret = self:_UpdateStage5();
+			if debug_ignore_5 then
+				bret = false;
+			end
+			if bret then
+				se:Push(SE_GAME_GAMEOVER, data.dt.stage5_cx);
+			end
+		end
+		
+		if debug_suicidekey > 0 then
+			if hge.Input_GetDIKey(debug_suicidekey, DIKEY_DOWN) then
+				bret = true;
+			end
 		end
 		
 		if bret then
 			self.state = STATE_OVER;
 			time = 0;
 			return PTURN;
+		else
+			data:UpdateScore(M_SCOREPERTIME, time);
 		end
 	end
 	

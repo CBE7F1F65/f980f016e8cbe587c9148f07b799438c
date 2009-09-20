@@ -20,6 +20,7 @@ LuaFunction<bool> * Process::exitfunc = NULL;
 
 OpenFileNameStruct Process::ofns;
 DialogBoxStruct Process::dbs;
+MessageBoxExStruct Process::mbes;
 
 Process::Process()
 {

@@ -65,6 +65,16 @@ BEGIN
     EDITTEXT        IDC_EDIT,7,23,172,14,ES_AUTOHSCROLL
 END
 
+IDD_DIALOG_EX DIALOGEX 0, 0, 186, 90
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | 
+    WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_EDIT_EX,7,7,172,76,ES_MULTILINE | ES_AUTOVSCROLL | 
+                    ES_READONLY | ES_WANTRETURN | NOT WS_BORDER
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //

@@ -19,7 +19,7 @@ function Process:Dead()
 	else
 		pausestr = pausetime.." pauses were recorded.";
 	end
-	global.MessageBox(name..", whose life lasted for "..(lifetime/M_INTTIMEFACTOR).." seconds ("..frames.." frames), has dead\n  peacefully in challenging "..difficultstr.." level.\n\nTotal Score: "..score..".\n\nDuring the whole life, "..pausestr, "Congratulations!");
+	global.MessageBoxEx(name..", whose life lasted for "..(lifetime/M_INTTIMEFACTOR).." seconds ("..frames.." frames), has dead peacefully in challenging "..difficultstr.." level.\r\n\r\nTotal Score: "..score..".\r\n\r\nDuring the whole life, "..pausestr, "Congratulations!");
 end
 
 function Process:SnapShot()

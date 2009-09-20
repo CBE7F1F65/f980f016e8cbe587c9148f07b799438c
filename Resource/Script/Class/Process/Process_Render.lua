@@ -32,6 +32,15 @@ function Process:Render()
 		hgeFont.printf(self.font, M_CLIENT_CENTER_X, M_CLIENT_TOP + 32, HGETEXT_CENTER, data:GetNowScore());
 	end
 	
+	if data.dt.displaybgmchange ~= nil and data.dt.displaybgmchange > 0 then
+		data.dt.displaybgmchange = data.dt.displaybgmchange - 1;
+		hgeFont.printf(self.font, M_CLIENT_CENTER_X, M_CLIENT_BOTTOM - 32, HGETEXT_CENTER, "BGM: "..self.bgmvol.."%");
+	end
+	if data.dt.displaysechange ~= nil and data.dt.displaysechange > 0 then
+		data.dt.displaysechange = data.dt.displaysechange - 1;
+		hgeFont.printf(self.font, M_CLIENT_CENTER_X, M_CLIENT_BOTTOM - 16, HGETEXT_CENTER, "SE: "..self.sevol.."%");
+	end
+	
 end
 
 function Process:RenderInitState()

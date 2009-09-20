@@ -75,6 +75,13 @@ function Music:MusicChange(stream, bforce)
 	end
 end
 
+function Music:SetVolume(vol)
+	if vol == nil then
+		vol = mp.bgmvol;
+	end
+	hge.Channel_SetVolume(self.channel, vol);
+end
+
 function Music:_GetSyncInfo(stream)
 	for i in pairs(self.stream) do
 		if self.stream[i] == stream then

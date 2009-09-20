@@ -47,6 +47,7 @@ bool Process::_LuaRegistFunction(LuaObject * obj)
 	_globalobj.Register("GetPrivateProfileString", LuaFn_Global_GetPrivateProfileString);
 	_globalobj.Register("WritePrivateProfileString", LuaFn_Global_WritePrivateProfileString);
 	_globalobj.Register("MessageBox", LuaFn_Global_MessageBox);
+	_globalobj.Register("MessageBoxEx", LuaFn_Global_MessageBoxEx);
 	_globalobj.Register("InputBox", LuaFn_Global_InputBox);
 	_globalobj.Register("SetOpenFileName", LuaFn_Global_SetOpenFileName);
 	_globalobj.Register("ReceiveOpenFileName", LuaFn_Global_ReceiveOpenFileName);
@@ -599,6 +600,41 @@ int Process::LuaFn_Global_MessageBox(LuaState * ls)
 	return 1;
 }
 
+BOOL CALLBACK Process::MessageBoxExProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	switch (uMsg)
+	{
+	case WM_INITDIALOG:
+		SetWindowText(hwndDlg, mbes.title);
+		SetDlgItemText(hwndDlg, IDC_EDIT_EX, mbes.str);
+		return TRUE;
+	case WM_CLOSE:
+		EndDialog(hwndDlg, 0);
+		return TRUE;
+	}
+	return FALSE;
+}
+
+int Process::LuaFn_Global_MessageBoxEx(LuaState * ls)
+{
+	LuaStack args(ls);
+	int iret;
+
+	ZeroMemory(&mbes, sizeof(MessageBoxExStruct));
+	int argscount = args.Count();
+	if (argscount > 0)
+	{
+		strcpy(mbes.str, args[1].GetString());
+		if (argscount > 1)
+		{
+			strcpy(mbes.title, args[2].GetString());
+		}
+	}
+	iret = DialogBox(NULL, MAKEINTRESOURCE(IDD_DIALOG_EX), hge->System_GetState(HGE_HWND), Process::MessageBoxExProc);
+	ls->PushBoolean(iret != -1);
+	return 1;
+}
+
 BOOL CALLBACK Process::DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg)
@@ -634,6 +670,7 @@ BOOL CALLBACK Process::DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM
 int Process::LuaFn_Global_InputBox(LuaState * ls)
 {
 	LuaStack args(ls);
+	int iret;
 
 	ZeroMemory(&dbs, sizeof(DialogBoxStruct));
 	int argscount = args.Count();
@@ -649,7 +686,7 @@ int Process::LuaFn_Global_InputBox(LuaState * ls)
 			}
 		}
 	}
-	int iret = DialogBox(NULL, MAKEINTRESOURCE(IDD_DIALOG), hge->System_GetState(HGE_HWND), Process::DialogProc);
+	iret = DialogBox(NULL, MAKEINTRESOURCE(IDD_DIALOG), hge->System_GetState(HGE_HWND), Process::DialogProc);
 	if (iret == -1)
 	{
 		ZeroMemory(&dbs, sizeof(DialogBoxStruct));

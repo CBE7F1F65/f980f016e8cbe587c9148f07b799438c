@@ -2,16 +2,6 @@ function Process:_UpdateStage4()
 	
 	local timer = data.dt.timer;
 	
-	if hge.Input_GetDIKey(self.keyUp, DIKEY_DOWN) then
-		if data.dt.stage4_playerypos > 0 then
-			data.dt.stage4_playerypos = data.dt.stage4_playerypos - 1;
-		end
-	end
-	if hge.Input_GetDIKey(self.keyDown, DIKEY_DOWN) then
-		if data.dt.stage4_playerypos < 4 then
-			data.dt.stage4_playerypos = data.dt.stage4_playerypos + 1;
-		end
-	end
 	spim.sprites.games.spstage4_player.y = self:_GetStage4Y(data.dt.stage4_playerypos);
 	
 	data.dt.stage4_alarm = false;
@@ -46,9 +36,34 @@ function Process:_UpdateStage4()
 		spim.sprites.games.spstage4.color = global.ARGB(M_STAGE_NORMALALPHA, M_STAGECOLOR_4);
 	end
 	
+	if debug_cheat_4 then
+		if data.dt.stage4_alarm then
+			if data.dt.stage4_playerypos ~= 0 then
+				if not hge.Input_GetDIKey(self.keyUp) then
+					hge.Input_SetDIKey(self.keyUp);
+				end
+			elseif not hge.Input_GetDIKey(self.keyDown) then
+				hge.Input_SetDIKey(self.keyDown);
+			end
+		end
+	end
+	if hge.Input_GetDIKey(self.keyUp, DIKEY_DOWN) then
+		if data.dt.stage4_playerypos > 0 then
+			data.dt.stage4_playerypos = data.dt.stage4_playerypos - 1;
+		end
+	end
+	if hge.Input_GetDIKey(self.keyDown, DIKEY_DOWN) then
+		if data.dt.stage4_playerypos < 4 then
+			data.dt.stage4_playerypos = data.dt.stage4_playerypos + 1;
+		end
+	end
+		
 	if failed then
 		return true;
 	end
+	
+	data:UpdateScore(1);
+	
 	return false;
 end
 

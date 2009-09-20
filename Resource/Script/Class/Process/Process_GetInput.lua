@@ -1,4 +1,31 @@
 function Process:GetInput()
+		
+	if hge.Input_GetDIKey(self.keyBGMDown) then
+		if self.bgmvol > 0 then
+			self.bgmvol = self.bgmvol - 1;
+		end
+		data.dt.displaybgmchange = M_DISPLAYTIME;
+		music:SetVolume();
+	end
+	if hge.Input_GetDIKey(self.keyBGMUp) then
+		if self.bgmvol < 100 then
+			self.bgmvol = self.bgmvol + 1;
+		end
+		data.dt.displaybgmchange = M_DISPLAYTIME;
+		music:SetVolume();
+	end
+	if hge.Input_GetDIKey(self.keySEDown) then
+		if self.sevol > 0 then
+			self.sevol = self.sevol - 1;
+		end
+		data.dt.displaysechange = M_DISPLAYTIME;
+	end
+	if hge.Input_GetDIKey(self.keySEUp) then
+		if self.sevol < 100 then
+			self.sevol = self.sevol + 1;
+		end
+		data.dt.displaysechange = M_DISPLAYTIME;
+	end
 	
 	local active, replaying = self:CheckActive();
 	if hge.Input_GetDIJoy(self.joySpace) then

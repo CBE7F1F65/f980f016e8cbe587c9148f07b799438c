@@ -15,6 +15,10 @@ function Process:_ResetStage3()
 	if data.dt.stage3_npop > data.dt.stage3_npopmax then
 		data.dt.stage3_npop = data.dt.stage3_npopmax;
 	end
+	
+	if debug_cheat_3 then
+		data.dt.debug_cheat_3_wait = true;
+	end
 end
 
 function Process:_UpdateStage3()
@@ -25,33 +29,60 @@ function Process:_UpdateStage3()
 		self:_ResetStage3();
 	end
 	
-	local bloose = false;
-	local breset = false;
+	local bLoose = false;
+	local bReset = false;
+	
+	if debug_cheat_3 then
+		if not data.dt.debug_cheat_3_wait then
+			if data.dt.stage3_rand == 1 then
+				if not hge.Input_GetDIKey(self.keyZ) then
+					hge.Input_SetDIKey(self.keyZ, true);
+				end
+				hge.Input_SetDIKey(self.keyX, false);
+				hge.Input_SetDIKey(self.keyC, false);
+			elseif data.dt.stage3_rand == 2 then
+				if not hge.Input_GetDIKey(self.keyX) then
+					hge.Input_SetDIKey(self.keyX, true);
+				end
+				hge.Input_SetDIKey(self.keyZ, false);
+				hge.Input_SetDIKey(self.keyC, false);
+			elseif data.dt.stage3_rand == 3 then
+				if not hge.Input_GetDIKey(self.keyC) then
+					hge.Input_SetDIKey(self.keyC, true);
+				end
+				hge.Input_SetDIKey(self.keyZ, false);
+				hge.Input_SetDIKey(self.keyX, false);
+			end
+		else
+			data.dt.debug_cheat_3_wait = false;
+		end
+	end
+	
 	if hge.Input_GetDIKey(self.keyZ, DIKEY_DOWN) then
 		if data.dt.stage3_rand ~= 1 then
-			bloose = true;
+			bLoose = true;
 		else
-			breset = true;
+			bReset = true;
 		end
 	end
 	if hge.Input_GetDIKey(self.keyX, DIKEY_DOWN) then
 		if data.dt.stage3_rand ~= 2 then
-			bloose = true;
+			bLoose = true;
 		else
-			breset = true;
+			bReset = true;
 		end
 	end
 	if hge.Input_GetDIKey(self.keyC, DIKEY_DOWN) then
 		if data.dt.stage3_rand ~= 3 then
-			bloose = true;
+			bLoose = true;
 		else
-			breset = true;
+			bReset = true;
 		end
 	end
-	if bloose then
+	if bLoose then
 		return true;
 	end
-	if breset then
+	if bReset then
 		self:_ResetStage3();
 	end
 	
@@ -68,13 +99,18 @@ function Process:_UpdateStage3()
 	end
 	spim.sprites.games.spstage3_slot.vscale = data.dt.stage3_npop;
 	
+	if bReset then
+		data:UpdateScore(data.dt.stage3_npoplast / 2);
+	end
+	
 	return false;
 end
 
 function Process:_InitStage3()
 	data.dt.stage3_npopmax = data.dt.stage3_y + data.dt.stage3_h - (data.dt.stage5_y + data.dt.stage5_h) - 8;
 	data.dt.stage3_npop = data.dt.stage3_npopmax;
-	data.dt.stage3_npopminus = data.dt.stage3_npopmax / 300;
+	data.dt.stage3_npoplast = 300;
+	data.dt.stage3_npopminus = data.dt.stage3_npopmax / data.dt.stage3_npoplast;
 	data.dt.stage3_npopadd = data.dt.stage3_npopmax / 3 * 2;
 	spim.sprites.games.spstage3_slot = spim:Push(true, SI_BLANK_POINT, 
 		data.dt.stage3_w + data.dt.stage3_x - 5, data.dt.stage5_y + data.dt.stage5_h + 4, 0, 8, data.dt.stage3_npop);

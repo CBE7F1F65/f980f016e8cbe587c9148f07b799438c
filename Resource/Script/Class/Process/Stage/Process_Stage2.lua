@@ -4,6 +4,14 @@ function Process:_UpdateStage2()
 	if timer == 1 then
 		self:_UpdateStage2BallAcc();
 	end
+	
+	if debug_cheat_2 then
+		if data.dt.stage2_barx > data.dt.stage2_ballx then
+			hge.Input_SetDIKey(self.keyLeft);
+		else
+			hge.Input_SetDIKey(self.keyRight);
+		end
+	end
 		
 	local movebarx = 0;
 	if hge.Input_GetDIKey(self.keyLeft) then
@@ -46,9 +54,11 @@ function Process:_UpdateStage2()
 	
 	nowangle = self:_RegularStage2Angle(nowangle);
 	
+	local bAddScore = false;
 	if absxdiff < trange then
 		if (data.dt.stage2_bally < data.dt.stage2_y + bounceedge and data.dt.stage2_bally >= data.dt.stage2_barytop and nowangle < 0) or
 			(data.dt.stage2_bally > data.dt.stage2_y + data.dt.stage2_h - bounceedge and data.dt.stage2_bally <= data.dt.stage2_barybottom and nowangle > 0) then
+			bAddScore = true;
 			if nowangle > 0 then
 				nowangle = hge.Random_Int(-135, -45);
 			else
@@ -80,6 +90,10 @@ function Process:_UpdateStage2()
 	else
 		spim.sprites.games.spstage2.color = global.ARGB(M_STAGE_NORMALALPHA, M_STAGECOLOR_2);
 	end
+	
+	if bAddScore then
+		data:UpdateScore(data.dt.stage2_averagelast);
+	end
 		
 	return false;
 end
@@ -110,6 +124,7 @@ function Process:_InitStage2()
 	data.dt.stage2_barytop = data.dt.stage2_y + data.dt.stage2_edge;
 	data.dt.stage2_barybottom = data.dt.stage2_y + data.dt.stage2_h - data.dt.stage2_edge;
 	data.dt.stage2_barlength = 45;
+	data.dt.stage2_averagelast = (data.dt.stage2_barybottom - data.dt.stage2_barytop) / data.dt.stage2_ballspeed * 1.2;
 	spim.sprites.games.spstage2_bartop = spim:Push(true, SI_BLANK_POINT,
 		data.dt.stage2_barx, data.dt.stage2_barytop, 0, data.dt.stage2_barlength, 4);
 	spim.sprites.games.spstage2_barbottom = spim:Push(true, SI_BLANK_POINT,

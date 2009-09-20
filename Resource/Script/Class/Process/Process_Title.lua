@@ -56,6 +56,8 @@ function Process:ProcessTitle()
 		elseif selret == 2 then
 			global.SetOpenFileName("Replay File (*.rpy)|*.rpy", "rpy", "Load Replay", export:GetReplayFolder());
 			data.dt.rpyloaded = true;
+		elseif selret == 3 then
+			return PQUIT;
 		end
 	end
 	
