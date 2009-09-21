@@ -131,6 +131,9 @@
 				Name="Core"
 				Filter="">
 				<File
+					RelativePath=".\Core\Export.cpp">
+				</File>
+				<File
 					RelativePath=".\Core\InitDllLoader.cpp">
 				</File>
 				<File
@@ -191,6 +194,9 @@
 				Filter="">
 				<File
 					RelativePath=".\Header\Const.h">
+				</File>
+				<File
+					RelativePath=".\Header\Export.h">
 				</File>
 				<File
 					RelativePath=".\Header\LuaConstDefine.h">

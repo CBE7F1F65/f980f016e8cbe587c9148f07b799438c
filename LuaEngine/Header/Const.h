@@ -43,7 +43,8 @@
 	#define INTER(A, B, X)			(((B)-(A))*(X)+(A))
 #endif
 
-#define DEFAULT_INITLUAFILE			"Init.lua"
+#define DEFAULT_LUAFILETABLEFILE	"Script/LuaFileTable.lua"
+#define DEFAULT_INITLUAFILE			"Script/Init.lua"
 #define LUAFN_SYSTEMINITIAL			"SystemInitial"
 #define LUAFN_HGEFRAMEFUNC			"hgeFrameFunc"
 #define LUAFN_HGERENDERFUNC			"hgeRenderFunc"
@@ -51,6 +52,8 @@
 #define LUAFN_HGEFOCUSGAINFUNC		"hgeFocusGainFunc"
 #define LUAFN_HGEGFXRESTOREFUNC		"hgeGfxRestoreFunc"
 #define LUAFN_HGEEXITFUNC			"hgeExitFunc"
+
+#define DEFAULT_LUAFILETABLENAME	"luaFileTable"
 
 #ifdef __RELEASE
 	#define DEFAULT_RESOURCEPATH	"Resource"

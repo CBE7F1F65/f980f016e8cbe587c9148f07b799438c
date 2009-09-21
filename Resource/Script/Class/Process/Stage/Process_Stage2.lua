@@ -124,7 +124,7 @@ function Process:_InitStage2()
 	data.dt.stage2_barytop = data.dt.stage2_y + data.dt.stage2_edge;
 	data.dt.stage2_barybottom = data.dt.stage2_y + data.dt.stage2_h - data.dt.stage2_edge;
 	data.dt.stage2_barlength = 45;
-	data.dt.stage2_averagelast = (data.dt.stage2_barybottom - data.dt.stage2_barytop) / data.dt.stage2_ballspeed * 1.2;
+	data.dt.stage2_averagelast = (data.dt.stage2_barybottom - data.dt.stage2_barytop) / data.dt.stage2_ballspeed * 1.1222;
 	spim.sprites.games.spstage2_bartop = spim:Push(true, SI_BLANK_POINT,
 		data.dt.stage2_barx, data.dt.stage2_barytop, 0, data.dt.stage2_barlength, 4);
 	spim.sprites.games.spstage2_barbottom = spim:Push(true, SI_BLANK_POINT,

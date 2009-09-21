@@ -1,23 +1,3 @@
-luaFileTable	=	{
-									"Script/Const.lua",
-									"Script/Global.lua",
-									"Script/CallBack.lua",
-									"Script/Class/*.lua",
-									"Script/Class/Table/*.lua",
-									"Script/Class/Export/*.lua",
-									"Script/Class/Process/*.lua",
-									"Script/Class/Process/Stage/*.lua",
-									"Script/Class/Data/*.lua",
-									"Script/Class/Data/Data/*.lua",
-									"Script/Class/Data/Texture/*.lua",
-									"Script/Class/Data/SEManager/*.lua",
-									"Script/Class/Data/Music/*.lua",
-									"Script/Class/Data/SpriteItemManager/*.lua",
-									"Script/Class/Data/EffectManager/*.lua",
-									"Script/Class/Util/*.lua",
-									"Script/Class/Util/Selector/*.lua",
-								}
-								
 function luaDoFiles()
 	for i in pairs(luaFileTable) do
 		local iret = luastate.DoFile(luaFileTable[i]);

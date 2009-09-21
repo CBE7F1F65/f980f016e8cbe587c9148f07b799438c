@@ -1,6 +1,7 @@
 #include "../Header/Process.h"
 #include "../Header/LuaConstDefine.h"
 #include "../resource_dialog.h"
+#include "../Header/Export.h"
 
 bool Process::LuaInitial()
 {
@@ -10,7 +11,13 @@ bool Process::LuaInitial()
 	LuaClearCallBackFunctions();
 	LuaRegistFunction();
 	LuaRegistConst();
-	int iret = state->DoFile(hge->Resource_MakePath(DEFAULT_INITLUAFILE));
+	int iret = Export::ReadLuaFileTable(state);//state->DoFile(hge->Resource_MakePath(DEFAULT_LUAFILETABLEFILE));
+	if (iret != 0)
+	{
+		_LuaHelper_ShowError(LUAERROR_LOADINGSCRIPT, state->GetError(iret));
+		return false;
+	}
+	iret = state->DoFile(hge->Resource_MakePath(DEFAULT_INITLUAFILE));
 	if (iret != 0)
 	{
 		_LuaHelper_ShowError(LUAERROR_LOADINGSCRIPT, state->GetError(iret));
@@ -944,8 +951,10 @@ int Process::LuaFn_LuaState_DoFile(LuaState * ls)
 	LuaStack args(ls);
 	int iret;
 
-	bool wildcard = false;
-	const char * filenamebuffer = args[1].GetString();
+//	bool wildcard = false;
+//	const char * filenamebuffer = args[1].GetString();
+	iret = Export::DoLuaFile(ls, args[1].GetString());
+	/*
 	for (int i=0; i<strlen(filenamebuffer); i++)
 	{
 		if (filenamebuffer[i] == '*')
@@ -973,7 +982,8 @@ int Process::LuaFn_LuaState_DoFile(LuaState * ls)
 		do 
 		{
 			sprintf(fullfilename, "%s%s", filepath, filename);
-			iret = ls->DoFile(fullfilename);
+			iret = luaL_dofile(ls->GetCState(), fullfilename);
+//			iret = ls->DoFile(fullfilename);
 			if (iret != 0)
 			{
 				break;
@@ -982,8 +992,10 @@ int Process::LuaFn_LuaState_DoFile(LuaState * ls)
 	}
 	else
 	{
-		iret = ls->DoFile(hge->Resource_MakePath(filenamebuffer));
+		iret = luaL_dofile(ls->GetCState(), filenamebuffer);
+//		iret = ls->DoFile(hge->Resource_MakePath(filenamebuffer));
 	}
+*/
 	if (iret != 0)
 	{
 		_LuaHelper_ShowError(LUAERROR_LOADINGSCRIPT, ls->GetError(iret));

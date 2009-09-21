@@ -1,5 +1,6 @@
 #include "../Header/Process.h"
 #include "../Header/LuaConstDefine.h"
+#include "../Header/Export.h"
 
 HGE * Process::hge;
 int Process::texnum = 0;
@@ -197,9 +198,12 @@ bool Process::ExitFunc()
 
 void Process::ClientInitial()
 {
+	hge = Export::InitHGE();
+	/*
 	hge = hgeCreate(HGE_VERSION);
 
 	hge->Resource_SetPath(DEFAULT_RESOURCEPATH);
+	*/
 
 	char respath[_MAX_PATH];
 	strcpy(respath, hge->Resource_MakePath(""));
@@ -268,5 +272,6 @@ void Process::Release()
 	_LuaHelper_hgeSprite_DeleteAllSprite();
 	_LuaHelper_hgeES_DeleteAllES();
 //	hge->System_Shutdown();
-	hge->Release();
+//	hge->Release();
+	hge = Export::ReleaseHGE();
 }

@@ -15,8 +15,6 @@ Save Account=0
 Create Tagfile=0
 CTags Legacy Support=0
 Working Time=227825
-[Files]
-0=Init.lua
 [Group]
 0=Script
 1=Script - Class
@@ -38,9 +36,10 @@ Working Time=227825
 0=Script\Global.lua
 1=Script\CallBack.lua
 2=Script\Const.lua
+3=Script\LuaFileTable.lua
+4=Script\Init.lua
 [Folders]
 Script=1
-Script - Class=1
 Script - Class - Data=1
 Script - Class - Data - Data=1
 Script - Class - Data - EffectManager=1
