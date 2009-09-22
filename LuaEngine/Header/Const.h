@@ -44,7 +44,10 @@
 #endif
 
 #define DEFAULT_LUAFILETABLEFILE	"Script/LuaFileTable.lua"
-#define DEFAULT_INITLUAFILE			"Script/Init.lua"
+#define DEFAULT_CONSTLUAFILE		"Script/Const.lua"
+#define DEFAULT_BINLUAFILE			"Script/Script.lua"
+#define DEFAULT_BINSCRIPTFILE		"Script.dat"
+#define DEFAULT_TEMPLUAFILE			"Script/Script.tmp"
 #define LUAFN_SYSTEMINITIAL			"SystemInitial"
 #define LUAFN_HGEFRAMEFUNC			"hgeFrameFunc"
 #define LUAFN_HGERENDERFUNC			"hgeRenderFunc"
@@ -53,7 +56,10 @@
 #define LUAFN_HGEGFXRESTOREFUNC		"hgeGfxRestoreFunc"
 #define LUAFN_HGEEXITFUNC			"hgeExitFunc"
 
-#define DEFAULT_LUAFILETABLENAME	"luaFileTable"
+#define M_SCRIPT_PASSWORD	0x4C7A3B60
+
+#define DEFAULT_LUAFILETABLENAME		"luaFileTable"
+#define DEFAULT_BUSEUNPACKEDFILESNAME	"bUseUnpackedFiles"
 
 #ifdef __RELEASE
 	#define DEFAULT_RESOURCEPATH	"Resource"

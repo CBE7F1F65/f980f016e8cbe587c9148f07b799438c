@@ -79,8 +79,6 @@ public:
 	static void ClientInitial();
 	static void Release();
 
-	static void _LuaHelper_ShowError(int errortype, const char * err);
-
 	static void _LuaHelper_PushDWORD(LuaState * ls, DWORD dval);
 	static DWORD _LuaHelper_GetDWORD(LuaObject * obj);
 	static void _LuaHelper_PushLONGLONG(LuaState * ls, LONGLONG llval);

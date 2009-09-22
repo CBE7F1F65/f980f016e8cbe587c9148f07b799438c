@@ -1,17 +1,17 @@
-function luaDoFiles()
-	for i in pairs(luaFileTable) do
-		local iret = luastate.DoFile(luaFileTable[i]);
-		if iret ~= 0 then
-			return false;
-		end
-	end
-	return true;
-end
+--function luaDoFiles()
+--	for i in pairs(luaFileTable) do
+--		local iret = luastate.DoFile(luaFileTable[i]);
+--		if iret ~= 0 then
+--			return false;
+--		end
+--	end
+--	return true;
+--end
 
 function SystemInitial()
-	if luaDoFiles() == false then
-		return false;
-	end
+--	if luaDoFiles() == false then
+--		return false;
+--	end
 	
 	if hge.System_GetState(HGE_LOGFILE) == "" then
 		hge.System_SetState(HGE_LOGFILE, LOG_STR_FILENAME);

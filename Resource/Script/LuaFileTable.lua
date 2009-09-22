@@ -1,6 +1,7 @@
 luaFileTable	=	{
 									"Script/Const.lua",
 									"Script/Global.lua",
+									"Script/Init.lua",
 									"Script/CallBack.lua",
 									"Script/Class/*.lua",
 									"Script/Class/Table/*.lua",
@@ -17,3 +18,4 @@ luaFileTable	=	{
 									"Script/Class/Util/*.lua",
 									"Script/Class/Util/Selector/*.lua",
 								}
+bUseUnpackedFiles = true;

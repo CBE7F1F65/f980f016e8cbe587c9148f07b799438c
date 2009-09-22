@@ -132,9 +132,22 @@ static void DumpString(const TString* s, DumpState* D)
  }
  else
  {
+	 const char * strtodump;
   size_t size=s->tsv.len+1;		/* include trailing '\0' */
+  /************************************************************************/
+  /*ToAdd                                                                 */
+  /************************************************************************/
+	 strtodump = getstr(s);
+/*
+	 if (strcmp(strtodump, "M_CLIENT_RIGHT"))
+	 {
+		 DumpNumber(640, D);
+		 return;
+	 }*/
+
+
   DumpVar(size,D);
-  DumpBlock(getstr(s),size,D);
+  DumpBlock(strtodump,size,D);
  }
 }
 

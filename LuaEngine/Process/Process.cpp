@@ -40,7 +40,7 @@ bool Process::FrameFunc()
 		LuaObject _obj = state->GetGlobal(LUAFN_HGEFRAMEFUNC);
 		if (!(_obj.IsFunction()))
 		{
-			_LuaHelper_ShowError(LUAERROR_NOTFUNCTION, LUAFN_HGEFRAMEFUNC);
+			Export::ShowError(LUAERROR_NOTFUNCTION, LUAFN_HGEFRAMEFUNC);
 			return true;
 		}
 		static LuaFunction<bool> _f = _obj;
@@ -50,7 +50,7 @@ bool Process::FrameFunc()
 	bool bret = (*framefunc)();
 	if (state->CheckError())
 	{
-		_LuaHelper_ShowError(LUAERROR_LUAERROR, state->GetError());
+		Export::ShowError(LUAERROR_LUAERROR, state->GetError());
 		return false;
 	}
 	DispatchOpenFileName();
@@ -68,7 +68,7 @@ bool Process::RenderFunc()
 		LuaObject _obj = state->GetGlobal(LUAFN_HGERENDERFUNC);
 		if (!(_obj.IsFunction()))
 		{
-			_LuaHelper_ShowError(LUAERROR_NOTFUNCTION, LUAFN_HGERENDERFUNC);
+			Export::ShowError(LUAERROR_NOTFUNCTION, LUAFN_HGERENDERFUNC);
 			return true;
 		}
 		static LuaFunction<bool> _f = _obj;
@@ -78,7 +78,7 @@ bool Process::RenderFunc()
 	bool bret = (*renderfunc)();
 	if (state->CheckError())
 	{
-		_LuaHelper_ShowError(LUAERROR_LUAERROR, state->GetError());
+		Export::ShowError(LUAERROR_LUAERROR, state->GetError());
 		return false;
 	}
 	return bret;
@@ -95,7 +95,7 @@ bool Process::FocusLostFunc()
 		LuaObject _obj = state->GetGlobal(LUAFN_HGEFOCUSLOSTFUNC);
 		if (!(_obj.IsFunction()))
 		{
-			_LuaHelper_ShowError(LUAERROR_NOTFUNCTION, LUAFN_HGEFOCUSLOSTFUNC);
+			Export::ShowError(LUAERROR_NOTFUNCTION, LUAFN_HGEFOCUSLOSTFUNC);
 			return true;
 		}
 		static LuaFunction<bool> _f = _obj;
@@ -105,7 +105,7 @@ bool Process::FocusLostFunc()
 	bool bret = (*focuslostfunc)();
 	if (state->CheckError())
 	{
-		_LuaHelper_ShowError(LUAERROR_LUAERROR, state->GetError());
+		Export::ShowError(LUAERROR_LUAERROR, state->GetError());
 		return true;
 	}
 	return bret;
@@ -122,7 +122,7 @@ bool Process::FocusGainFunc()
 		LuaObject _obj = state->GetGlobal(LUAFN_HGEFOCUSGAINFUNC);
 		if (!(_obj.IsFunction()))
 		{
-			_LuaHelper_ShowError(LUAERROR_NOTFUNCTION, LUAFN_HGEFOCUSGAINFUNC);
+			Export::ShowError(LUAERROR_NOTFUNCTION, LUAFN_HGEFOCUSGAINFUNC);
 			return true;
 		}
 		static LuaFunction<bool> _f = _obj;
@@ -132,7 +132,7 @@ bool Process::FocusGainFunc()
 	bool bret = (*focusgainfunc)();
 	if (state->CheckError())
 	{
-		_LuaHelper_ShowError(LUAERROR_LUAERROR, state->GetError());
+		Export::ShowError(LUAERROR_LUAERROR, state->GetError());
 		return true;
 	}
 	return bret;
@@ -149,7 +149,7 @@ bool Process::GfxRestoreFunc()
 		LuaObject _obj = state->GetGlobal(LUAFN_HGEGFXRESTOREFUNC);
 		if (!(_obj.IsFunction()))
 		{
-			_LuaHelper_ShowError(LUAERROR_NOTFUNCTION, LUAFN_HGEGFXRESTOREFUNC);
+			Export::ShowError(LUAERROR_NOTFUNCTION, LUAFN_HGEGFXRESTOREFUNC);
 			return true;
 		}
 		static LuaFunction<bool> _f = _obj;
@@ -159,7 +159,7 @@ bool Process::GfxRestoreFunc()
 	bool bret = (*gfxrestorefunc)();
 	if (state->CheckError())
 	{
-		_LuaHelper_ShowError(LUAERROR_LUAERROR, state->GetError());
+		Export::ShowError(LUAERROR_LUAERROR, state->GetError());
 		return true;
 	}
 	return bret;
@@ -176,7 +176,7 @@ bool Process::ExitFunc()
 		LuaObject _obj = state->GetGlobal(LUAFN_HGEEXITFUNC);
 		if (!(_obj.IsFunction()))
 		{
-			_LuaHelper_ShowError(LUAERROR_NOTFUNCTION, LUAFN_HGEEXITFUNC);
+			Export::ShowError(LUAERROR_NOTFUNCTION, LUAFN_HGEEXITFUNC);
 			return true;
 		}
 		static LuaFunction<bool> _f = _obj;
@@ -186,7 +186,7 @@ bool Process::ExitFunc()
 	bool bret = (*exitfunc)();
 	if (state->CheckError())
 	{
-		_LuaHelper_ShowError(LUAERROR_LUAERROR, state->GetError());
+		Export::ShowError(LUAERROR_LUAERROR, state->GetError());
 		return true;
 	}
 	return bret;

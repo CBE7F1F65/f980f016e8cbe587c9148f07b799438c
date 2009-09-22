@@ -12,21 +12,31 @@ bool Process::LuaInitial()
 	LuaRegistFunction();
 	LuaRegistConst();
 	int iret = Export::ReadLuaFileTable(state);//state->DoFile(hge->Resource_MakePath(DEFAULT_LUAFILETABLEFILE));
+	/*
 	if (iret != 0)
 	{
 		_LuaHelper_ShowError(LUAERROR_LOADINGSCRIPT, state->GetError(iret));
 		return false;
 	}
-	iret = state->DoFile(hge->Resource_MakePath(DEFAULT_INITLUAFILE));
+	*/
+//	iret = state->DoFile(hge->Resource_MakePath(DEFAULT_INITLUAFILE));
+	if (iret == 0)
+	{
+		iret = Export::PackLuaFiles(state);
+		if (iret != 0)
+		{
+			return false;
+		}
+	}
+	iret = Export::LoadPackedLuaFiles(state);
 	if (iret != 0)
 	{
-		_LuaHelper_ShowError(LUAERROR_LOADINGSCRIPT, state->GetError(iret));
 		return false;
 	}
 	LuaObject _obj = state->GetGlobal(LUAFN_SYSTEMINITIAL);
 	if (!(_obj.IsFunction()))
 	{
-		_LuaHelper_ShowError(LUAERROR_NOTFUNCTION, LUAFN_SYSTEMINITIAL);
+		Export::ShowError(LUAERROR_NOTFUNCTION, LUAFN_SYSTEMINITIAL);
 	}
 	LuaFunction<bool> systeminitial = _obj;
 	return systeminitial();
@@ -998,7 +1008,7 @@ int Process::LuaFn_LuaState_DoFile(LuaState * ls)
 */
 	if (iret != 0)
 	{
-		_LuaHelper_ShowError(LUAERROR_LOADINGSCRIPT, ls->GetError(iret));
+		Export::ShowError(LUAERROR_LOADINGSCRIPT, ls->GetError(iret));
 	}
 
 	ls->PushInteger(iret);
@@ -1180,29 +1190,4 @@ int Process::LuaFn_LuaState_RShift(LuaState * ls)
 
 	ls->PushInteger(iret);
 	return 1;
-}
-
-void Process::_LuaHelper_ShowError(int errortype, const char * err)
-{
-	char msgtitle[M_MESSAGESTRMAX];
-	switch (errortype)
-	{
-	case LUAERROR_LOADINGSCRIPT:
-		strcpy(msgtitle, "Error in loading script!");
-		break;
-	case LUAERROR_NOTFUNCTION:
-		strcpy(msgtitle, "Error in getting function!");
-		break;
-	case LUAERROR_LUAERROR:
-		strcpy(msgtitle, "Error in parsing function!");
-		break;
-	default:
-		strcpy(msgtitle, "Error!");
-	}
-	MessageBox(hge->System_GetState(HGE_HWND), err, msgtitle, MB_OK);
-	if (!hge->System_GetState(HGE_LOGFILE) || !strlen(hge->System_GetState(HGE_LOGFILE)))
-	{
-		hge->System_SetState(HGE_LOGFILE, LOG_STR_FILENAME);
-	}
-	hge->System_Log("%s: %s", msgtitle, err);
 }
