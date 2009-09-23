@@ -266,6 +266,7 @@ bool Process::ReleaseOpenFileNameContent()
 void Process::Release()
 {
 	ReleaseOpenFileNameContent();
+	Export::Release(state);
 	_LuaHelper_FreeAll();
 	_LuaHelper_hge_DeleteAllTexture();
 	_LuaHelper_hgeFont_DeleteAllFont();

@@ -30,6 +30,108 @@ typedef struct {
 #endif /* LUA_ENDIAN_SUPPORT */
 } DumpState;
 
+
+typedef struct _DumpConstStruct
+{
+	char constname[0x40];
+	lu_byte type;
+	union {
+		int bval;
+		lua_Number lnval;
+#if LUA_WIDESTRING
+		lua_WChar wsval[0x40];
+#endif /* LUA_WIDESTRING */
+		char sval[0x40];
+	};
+	struct _DumpConstStruct * next;
+} DumpConstStruct;
+
+DumpConstStruct * _dumpconststructlist = NULL;
+
+void luaU_DumpPushLuaConst(
+							  const char * name, 
+							  lu_byte type, 
+							  const lua_Number lnval, int bval,
+							  const char * sval
+#if LUA_WIDESTRING
+							  ,const lua_WChar * wsval
+#endif /* LUA_WIDESTRING */
+							  )
+{
+	DumpConstStruct * list = _dumpconststructlist;
+	DumpConstStruct ** topushlist = &_dumpconststructlist;
+	if (list)
+	{
+		while (list->next)
+		{
+			list = list->next;
+		}
+		topushlist = &(list->next);
+		list = list->next;
+	}
+	list = (DumpConstStruct *)malloc(sizeof(DumpConstStruct));
+	list->next = NULL;
+	*topushlist = list;
+	/*
+	if (!_dumpconststructlist)
+	{
+		_dumpconststructlist = list;
+	}
+	*/
+	strcpy(list->constname, name);
+	list->type = type;
+	switch (type)
+	{
+	case LUA_TNIL:
+		break;
+	case LUA_TSTRING:
+		strcpy(list->sval, sval);
+		break;
+#if LUA_WIDESTRING
+	case LUA_TWSTRING:
+		wcscpy(list->wsval, wsval);
+#endif;/* LUA_WIDESTRING */
+	case LUA_TNUMBER:
+		list->lnval = lnval;
+		break;
+	case LUA_TBOOLEAN:
+		list->bval = bval;
+		break;
+	default:
+		lua_assert(0);
+		break;
+	}
+}
+
+static void Dump_DeleteLuaConst(DumpConstStruct * list)
+{
+	if (list)
+	{
+		Dump_DeleteLuaConst(list->next);
+		free(list);
+		list = NULL;
+	}
+}
+
+void luaU_DumpDeleteAllLuaConst()
+{
+	Dump_DeleteLuaConst(_dumpconststructlist);
+}
+
+static DumpConstStruct * Dump_CheckIsLuaConst(const char * name)
+{
+	DumpConstStruct * list = _dumpconststructlist;
+	while (list)
+	{
+		if (!strcmp(name, list->constname))
+		{
+			return list;
+		}
+		list = list->next;
+	}
+	return NULL;
+}
+
 #define DumpMem(b,n,size,D)	DumpBlock(b,(n)*(size),D)
 
 #if LUA_ENDIAN_SUPPORT
@@ -123,6 +225,38 @@ static void DumpVector(const void* b, size_t n, size_t size, DumpState* D)
 #endif /* LUA_ENDIAN_SUPPORT */
 }
 
+static void DumpString_s(const char * sval, DumpState * D)
+{
+	if (sval == NULL)
+	{
+		size_t size = 0;
+		DumpVar(size, D);
+	}
+	else
+	{
+		size_t size = strlen(sval) + 1;
+		DumpVar(size, D);
+		DumpBlock(sval, size, D);
+	}
+}
+
+#if LUA_WIDESTRING
+static void DumpWString_s(const lua_WChar * wsval, DumpState * D)
+{
+	if (wsval == NULL)
+	{
+		size_t size = 0;
+		DumpVar(size, D);
+	}
+	else
+	{
+		size_t size = wcslen(wsval) + 1;
+		DumpVar(size, D);
+		DumpVector(wsval, size, 2, D);
+	}
+}
+#endif /* LUA_WIDESTRING */
+
 static void DumpString(const TString* s, DumpState* D)
 {
  if (s==NULL || getstr(s)==NULL)
@@ -132,20 +266,34 @@ static void DumpString(const TString* s, DumpState* D)
  }
  else
  {
-	 const char * strtodump;
   size_t size=s->tsv.len+1;		/* include trailing '\0' */
   /************************************************************************/
   /*ToAdd                                                                 */
   /************************************************************************/
-	 strtodump = getstr(s);
-/*
-	 if (strcmp(strtodump, "M_CLIENT_RIGHT"))
-	 {
-		 DumpNumber(640, D);
-		 return;
-	 }*/
-
-
+  const char * strtodump;
+  DumpConstStruct * pos;
+  strtodump = getstr(s);
+  pos = Dump_CheckIsLuaConst(strtodump);
+  if (pos)
+  {
+	  switch (pos->type)
+	  {
+	  case LUA_TBOOLEAN:
+		  DumpChar(pos->bval,D);
+		  return;
+	  case LUA_TNUMBER:
+		  DumpNumber(pos->lnval,D);
+		  return;
+	  case LUA_TSTRING:
+		  DumpString_s(pos->sval,D);
+		  return;
+#if LUA_WIDESTRING
+	  case LUA_TWSTRING:
+		  DumpWString_s(pos->wsval,D);
+		  return;
+#endif /* LUA_WIDESTRING */
+	  }
+  }
   DumpVar(size,D);
   DumpBlock(strtodump,size,D);
  }
@@ -180,26 +328,41 @@ static void DumpConstants(const Proto* f, DumpState* D)
  for (i=0; i<n; i++)
  {
   const TValue* o=&f->k[i];
-  DumpChar(ttype(o),D);
+  DumpConstStruct * pos = NULL;
   switch (ttype(o))
   {
-   case LUA_TNIL:
+  case LUA_TNIL:
+	  DumpChar(ttype(o),D);
 	break;
-   case LUA_TBOOLEAN:
+  case LUA_TBOOLEAN:
+	  DumpChar(ttype(o),D);
 	DumpChar(bvalue(o),D);
 	break;
-   case LUA_TNUMBER:
+  case LUA_TNUMBER:
+	  DumpChar(ttype(o),D);
 	DumpNumber(nvalue(o),D);
 	break;
-   case LUA_TSTRING:
+  case LUA_TSTRING:
+//	  DumpChar(ttype(o),D);
+	  pos = Dump_CheckIsLuaConst(getstr(rawtsvalue(o)));
+	  if (pos)
+	  {
+		  DumpChar(pos->type, D);
+	  }
+	  else
+	  {
+		  DumpChar(ttype(o), D);
+	  }
 	DumpString(rawtsvalue(o),D);
 	break;
 #if LUA_WIDESTRING
-   case LUA_TWSTRING:
+  case LUA_TWSTRING:
+	  DumpChar(ttype(o),D);
 	DumpWString(rawtsvalue(o),D);
 	break;
 #endif /* LUA_WIDESTRING */
-   default:
+  default:
+	  DumpChar(ttype(o),D);
 	lua_assert(0);			/* cannot happen */
 	break;
   }

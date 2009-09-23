@@ -131,6 +131,7 @@ public:
 	static int LuaFn_LuaState_Not(LuaState * ls);
 	static int LuaFn_LuaState_LShift(LuaState * ls);
 	static int LuaFn_LuaState_RShift(LuaState * ls);
+	static int LuaFn_LuaState_ReadLineInContent(LuaState * ls);
 
 	/* HGE */
 	static DWORD _LuaHelper_GetColor(LuaObject * obj);

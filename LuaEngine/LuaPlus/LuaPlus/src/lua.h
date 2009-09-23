@@ -224,6 +224,12 @@ LUA_API int   (lua_wload) (lua_State *L, lua_Reader reader, void *data,
 
 LUA_API int (lua_dump) (lua_State *L, lua_Writer writer, void *data);
 
+LUA_API void (lua_dump_pushconst)(const char * name, unsigned char type, const lua_Number lnval /* = 0 */, int bval /* = 0 */, const char * sval /* = NULL  */
+#if LUA_WIDESTRING
+								  ,const lua_WChar * wsval /* = NULL */ 
+#endif
+								  );
+LUA_API void (lua_dump_deleteconst)();
 
 /*
 ** coroutine functions

@@ -222,6 +222,3 @@ M_SCOREPERTIME	=	6
 
 M_FASTFRAMESKIP			= -3
 M_DEFAULT_FRAMESKIP	= 1;
-
-MB	=	global.MessageBox;
-LOG	=	hge.System_Log;

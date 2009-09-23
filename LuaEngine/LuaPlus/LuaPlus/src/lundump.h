@@ -34,6 +34,17 @@ LUAI_FUNC int luaU_dump (lua_State* L, const Proto* f, lua_Writer w, void* data,
 LUAI_FUNC void luaU_print (const Proto* f, int full);
 #endif
 
+LUAI_FUNC void luaU_DumpPushLuaConst(
+							  const char * name, 
+							  lu_byte type, 
+							  const lua_Number lnval, int bval,
+							  const char * sval
+#if LUA_WIDESTRING
+							  ,const lua_WChar * wsval
+#endif /* LUA_WIDESTRING */
+							  );
+LUAI_FUNC void luaU_DumpDeleteAllLuaConst();
+
 /* for header of binary files -- this is Lua 5.1 */
 #define LUAC_VERSION		0x51
 

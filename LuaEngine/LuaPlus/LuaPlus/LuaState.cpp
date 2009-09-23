@@ -368,6 +368,24 @@ int LuaState::DoBuffer( const char *buff, size_t size, const char *name, LuaObje
 	return aux_do(LuaState_to_lua_State(this), status);
 }
 
+void LuaState::DumpPushLuaConst( const char * name, lu_byte type, const lua_Number lnval /* = 0 */, int bval /* = 0 */, const char * sval /* = NULL  */
+#if LUA_WIDESTRING
+								 ,const lua_WChar * wsval /* = NULL */ 
+#endif
+								 )
+{
+	lua_dump_pushconst(name, type, lnval, bval, sval
+#if LUA_WIDESTRING
+		, wsval
+#endif
+		);
+}
+
+void LuaState::DumpDeleteAllLuaConst()
+{
+	lua_dump_deleteconst();
+}
+
 
 namespace LuaHelper {
 

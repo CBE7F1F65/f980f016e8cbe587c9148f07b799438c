@@ -4,6 +4,8 @@
 
 HGE * Export::hge = NULL;
 
+//#define EXPORT_DUMPLUAUSINGCONST
+
 Export::Export()
 {
 }
@@ -11,6 +13,13 @@ Export::Export()
 Export::~Export()
 {
 	ReleaseHGE();
+}
+
+void Export::Release(LuaState * ls /* = NULL */)
+{
+#ifdef EXPORT_DUMPLUAUSINGCONST
+	ls->DumpDeleteAllLuaConst();
+#endif // EXPORT_DUMPLUAUSINGCONST
 }
 
 HGE * Export::InitHGE()
@@ -33,13 +42,63 @@ HGE * Export::ReleaseHGE()
 	return hge;
 }
 
-int Export::ReadLuaFileTable(LuaState * ls)
+int Export::ReadLuaFileTableAndConst(LuaState * ls)
 {
 	if (_access(hge->Resource_MakePath(DEFAULT_LUAFILETABLEFILE), 0) == -1)
 	{
 		return -1;
 	}
-	return DoLuaFile(ls, DEFAULT_LUAFILETABLEFILE);
+	int iret;
+	iret = DoLuaFile(ls, DEFAULT_LUAFILETABLEFILE);
+	if (iret == 0)
+	{
+		if (_access(hge->Resource_MakePath(DEFAULT_LUACONSTFILE), 0) != -1)
+		{
+			iret = DoLuaFile(ls, DEFAULT_LUACONSTFILE);
+#ifdef EXPORT_DUMPLUAUSINGCONST
+			if (iret == 0)
+			{
+				LuaObject _obj = ls->GetGlobals();
+				for (LuaTableIterator it(_obj); it; ++it)
+				{
+					const char * constname = (it.GetKey()).GetString();
+					LuaObject __obj = it.GetValue();
+					switch (__obj.Type())
+					{
+					case LUA_TNUMBER:
+						ls->DumpPushLuaConst(constname, LUA_TNUMBER, __obj.GetNumber(), 0, NULL
+#if LUA_WIDESTRING
+							,NULL
+#endif
+							);
+						break;
+					case LUA_TBOOLEAN:
+						ls->DumpPushLuaConst(constname, LUA_TBOOLEAN, 0, (int)__obj.GetBoolean(), NULL
+#if LUA_WIDESTRING
+							,NULL
+#endif
+							);
+						break;
+					case LUA_TSTRING:
+						ls->DumpPushLuaConst(constname, LUA_TSTRING, 0, 0, __obj.GetString()
+#if LUA_WIDESTRING
+							,NULL
+#endif
+							);
+						break;
+#if LUA_WIDESTRING
+					case LUA_TWSTRING:
+						ls->DumpPushLuaConst(constname, LUA_TNUMBER, __obj.GetNumber(), 0, __obj.GetWString());
+						break;
+#endif
+					}
+					it.GetValue();
+				}
+			}
+#endif /* EXPORT_DUMPLUAUSINGCONST */
+		}
+	}
+	return iret;
 }
 
 int Export::_LoadLuaFile(LuaState * ls, const char * filename, bool bDoFile /* = false */, int * filecount /* = NULL */, FILE * outputfile /* = NULL */)
@@ -170,6 +229,7 @@ int Export::PackLuaFiles(LuaState * ls)
 	bool bUseUnpackedFiles = CheckUseUnpackedFiles(ls);
 	LuaObject _obj = ls->GetGlobals().GetByName(DEFAULT_LUAFILETABLENAME);
 	FILE * tempoutputfile = fopen(hge->Resource_MakePath(DEFAULT_TEMPLUAFILE), "wb");
+//	LoadLuaFile(ls, DEFAULT_LUACONSTFILE, bUseUnpackedFiles, &filecount, tempoutputfile);
 	for (int i=1; i<=_obj.GetCount(); i++)
 	{
 		iret = LoadLuaFile(ls, _obj.GetByIndex(i).GetString(), bUseUnpackedFiles, &filecount, tempoutputfile);
@@ -223,6 +283,10 @@ int Export::LoadPackedLuaFiles(LuaState * ls)
 	DWORD size = 0;
 	BYTE * content = hge->Resource_Load(DEFAULT_BINLUAFILE, &size);
 	iret = DoLuaFileInMemroy(ls, (const char *)content, size, DEFAULT_BINLUAFILE);
+	if (iret != 0)
+	{
+		ShowError(LUAERROR_LOADINGSCRIPT, ls->GetError(iret));
+	}
 	hge->Resource_Free(content);
 	DeleteFile(hge->Resource_MakePath(DEFAULT_BINLUAFILE));
 	return iret;

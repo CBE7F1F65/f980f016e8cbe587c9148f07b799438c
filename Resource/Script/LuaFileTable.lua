@@ -18,4 +18,4 @@ luaFileTable	=	{
 									"Script/Class/Util/*.lua",
 									"Script/Class/Util/Selector/*.lua",
 								}
-bUseUnpackedFiles = true;
+bUseUnpackedFiles = false;

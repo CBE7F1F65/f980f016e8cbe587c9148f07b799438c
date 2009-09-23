@@ -53,6 +53,7 @@ function Process:_IniFileRebuild(inifilename)
 end
 
 function Process:ProcessPreInitial()
+	
 	local inifilename = hge.Resource_MakePath(hge.System_GetState(HGE_INIFILE, CONFIG_STR_FILENAME));
 	if io.open(inifilename, "r") == nil then
 		self:_IniFileRebuild(inifilename);
@@ -134,6 +135,12 @@ function Process:ProcessPreInitial()
 	else
 		self.texInit = NULL;
 	end
+	
+	hge.Resource_AttachPack("Data.pck", export:GetPassword());
+	hge.Resource_AttachPack("Se.pck", export:GetPassword());
+	hge.Resource_AttachPack("Effect.pck", export:GetPassword());
+	hge.Resource_AttachPack("Graphic.pck", export:GetPassword());
+	hge.Resource_AttachPack("Music.pck", export:GetPassword());
 	
 	export:GetUsername();
 	

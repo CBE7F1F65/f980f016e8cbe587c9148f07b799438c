@@ -118,11 +118,11 @@
 	</Configurations>
 	<Files>
 		<File 
+			RelativePath=".\Core\Export.cpp"/>
+		<File 
 			RelativePath=".\Core\InitDllLoader.cpp"/>
 		<File 
 			RelativePath=".\Core\Main.cpp"/>
-		<File 
-			RelativePath=".\Core\Export.cpp"/>
 		<File 
 			RelativePath=".\Class\DataFactory.cpp"/>
 		<File 
@@ -150,6 +150,8 @@
 		<File 
 			RelativePath=".\Header\Const.h"/>
 		<File 
+			RelativePath=".\Header\Export.h"/>
+		<File 
 			RelativePath=".\Header\LuaConstDefine.h"/>
 		<File 
 			RelativePath=".\Header\Main.h"/>
@@ -157,8 +159,6 @@
 			RelativePath=".\Header\MainDependency.h"/>
 		<File 
 			RelativePath=".\Header\Process.h"/>
-		<File 
-			RelativePath=".\Header\Export.h"/>
 		<File 
 			RelativePath=".\Header\DataFactory.h"/>
 		<File 

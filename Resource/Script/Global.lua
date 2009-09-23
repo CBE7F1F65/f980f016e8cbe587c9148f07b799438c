@@ -1,3 +1,6 @@
+MB	=	global.MessageBox;
+LOG	=	hge.System_Log;
+
 time = 0;
 debugflag = 0;
 

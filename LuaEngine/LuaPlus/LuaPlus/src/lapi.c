@@ -1020,6 +1020,24 @@ LUA_API int lua_dump (lua_State *L, lua_Writer writer, void *data) {
   return status;
 }
 
+LUA_API void lua_dump_pushconst(const char * name, lu_byte type, const lua_Number lnval /* = 0 */, int bval /* = 0 */, const char * sval /* = NULL  */
+#if LUA_WIDESTRING
+								,const lua_WChar * wsval /* = NULL */ 
+#endif
+)
+{
+	luaU_DumpPushLuaConst(name, type, lnval, bval, sval
+#if LUA_WIDESTRING
+		,wsval
+#endif
+		);
+}
+
+LUA_API void lua_dump_deleteconst()
+{
+	luaU_DumpDeleteAllLuaConst();
+}
+
 
 #if LUA_ENDIAN_SUPPORT
 LUA_API int lua_dumpendian (lua_State *L, lua_Writer writer, void *data, int strip, char endian) {

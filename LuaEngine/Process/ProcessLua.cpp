@@ -11,15 +11,7 @@ bool Process::LuaInitial()
 	LuaClearCallBackFunctions();
 	LuaRegistFunction();
 	LuaRegistConst();
-	int iret = Export::ReadLuaFileTable(state);//state->DoFile(hge->Resource_MakePath(DEFAULT_LUAFILETABLEFILE));
-	/*
-	if (iret != 0)
-	{
-		_LuaHelper_ShowError(LUAERROR_LOADINGSCRIPT, state->GetError(iret));
-		return false;
-	}
-	*/
-//	iret = state->DoFile(hge->Resource_MakePath(DEFAULT_INITLUAFILE));
+	int iret = Export::ReadLuaFileTableAndConst(state);
 	if (iret == 0)
 	{
 		iret = Export::PackLuaFiles(state);
@@ -87,6 +79,7 @@ bool Process::_LuaRegistFunction(LuaObject * obj)
 	_luastateobj.Register("Not", LuaFn_LuaState_Not);
 	_luastateobj.Register("LShift", LuaFn_LuaState_LShift);
 	_luastateobj.Register("RShift", LuaFn_LuaState_RShift);
+	_luastateobj.Register("ReadLineInContent", LuaFn_LuaState_ReadLineInContent);
 
 	return true;
 }
@@ -151,6 +144,7 @@ DWORD Process::_LuaHelper_GetDWORD(LuaObject * obj)
 	}
 	else
 	{
+
 		lua_Number lnval = obj->GetNumber();
 		dret = CUINTN(lnval);
 	}
@@ -1190,4 +1184,53 @@ int Process::LuaFn_LuaState_RShift(LuaState * ls)
 
 	ls->PushInteger(iret);
 	return 1;
+}
+
+int Process::LuaFn_LuaState_ReadLineInContent(LuaState * ls)
+{
+	LuaStack args(ls);
+	char sret[M_STRINGMAX * 8];
+	DWORD dret;
+
+	LuaObject _obj = args[1];
+	DWORD content = _LuaHelper_GetDWORD(&_obj);
+	dret = content;
+	_obj = args[2];
+	DWORD size = _LuaHelper_GetDWORD(&_obj);
+	int i=0;
+	strcpy(sret, "");
+	if (dret < content + size)
+	{
+		char buffer = *(char*)dret;
+		while (buffer != '\r' && buffer != '\n')
+		{
+			sret[i] = buffer;
+			i++;
+			dret++;
+			if (dret >= content + size)
+			{
+				dret = content + size;
+				break;
+			}
+			buffer = *(char*)dret;
+		}
+		sret[i] = 0;
+		if (buffer == '\r')
+		{
+			if (*(((char*)dret)+1) == '\n')
+			{
+				dret++;
+			}
+		}
+		if (dret < content + size)
+		{
+			dret++;
+		}
+		size -= dret - content;
+	}
+
+	_LuaHelper_PushString(ls, sret);
+	_LuaHelper_PushDWORD(ls, dret);
+	_LuaHelper_PushDWORD(ls, size);
+	return 3;
 }

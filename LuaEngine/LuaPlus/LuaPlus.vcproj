@@ -266,7 +266,7 @@
 				RelativePath="LuaPlus\src\ldo.h">
 			</File>
 			<File
-				RelativePath="LuaPlus\src\ldump.c">
+				RelativePath=".\LuaPlus\src\ldump.c">
 			</File>
 			<File
 				RelativePath="LuaPlus\src\lfunc.c">

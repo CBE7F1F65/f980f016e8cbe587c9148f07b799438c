@@ -12,6 +12,8 @@ public:
 	static HGE * InitHGE();
 	static HGE * ReleaseHGE();
 
+	static void Release(LuaState * ls = NULL);
+
 	static int LoadLuaFile(LuaState * ls, const char * filename, bool bDoFile = false, int * filecount = NULL, FILE * outputfile = NULL);
 private:
 	static int _LoadLuaFile(LuaState * ls, const char * filename, bool bDoFile = false, int * filecount = NULL, FILE * outputfile = NULL);
@@ -26,7 +28,7 @@ public:
 
 	static int LuaChunkWriter(lua_State *L, const void* p, size_t sz, void* ud);
 
-	static int ReadLuaFileTable(LuaState * ls);
+	static int ReadLuaFileTableAndConst(LuaState * ls);
 
 	static void ShowError(int errortype, const char * err);
 public:

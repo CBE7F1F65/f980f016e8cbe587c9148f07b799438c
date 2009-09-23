@@ -238,6 +238,17 @@ public:
 	bool DumpGlobals(const char* filename, unsigned int flags = DUMP_ALPHABETICAL, unsigned int maxIndentLevel = 0xFFFFFFFF);
 	bool DumpGlobals(LuaStateOutFile& file, unsigned int flags = DUMP_ALPHABETICAL, unsigned int maxIndentLevel = 0xFFFFFFFF);
 
+	void DumpPushLuaConst(
+		const char * name, 
+		unsigned char type, 
+		const lua_Number lnval = 0, int bval = 0,
+		const char * sval = NULL
+#if LUA_WIDESTRING
+		,const lua_WChar * wsval = NULL
+#endif /* LUA_WIDESTRING */
+		);
+	void DumpDeleteAllLuaConst();
+
 	operator lua_State*()						{  return (lua_State*)this;  }
 	lua_State* GetCState()						{  return (lua_State*)this;  }
 

@@ -20,6 +20,10 @@ function Table:_GetCell(linestr, charformat, initpos)
 	return substr, endpos;
 end
 
+function Table:_ReadLine(content, size)
+	return luastate.ReadLineInContent(content, size);
+end
+
 function Table:GetTableFileData(filename, strformat)
 	
 	local tabledata = {};
@@ -28,9 +32,22 @@ function Table:GetTableFileData(filename, strformat)
 		return nil;
 	end
 	
-	filename = hge.Resource_MakePath(filename);
-	local file = io.open(filename, "r");
-	local linestr = file:read();
+	local fullfilename = hge.Resource_MakePath(filename);
+	local file = io.open(fullfilename, "r");
+	local content, size;
+	local oringinalcontent;
+	
+	if file == nil then
+		content, size = hge.Resource_Load(filename);
+		oringinalcontent = content;
+	end
+	
+	local linestr;
+	if file ~= nil then
+		linestr = file:read();
+	else
+		linestr, content, size = self:_ReadLine(content, size);
+	end
 	local linecount = 0;
 	
 	strformat = string.lower(strformat);
@@ -41,9 +58,13 @@ function Table:GetTableFileData(filename, strformat)
 	end
 	
 	local initpos;
-	while true do
-		linestr = file:read();
-		if linestr == nil then
+		while true do
+		if file ~= nil then
+			linestr = file:read();
+		else
+			linestr, content, size = self:_ReadLine(content, size);
+		end
+		if linestr == nil or linestr == "" then
 			break;
 		end
 		linecount = linecount + 1;
@@ -53,7 +74,11 @@ function Table:GetTableFileData(filename, strformat)
 		end
 	end
 	
-	file:close();
+	if file ~= nil then
+		file:close();
+	else
+		hge.Resource_Free(oringinalcontent);
+	end
 	
 	return tabledata, linecount;
 end

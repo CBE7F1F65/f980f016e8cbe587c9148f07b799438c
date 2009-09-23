@@ -44,7 +44,7 @@
 #endif
 
 #define DEFAULT_LUAFILETABLEFILE	"Script/LuaFileTable.lua"
-#define DEFAULT_CONSTLUAFILE		"Script/Const.lua"
+#define DEFAULT_LUACONSTFILE		"Script/Const.lua"
 #define DEFAULT_BINLUAFILE			"Script/Script.lua"
 #define DEFAULT_BINSCRIPTFILE		"Script.dat"
 #define DEFAULT_TEMPLUAFILE			"Script/Script.tmp"
