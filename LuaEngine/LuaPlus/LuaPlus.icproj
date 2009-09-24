@@ -5,7 +5,7 @@
 	Name="LuaPlus"
 	ProjectGUID="{ACB58A18-DE6E-4C2F-BC64-93C8673CBEBE}"
 	VCNestedProjectGUID="{9C233F9B-D3AF-4C38-8743-45898A100640}"
-	VCNestedProjectCRC32="2670267012"
+	VCNestedProjectCRC32="2396473941"
 	VCNestedProjectFileName="LuaPlus.vcproj"
 	Keyword="Win32Proj">
 	<Configurations>
@@ -53,6 +53,55 @@
 		</Configuration>
 		<Configuration 
 			Name="Release|Win32">
+			<Tool 
+				Name="GeneralTool"
+				OutputDirectory="Release"
+				IntermediateDirectory="Release"
+				ConfigurationType="4"
+				CharacterSet="2"
+				WholeProgramOptimization="1"/>
+			<Tool 
+				Name="CppCmplrTool"
+				Optimization="1000"
+				GlobalOptimizations="1"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="1"
+				ImproveFloatingPointConsistency="1"
+				FavorSizeOrSpeed="1"
+				OmitFramePointers="1"
+				EnableFiberSafeOptimizations="1"
+				OptimizeForWindowsApplication="1"
+				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
+				RuntimeLibrary="0"
+				UsePrecompiledHeader="0"
+				WarningLevel="1"
+				Detect64BitPortabilityProblems="0"
+				DebugInformationFormat="0"/>
+			<Tool 
+				Name="LinkerTool"
+				DelayImpLib=""/>
+			<Tool 
+				Name="LibrarianTool"
+				OutputFile="$(OutDir)/LuaPlus.lib"/>
+			<Tool 
+				Name="ResCmplrTool"/>
+			<Tool 
+				Name="MidlCmplrTool"/>
+			<Tool 
+				Name="BscMakeTool"/>
+			<Tool 
+				Name="PreBuildEventTool"/>
+			<Tool 
+				Name="PreLinkEventTool"/>
+			<Tool 
+				Name="PostBuildEventTool"/>
+			<Tool 
+				Name="CustomTool"/>
+			<Tool 
+				Name="CustomNodeTool"/>
+		</Configuration>
+		<Configuration 
+			Name="Final_Release|Win32">
 			<Tool 
 				Name="GeneralTool"
 				OutputDirectory="Release"
@@ -201,6 +250,8 @@
 		<File 
 			RelativePath=".\LuaPlus\src\ldo.h"/>
 		<File 
+			RelativePath=".\LuaPlus\src\ldump.c"/>
+		<File 
 			RelativePath=".\LuaPlus\src\lfunc.c"/>
 		<File 
 			RelativePath=".\LuaPlus\src\lfunc.h"/>
@@ -282,8 +333,6 @@
 			RelativePath=".\LuaPlus\src\lzio.h"/>
 		<File 
 			RelativePath=".\LuaPlus\src\print.c"/>
-		<File 
-			RelativePath=".\LuaPlus\src\ldump.c"/>
 	</Files>
 </VisualStudioProject>
 

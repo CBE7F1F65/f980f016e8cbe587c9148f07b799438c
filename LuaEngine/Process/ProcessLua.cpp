@@ -2,6 +2,7 @@
 #include "../Header/LuaConstDefine.h"
 #include "../resource_dialog.h"
 #include "../Header/Export.h"
+#include <xstring>
 
 bool Process::LuaInitial()
 {
@@ -1189,7 +1190,7 @@ int Process::LuaFn_LuaState_RShift(LuaState * ls)
 int Process::LuaFn_LuaState_ReadLineInContent(LuaState * ls)
 {
 	LuaStack args(ls);
-	char sret[M_STRINGMAX * 8];
+	string sret;
 	DWORD dret;
 
 	LuaObject _obj = args[1];
@@ -1198,13 +1199,13 @@ int Process::LuaFn_LuaState_ReadLineInContent(LuaState * ls)
 	_obj = args[2];
 	DWORD size = _LuaHelper_GetDWORD(&_obj);
 	int i=0;
-	strcpy(sret, "");
+	sret = "";
 	if (dret < content + size)
 	{
 		char buffer = *(char*)dret;
 		while (buffer != '\r' && buffer != '\n')
 		{
-			sret[i] = buffer;
+			sret += buffer;
 			i++;
 			dret++;
 			if (dret >= content + size)
@@ -1214,7 +1215,6 @@ int Process::LuaFn_LuaState_ReadLineInContent(LuaState * ls)
 			}
 			buffer = *(char*)dret;
 		}
-		sret[i] = 0;
 		if (buffer == '\r')
 		{
 			if (*(((char*)dret)+1) == '\n')
@@ -1229,7 +1229,7 @@ int Process::LuaFn_LuaState_ReadLineInContent(LuaState * ls)
 		size -= dret - content;
 	}
 
-	_LuaHelper_PushString(ls, sret);
+	_LuaHelper_PushString(ls, sret.data());
 	_LuaHelper_PushDWORD(ls, dret);
 	_LuaHelper_PushDWORD(ls, size);
 	return 3;

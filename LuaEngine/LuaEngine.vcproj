@@ -91,7 +91,66 @@
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)/LuaEngine.exe"
 				LinkIncremental="1"
-				IgnoreDefaultLibraryNames="LIBCMT.lib"
+				IgnoreDefaultLibraryNames=""
+				DelayLoadDLLs="hge.dll"
+				GenerateDebugInformation="TRUE"
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				TargetMachine="1"/>
+			<Tool
+				Name="VCMIDLTool"/>
+			<Tool
+				Name="VCPostBuildEventTool"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+		</Configuration>
+		<Configuration
+			Name="Final_Release|Win32"
+			OutputDirectory="Final_Release"
+			IntermediateDirectory="Final_Release"
+			ConfigurationType="1"
+			CharacterSet="2"
+			WholeProgramOptimization="TRUE">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				GlobalOptimizations="TRUE"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="TRUE"
+				ImproveFloatingPointConsistency="TRUE"
+				FavorSizeOrSpeed="1"
+				OmitFramePointers="TRUE"
+				EnableFiberSafeOptimizations="TRUE"
+				WholeProgramOptimization="TRUE"
+				OptimizeForWindowsApplication="TRUE"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;__RELEASE"
+				RuntimeLibrary="0"
+				UsePrecompiledHeader="0"
+				WarningLevel="1"
+				Detect64BitPortabilityProblems="FALSE"
+				DebugInformationFormat="0"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				OutputFile="$(OutDir)/LuaEngine.exe"
+				LinkIncremental="1"
+				IgnoreDefaultLibraryNames=""
 				DelayLoadDLLs="hge.dll"
 				GenerateDebugInformation="TRUE"
 				SubSystem="2"
