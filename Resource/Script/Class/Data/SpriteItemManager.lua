@@ -16,6 +16,8 @@ function SpriteItemManager:_Init()
 	self.texw	=	{};
 	self.texh	=	{};
 	self.sprites = {};
+	self.sprites.games = {};
+	spgames = self.sprites.games;
 end
 
 function SpriteItemManager:Release()

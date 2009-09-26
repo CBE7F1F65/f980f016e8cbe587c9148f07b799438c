@@ -54,7 +54,6 @@ function Data:PushReplayHeader(name, difficult, stage, seed)
 	self.rpyheader.lifetime = 0;
 	self.rpyheader.pausetime = 0;
 	self.rpyheader.score = 0;
-	data:SetDifficultScoreFactor(difficult);
 end
 
 function Data:SetDifficultScoreFactor(difficult)
@@ -86,7 +85,7 @@ function Data:UpdateScore(score, timer)
 		if timer == nil then
 			addscore = score * M_SCOREPERTIME;
 		else
-			addscore = score * math.floor(timer / 60);
+			addscore = score * math.floor(timer / 600);
 		end
 		addscore = addscore * data:GetDifficultScoreFactor();
 		self.rpyheader.score = math.floor(self.rpyheader.score + addscore);

@@ -4,27 +4,27 @@ function Process:GetInput()
 		if self.bgmvol > 0 then
 			self.bgmvol = self.bgmvol - 1;
 		end
-		data.dt.displaybgmchange = M_DISPLAYTIME;
+		d.displaybgmchange = M_DISPLAYTIME;
 		music:SetVolume();
 	end
 	if hge.Input_GetDIKey(self.keyBGMUp) then
 		if self.bgmvol < 100 then
 			self.bgmvol = self.bgmvol + 1;
 		end
-		data.dt.displaybgmchange = M_DISPLAYTIME;
+		d.displaybgmchange = M_DISPLAYTIME;
 		music:SetVolume();
 	end
 	if hge.Input_GetDIKey(self.keySEDown) then
 		if self.sevol > 0 then
 			self.sevol = self.sevol - 1;
 		end
-		data.dt.displaysechange = M_DISPLAYTIME;
+		d.displaysechange = M_DISPLAYTIME;
 	end
 	if hge.Input_GetDIKey(self.keySEUp) then
 		if self.sevol < 100 then
 			self.sevol = self.sevol + 1;
 		end
-		data.dt.displaysechange = M_DISPLAYTIME;
+		d.displaysechange = M_DISPLAYTIME;
 	end
 	
 	local active, replaying = self:CheckActive();
@@ -44,13 +44,21 @@ function Process:GetInput()
 	if hge.Input_GetDIKey(self.keyPause, DIKEY_DOWN) then
 		if active and self.state == STATE_START then
 			data:UpdateReplayHeader();
-			data.dt.pausetimer = 0;
+			d.pausetimer = 0;
 			self.state = STATE_PAUSE;
 			self:SetActive(false);
 			return PTURN;
 		end
 	end
 	if active and replaying then
+			
+		if hge.Input_GetDIKey(self.keySkip) or
+			hge.Input_GetDIJoy(self.joySpeedUp) then
+			hge.System_SetState(HGE_FRAMESKIP, M_FASTFRAMESKIP);
+		else
+			hge.System_SetState(HGE_FRAMESKIP, M_DEFAULT_FRAMESKIP);
+		end
+		
 		local rpydata;
 		if self.state ~= STATE_OVER then
 			rpydata = data:GetReplayData();
@@ -64,7 +72,7 @@ function Process:GetInput()
 			return PTITLE;
 		end
 		self:_SetupInputAsReplay(rpydata);
-		data.dt.replayfps = luastate.RShift(rpydata, 12) / 200;
+		d.replayfps = luastate.RShift(rpydata, 12) / 200;
 		return PGO;
 	end
 	

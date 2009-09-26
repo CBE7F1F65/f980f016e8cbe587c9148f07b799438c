@@ -17,6 +17,7 @@ function Data:_Init()
 	self.headerlength = 44;
 	self.replaycontent = NULL;
 	self.replaylength = 0;
+	d = self.dt;
 end
 
 function Data:Init(filename)

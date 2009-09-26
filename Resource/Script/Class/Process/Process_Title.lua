@@ -11,13 +11,12 @@ function Process:ProcessTitle()
 		
 		self:_PushSelection(SELSAVE_TITLE);
 		
-		music:MusicChange(MUS_01);
 	end
 	
-	if data.dt.rpyloaded then
+	if d.rpyloaded then
 		local filename, content, length = global.ReceiveOpenFileName(export:GetPassword());
 		local failed = false;
-		data.dt.rpyloaded = false;
+		d.rpyloaded = false;
 		if filename == nil or filename == "" or length <= 0 or luastate.DWORDToInt(content) == NULL then
 			failed = true;
 		else
@@ -55,7 +54,7 @@ function Process:ProcessTitle()
 			self:_PushSelection(SELSAVE_DIFFICULT, self.nowdifflv);
 		elseif selret == 2 then
 			global.SetOpenFileName("Replay File (*.rpy)|*.rpy", "rpy", "Load Replay", export:GetReplayFolder());
-			data.dt.rpyloaded = true;
+			d.rpyloaded = true;
 		elseif selret == 3 then
 			return PQUIT;
 		end

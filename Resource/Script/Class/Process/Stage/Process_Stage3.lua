@@ -1,6 +1,6 @@
 function Process:_ResetStage3()
 	local randval = hge.Random_Int(1, 3);
-	data.dt.stage3_rand = randval;
+	d.stage3_rand = randval;
 	se:Stop(SE_GAME_DOWN);
 	se:Stop(SE_GAME_FLAT);
 	se:Stop(SE_GAME_UP);
@@ -11,19 +11,19 @@ function Process:_ResetStage3()
 	elseif randval == 3 then
 		se:Push(SE_GAME_UP);
 	end
-	data.dt.stage3_npop = data.dt.stage3_npop + data.dt.stage3_npopadd;
-	if data.dt.stage3_npop > data.dt.stage3_npopmax then
-		data.dt.stage3_npop = data.dt.stage3_npopmax;
+	d.stage3_npop = d.stage3_npop + d.stage3_npopadd;
+	if d.stage3_npop > d.stage3_npopmax then
+		d.stage3_npop = d.stage3_npopmax;
 	end
 	
 	if debug_cheat_3 then
-		data.dt.debug_cheat_3_wait = true;
+		d.debug_cheat_3_wait = true;
 	end
 end
 
 function Process:_UpdateStage3()
 	
-	local timer = data.dt.timer;
+	local timer = d.timer;
 	
 	if timer == 1 then
 		self:_ResetStage3();
@@ -33,20 +33,20 @@ function Process:_UpdateStage3()
 	local bReset = false;
 	
 	if debug_cheat_3 then
-		if not data.dt.debug_cheat_3_wait then
-			if data.dt.stage3_rand == 1 then
+		if not d.debug_cheat_3_wait then
+			if d.stage3_rand == 1 then
 				if not hge.Input_GetDIKey(self.keyZ) then
 					hge.Input_SetDIKey(self.keyZ, true);
 				end
 				hge.Input_SetDIKey(self.keyX, false);
 				hge.Input_SetDIKey(self.keyC, false);
-			elseif data.dt.stage3_rand == 2 then
+			elseif d.stage3_rand == 2 then
 				if not hge.Input_GetDIKey(self.keyX) then
 					hge.Input_SetDIKey(self.keyX, true);
 				end
 				hge.Input_SetDIKey(self.keyZ, false);
 				hge.Input_SetDIKey(self.keyC, false);
-			elseif data.dt.stage3_rand == 3 then
+			elseif d.stage3_rand == 3 then
 				if not hge.Input_GetDIKey(self.keyC) then
 					hge.Input_SetDIKey(self.keyC, true);
 				end
@@ -54,26 +54,26 @@ function Process:_UpdateStage3()
 				hge.Input_SetDIKey(self.keyX, false);
 			end
 		else
-			data.dt.debug_cheat_3_wait = false;
+			d.debug_cheat_3_wait = false;
 		end
 	end
 	
 	if hge.Input_GetDIKey(self.keyZ, DIKEY_DOWN) then
-		if data.dt.stage3_rand ~= 1 then
+		if d.stage3_rand ~= 1 then
 			bLoose = true;
 		else
 			bReset = true;
 		end
 	end
 	if hge.Input_GetDIKey(self.keyX, DIKEY_DOWN) then
-		if data.dt.stage3_rand ~= 2 then
+		if d.stage3_rand ~= 2 then
 			bLoose = true;
 		else
 			bReset = true;
 		end
 	end
 	if hge.Input_GetDIKey(self.keyC, DIKEY_DOWN) then
-		if data.dt.stage3_rand ~= 3 then
+		if d.stage3_rand ~= 3 then
 			bLoose = true;
 		else
 			bReset = true;
@@ -86,47 +86,46 @@ function Process:_UpdateStage3()
 		self:_ResetStage3();
 	end
 	
-	data.dt.stage3_npop = data.dt.stage3_npop - data.dt.stage3_npopminus;
-	if data.dt.stage3_npop < 0 then
+	d.stage3_npop = d.stage3_npop - d.stage3_npopminus;
+	if d.stage3_npop < 0 then
 		return true;
 	end
-	if data.dt.stage3_npop < M_ALARMTIME * data.dt.stage3_npopminus and timer % 8 < 4 then
-		spim.sprites.games.spstage3_slot.color = global.ARGB(0xff, 0xffff00);
-		spim.sprites.games.spstage3.color = global.ARGB(M_STAGE_FLASHALPHA, M_STAGECOLOR_3);
+	if d.stage3_npop < M_ALARMTIME * d.stage3_npopminus and timer % 8 < 4 then
+		spgames.spstage3_slot.color = global.ARGB(0xff, 0xffff00);
+		spgames.spstage3.color = global.ARGB(M_STAGE_FLASHALPHA, M_STAGECOLOR_3);
 	else
-		spim.sprites.games.spstage3_slot.color = global.ARGB(0xff, 0x7fffff);
-		spim.sprites.games.spstage3.color = global.ARGB(M_STAGE_NORMALALPHA, M_STAGECOLOR_3);
+		spgames.spstage3_slot.color = global.ARGB(0xff, 0x7fffff);
+		spgames.spstage3.color = global.ARGB(M_STAGE_NORMALALPHA, M_STAGECOLOR_3);
 	end
-	spim.sprites.games.spstage3_slot.vscale = data.dt.stage3_npop;
+	spgames.spstage3_slot.vscale = d.stage3_npop;
 	
 	if bReset then
-		data:UpdateScore(data.dt.stage3_npoplast / 2);
+		data:UpdateScore(d.stage3_npoplast / 2);
 	end
 	
 	return false;
 end
 
 function Process:_InitStage3()
-	data.dt.stage3_npopmax = data.dt.stage3_y + data.dt.stage3_h - (data.dt.stage5_y + data.dt.stage5_h) - 8;
-	data.dt.stage3_npop = data.dt.stage3_npopmax;
-	data.dt.stage3_npoplast = 300;
-	data.dt.stage3_npopminus = data.dt.stage3_npopmax / data.dt.stage3_npoplast;
-	data.dt.stage3_npopadd = data.dt.stage3_npopmax / 3 * 2;
-	spim.sprites.games.spstage3_slot = spim:Push(true, SI_BLANK_POINT, 
-		data.dt.stage3_w + data.dt.stage3_x - 5, data.dt.stage5_y + data.dt.stage5_h + 4, 0, 8, data.dt.stage3_npop);
-	hgeSprite.SetHotSpot(spim.sprites.games.spstage3_slot.sprite, 0.5, 0);
+	d.stage3_npopmax = d.stage3_y + d.stage3_h - (d.stage5_y + d.stage5_h) - 8;
+	d.stage3_npop = d.stage3_npopmax;
+	d.stage3_npoplast = 300;
+	d.stage3_npopminus = d.stage3_npopmax / d.stage3_npoplast;
+	d.stage3_npopadd = d.stage3_npopmax / 3 * 2;
+	spgames.spstage3_slot = spim:Push(true, SI_BLANK_POINT, 
+		d.stage3_w + d.stage3_x - 5, d.stage5_y + d.stage5_h + 4, 0, 8, d.stage3_npop);
+	hgeSprite.SetHotSpot(spgames.spstage3_slot.sprite, 0.5, 0);
 end
 
 function Process:_RenderStart_Stage3()
-	local games = spim.sprites.games;
-	if games == nil then
+	if spgames == nil then
 		return;
 	end
-	spim:RenderItem(spim.sprites.games.spstage3_slot);
+	spim:RenderItem(spgames.spstage3_slot);
 	
 	local arrange = HGETEXT_CENTER;
-	local tx = data.dt.stage3_cx;
-	local ty = data.dt.stage3_cy;
+	local tx = d.stage3_cx;
+	local ty = d.stage3_cy;
 	local txoffset = 90;
 	local tyoffset = 30;
 	hgeFont.printf(self.gamefont, tx, ty - tyoffset, arrange, "Listen...")

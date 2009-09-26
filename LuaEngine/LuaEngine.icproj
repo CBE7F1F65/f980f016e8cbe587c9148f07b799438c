@@ -5,7 +5,7 @@
 	Name="LuaEngine"
 	ProjectGUID="{12CC1A4E-7D0F-4D2D-96B3-2E9DD8E11824}"
 	VCNestedProjectGUID="{03DD9750-BB83-4659-823A-E18EA4162B59}"
-	VCNestedProjectCRC32="3563749693"
+	VCNestedProjectCRC32="610579310"
 	VCNestedProjectFileName="LuaEngine.vcproj"
 	Keyword="Win32Proj">
 	<Configurations>
@@ -166,7 +166,8 @@
 			<Tool 
 				Name="PreLinkEventTool"/>
 			<Tool 
-				Name="PostBuildEventTool"/>
+				Name="PostBuildEventTool"
+				CommandLine=""/>
 			<Tool 
 				Name="CustomTool"/>
 			<Tool 
@@ -180,10 +181,6 @@
 			RelativePath=".\Core\InitDllLoader.cpp"/>
 		<File 
 			RelativePath=".\Core\Main.cpp"/>
-		<File 
-			RelativePath=".\Class\DataFactory.cpp"/>
-		<File 
-			RelativePath=".\Class\FileFactory.cpp"/>
 		<File 
 			RelativePath=".\Process\Process.cpp"/>
 		<File 
@@ -216,10 +213,6 @@
 			RelativePath=".\Header\MainDependency.h"/>
 		<File 
 			RelativePath=".\Header\Process.h"/>
-		<File 
-			RelativePath=".\Header\DataFactory.h"/>
-		<File 
-			RelativePath=".\Header\FileFactory.h"/>
 		<File 
 			RelativePath=".\LuaEngine.rc"/>
 	</Files>

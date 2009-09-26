@@ -4,10 +4,9 @@ function Process:ProcessOver()
 	if time == 1 then
 		self:_InitProcessOver();
 		self:Dead();
-		music:MusicChange(MUS_01);
 	end
 	
-	if data.dt.rpysaved then
+	if d.rpysaved then
 		local filename = global.ReceiveOpenFileName(export:GetPassword());
 		hge.Input_SetDIKey(self.keyCancel);
 		data:FreeReplayContent();
@@ -15,13 +14,13 @@ function Process:ProcessOver()
 	
 	local selret;
 	selret = sel:Action();
-	if selret == 1 and not data.dt.rpysaved and not sel:IsSaved(SELSAVE_CONFIRM) then
+	if selret == 1 and not d.rpysaved and not sel:IsSaved(SELSAVE_CONFIRM) then
 		local content, length = data:SaveReplayContent()
 		global.SetOpenFileName("Replay File (*.rpy)|*.rpy", "rpy", "Save Replay", export:GetReplayFolder(), content, length);
-		data.dt.rpysaved = true;
+		d.rpysaved = true;
 	end
 	if selret > 1 and not sel:IsSaved(SELSAVE_CONFIRM) then
-		data.dt.over_selection = selret;
+		d.over_selection = selret;
 		if selret == 2 then
 			spim.sprites.overs.spretry.able = true;
 		elseif selret == 3 then
@@ -75,7 +74,7 @@ function Process:_InitProcessOver()
 	spim.sprites.overs.spbacktotitle = spim:Push(false, SI_BACKTOTITLE,
 		M_CLIENT_CENTER_X, M_CLIENT_CENTER_Y,
 		0, 1.5);
-	data.dt.over_selection = 1;
+	d.over_selection = 1;
 	self:_ReInitProcessOver();
 end
 
@@ -84,8 +83,8 @@ function Process:_ReInitProcessOver()
 	spim.sprites.overs.spbacktotitle.able = false;
 	sel:ClearSaved(SELSAVE_CONFIRM);
 	sel:ClearSaved(SELSAVE_OVER);
-	self:_PushSelection(SELSAVE_OVER, data.dt.over_selection);
-	data.dt.rpysaved = false;
+	self:_PushSelection(SELSAVE_OVER, d.over_selection);
+	d.rpysaved = false;
 end
 
 function Process:_RenderOver()

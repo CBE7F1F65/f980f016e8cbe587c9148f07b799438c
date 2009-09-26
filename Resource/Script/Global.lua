@@ -17,3 +17,6 @@ debug_ignore_4 = false;
 debug_ignore_5 = false;
 
 debug_suicidekey = DIK_Q;	--	-1
+
+d = {};
+spgames = {};

@@ -1,9 +1,9 @@
 function Process:ProcessPause()
 	
-	data.dt.pausetimer = data.dt.pausetimer + 1;
-	if data.dt.pause_resume then
-		spim.sprites.pauses.sppause_bg.color = global.ARGB((M_FADETIME - data.dt.pausetimer) * 0xFF / M_FADETIME, 0);
-		if data.dt.pausetimer == M_FADETIME then
+	d.pausetimer = d.pausetimer + 1;
+	if d.pause_resume then
+		spim.sprites.pauses.sppause_bg.color = global.ARGB((M_FADETIME - d.pausetimer) * 0xFF / M_FADETIME, 0);
+		if d.pausetimer == M_FADETIME then
 			self:SetActive(true);
 			self:_SetupInputAsReplay(data:GetReplayData(time-1));
 			self.state = STATE_START;
@@ -11,15 +11,15 @@ function Process:ProcessPause()
 		end
 		return PGO;
 	end
-	if data.dt.pausetimer == 1 then
+	if d.pausetimer == 1 then
 		self:_InitProcessPause();
 		music:MusicPause();
 	end
 	
 	if hge.Input_GetDIKey(self.keyCancel, DIKEY_DOWN) and not sel:IsSaved(SELSAVE_CONFIRM) or
 		hge.Input_GetDIKey(self.keyPause, DIKEY_DOWN) then
-		data.dt.pause_resume = true;
-		data.dt.pausetimer = 0;
+		d.pause_resume = true;
+		d.pausetimer = 0;
 		se:Push(SE_SYSTEM_CANCEL);
 		sel:CloseSelection();
 		return PGO;
@@ -29,10 +29,10 @@ function Process:ProcessPause()
 	local selret;
 	selret = sel:Action();
 	if selret > 0 and not sel:IsSaved(SELSAVE_CONFIRM) then
-		data.dt.pause_selection = selret;
+		d.pause_selection = selret;
 		if selret == 1 then
-			data.dt.pause_resume = true;
-			data.dt.pausetimer = 0;
+			d.pause_resume = true;
+			d.pausetimer = 0;
 			sel:CloseSelection();
 			return PGO;
 		elseif selret == 2 and not replaying then
@@ -54,7 +54,7 @@ function Process:ProcessPause()
 	if sel:IsSaved(SELSAVE_CONFIRM) then
 		if sel.saved[SELSAVE_CONFIRM] == 1 then
 			time = 0;
-			data.dt.pause_resume = false;
+			d.pause_resume = false;
 			sel:ClearSaved(SELSAVE_CONFIRM);
 			if sel.saved[SELSAVE_PAUSE] == 2 and not replaying then
 				self.state = STATE_START;
@@ -87,7 +87,7 @@ function Process:_InitProcessPause()
 	spim.sprites.pauses.spbacktotitle = spim:Push(false, SI_BACKTOTITLE,
 		M_CLIENT_CENTER_X, M_CLIENT_CENTER_Y,
 		0, 1.5);
-	data.dt.pause_selection = 1;
+	d.pause_selection = 1;
 	self:_ReInitProcessPause();
 end
 
@@ -96,8 +96,8 @@ function Process:_ReInitProcessPause()
 	spim.sprites.pauses.spbacktotitle.able = false;
 	sel:ClearSaved(SELSAVE_CONFIRM);
 	sel:ClearSaved(SELSAVE_PAUSE);
-	self:_PushSelection(SELSAVE_PAUSE, data.dt.pause_selection);
-	data.dt.pause_resume = false;
+	self:_PushSelection(SELSAVE_PAUSE, d.pause_selection);
+	d.pause_resume = false;
 end
 
 function Process:_RenderPause()
@@ -113,5 +113,5 @@ end
 function Process:_LeavePause()
 	spim:Clear(spim.sprites.pauses);
 	spim.sprites.pauses = nil;
-	data.dt.pause_resume = false;
+	d.pause_resume = false;
 end

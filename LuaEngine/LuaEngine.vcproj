@@ -200,16 +200,6 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="Class"
-				Filter="">
-				<File
-					RelativePath=".\Class\DataFactory.cpp">
-				</File>
-				<File
-					RelativePath=".\Class\FileFactory.cpp">
-				</File>
-			</Filter>
-			<Filter
 				Name="Process"
 				Filter="">
 				<File
@@ -268,16 +258,6 @@
 				</File>
 				<File
 					RelativePath=".\Header\Process.h">
-				</File>
-			</Filter>
-			<Filter
-				Name="Class"
-				Filter="">
-				<File
-					RelativePath=".\Header\DataFactory.h">
-				</File>
-				<File
-					RelativePath=".\Header\FileFactory.h">
 				</File>
 			</Filter>
 		</Filter>

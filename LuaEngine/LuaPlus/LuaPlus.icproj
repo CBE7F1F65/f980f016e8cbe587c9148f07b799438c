@@ -94,7 +94,8 @@
 			<Tool 
 				Name="PreLinkEventTool"/>
 			<Tool 
-				Name="PostBuildEventTool"/>
+				Name="PostBuildEventTool"
+				CommandLine=""/>
 			<Tool 
 				Name="CustomTool"/>
 			<Tool 

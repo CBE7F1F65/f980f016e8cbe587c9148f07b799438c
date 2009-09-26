@@ -24,20 +24,20 @@ function Process:Render()
 	hgeFont.printf(self.font, M_CLIENT_LEFT, M_CLIENT_TOP, 0, string.format("%.2f", hge.Timer_GetFPS(35)));
 	local active, replaying = self:CheckActive();
 	if self.state == STATE_START then
-		if replaying and data.dt.replayfps ~= nil then
-			hgeFont.printf(self.font, M_CLIENT_LEFT, M_CLIENT_TOP + 16, 0, string.format("%.2f", data.dt.replayfps));
+		if replaying and d.replayfps ~= nil then
+			hgeFont.printf(self.font, M_CLIENT_LEFT, M_CLIENT_TOP + 16, 0, string.format("%.2f", d.replayfps));
 		end
 		hgeFont.printf(self.font, M_CLIENT_CENTER_X, M_CLIENT_TOP, HGETEXT_CENTER, string.format("%.5f", data:GetNowLifeTime() / M_INTTIMEFACTOR));
 		hgeFont.printf(self.font, M_CLIENT_CENTER_X, M_CLIENT_TOP + 16, HGETEXT_CENTER, time);
 		hgeFont.printf(self.font, M_CLIENT_CENTER_X, M_CLIENT_TOP + 32, HGETEXT_CENTER, data:GetNowScore());
 	end
 	
-	if data.dt.displaybgmchange ~= nil and data.dt.displaybgmchange > 0 then
-		data.dt.displaybgmchange = data.dt.displaybgmchange - 1;
+	if d.displaybgmchange ~= nil and d.displaybgmchange > 0 then
+		d.displaybgmchange = d.displaybgmchange - 1;
 		hgeFont.printf(self.font, M_CLIENT_CENTER_X, M_CLIENT_BOTTOM - 32, HGETEXT_CENTER, "BGM: "..self.bgmvol.."%");
 	end
-	if data.dt.displaysechange ~= nil and data.dt.displaysechange > 0 then
-		data.dt.displaysechange = data.dt.displaysechange - 1;
+	if d.displaysechange ~= nil and d.displaysechange > 0 then
+		d.displaysechange = d.displaysechange - 1;
 		hgeFont.printf(self.font, M_CLIENT_CENTER_X, M_CLIENT_BOTTOM - 16, HGETEXT_CENTER, "SE: "..self.sevol.."%");
 	end
 	
