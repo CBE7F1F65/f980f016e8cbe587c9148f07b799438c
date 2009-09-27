@@ -16,6 +16,7 @@ function SystemInitial()
 	if hge.System_GetState(HGE_LOGFILE) == "" then
 		hge.System_SetState(HGE_LOGFILE, LOG_STR_FILENAME);
 	end
+	hge.System_SetState(HGE_FPS, 60);
 	hge.System_SetState(HGE_HIDEMOUSE, false);
 	hge.System_SetState(HGE_DONTSUSPEND, true);
 	hge.System_SetState(HGE_SHOWSPLASH, false);
