@@ -5,7 +5,7 @@
 	Name="LuaEngine"
 	ProjectGUID="{12CC1A4E-7D0F-4D2D-96B3-2E9DD8E11824}"
 	VCNestedProjectGUID="{03DD9750-BB83-4659-823A-E18EA4162B59}"
-	VCNestedProjectCRC32="610579310"
+	VCNestedProjectCRC32="2181197978"
 	VCNestedProjectFileName="LuaEngine.vcproj"
 	Keyword="Win32Proj">
 	<Configurations>
@@ -34,7 +34,7 @@
 				DelayImpLib="DelayImp.lib"
 				OutputFile="$(OutDir)/LuaEngine.exe"
 				LinkIncremental="2"
-				DelayLoadDLLs="hge.dll"
+				DelayLoadDLLs="hge_d.dll"
 				GenerateDebugInformation="1"
 				ProgramDatabaseFile="$(OutDir)/LuaEngine.pdb"
 				SubSystem="2"

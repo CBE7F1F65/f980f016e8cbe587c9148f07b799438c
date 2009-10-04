@@ -3,10 +3,10 @@
 
 #include "Const.h"
 
-#include "hge.h"
-#include "hgefont.h"
-#include "hgesprite.h"
-#include "hgeeffectsystem.h"
+#include "../../hge/include/hge.h"
+#include "../../hge/include/hgefont.h"
+#include "../../hge/include/hgesprite.h"
+#include "../../hge/include/hgeeffectsystem.h"
 
 #pragma warning(disable:4244)
 #pragma warning(disable:4800)
