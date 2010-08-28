@@ -38,7 +38,8 @@ void Process::_LuaHelper_hgeFont_DeleteFont(hgeFont * _font)
 		{
 			if ((*it) == _font)
 			{
-				it = fontList.erase(it);
+				fontList.erase(it);
+				break;
 			}
 		}
 		_font = NULL;
@@ -335,7 +336,7 @@ int Process::LuaFn_hgeFont_ChangeSprite(LuaState * ls)
 	if (argscount > 5)
 	{
 		_obj = args[3];
-		HTEXTURE _htexture = (HTEXTURE)(_LuaHelper_GetDWORD(&_obj));
+		HTEXTURE _htexture = _LuaHelper_GetHTEXTURE(&_obj);
 		if (argscount > 7)
 		{
 			pre_a = args[8].GetFloat();

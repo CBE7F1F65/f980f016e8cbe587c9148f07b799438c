@@ -86,6 +86,8 @@ public:
 	static void _LuaHelper_PushQWORD(LuaState * ls, QWORD qval);
 	static QWORD _LuaHelper_GetQWORD(LuaObject * obj);
 	static void _LuaHelper_PushString(LuaState * ls, const char * sval);
+	static void _LuaHelper_PushHTEXTURE(LuaState * ls, HTEXTURE tex);
+	static HTEXTURE _LuaHelper_GetHTEXTURE(LuaObject * obj);
 
 	static void _LuaHelper_GetCalculateValue(LuaObject * obj, char calchar, bool buseq, void * val);
 
@@ -150,12 +152,6 @@ public:
 	static int LuaFn_hge_System_GetErrorMessage(LuaState * ls);
 	static int LuaFn_hge_System_Launch(LuaState * ls);
 	static int LuaFn_hge_System_Snapshot(LuaState * ls);
-
-	static int LuaFn_hge_System_Set2DMode(LuaState * ls);
-	static int LuaFn_hge_System_Set3DMode(LuaState * ls);
-	static int LuaFn_hge_System_GetFarPoint(LuaState * ls);
-	static int LuaFn_hge_System_Is2DMode(LuaState * ls);
-	static int LuaFn_hge_System_Transform3DPoint(LuaState * ls);
 
 	static int LuaFn_hge_Resource_Load(LuaState * ls);
 	static int LuaFn_hge_Resource_Free(LuaState * ls);
@@ -255,6 +251,7 @@ public:
 	static int LuaFn_hge_Gfx_RenderText(LuaState * ls);
 	static int LuaFn_hge_Gfx_RenderTextToTarget(LuaState * ls);
 
+	static int LuaFn_hgeEX_NewTexture(LuaState * ls);
 	static int LuaFn_hgeEX_SetTextureNumber(LuaState * ls);
 	static int LuaFn_hgeEX_RegisterTextures(LuaState * ls);
 

@@ -212,6 +212,32 @@ void Process::_LuaHelper_PushString(LuaState * ls, const char * sval)
 	}
 }
 
+void Process::_LuaHelper_PushHTEXTURE(LuaState * ls, HTEXTURE tex)
+{
+	LuaStackObject _table;
+
+	_table = ls->CreateTable();
+	_table.SetInteger("texindex", tex.texindex);
+	_table.SetNumber("tex", tex.tex);
+
+	ls->PushValue(_table);
+}
+
+HTEXTURE Process::_LuaHelper_GetHTEXTURE(LuaObject * obj)
+{
+	HTEXTURE texret = NULL;
+	if (obj->IsTable())
+	{
+		texret.texindex = obj->GetByName("texindex").GetInteger();
+		texret.tex = obj->GetByName("tex").GetNumber();
+	}
+	else
+	{
+		sscanf(obj->GetString(), "%d", &texret.tex);
+	}
+	return texret;
+}
+
 DWORD Process::_LuaHelper_GetColor(LuaObject * obj)
 {
 	DWORD dret = 0;
@@ -540,25 +566,25 @@ int Process::LuaFn_Global_SetARGB(LuaState * ls)
 int Process::LuaFn_Global_GetLocalTime(LuaState * ls)
 {
 	LuaStack args(ls);
-	LuaStackObject table;
+	LuaStackObject _table;
 	QWORD qret;
 
 	SYSTEMTIME systime;
 	FILETIME filetime;
 	GetLocalTime(&systime);
 	SystemTimeToFileTime(&systime, &filetime);
-	table = ls->CreateTable();
-	table.SetInteger("wYear", systime.wYear);
-	table.SetInteger("wMonth", systime.wMonth);
-	table.SetInteger("wDayOfWeek", systime.wDayOfWeek);
-	table.SetInteger("wDay", systime.wDay);
-	table.SetInteger("wHour", systime.wHour);
-	table.SetInteger("wMinute", systime.wMinute);
-	table.SetInteger("wSecond", systime.wSecond);
-	table.SetInteger("wMilliseconds", systime.wMilliseconds);
+	_table = ls->CreateTable();
+	_table.SetInteger("wYear", systime.wYear);
+	_table.SetInteger("wMonth", systime.wMonth);
+	_table.SetInteger("wDayOfWeek", systime.wDayOfWeek);
+	_table.SetInteger("wDay", systime.wDay);
+	_table.SetInteger("wHour", systime.wHour);
+	_table.SetInteger("wMinute", systime.wMinute);
+	_table.SetInteger("wSecond", systime.wSecond);
+	_table.SetInteger("wMilliseconds", systime.wMilliseconds);
 	qret = (((QWORD)(filetime.dwHighDateTime))<<32) + filetime.dwLowDateTime;
 
-	ls->PushValue(table);
+	ls->PushValue(_table);
 	_LuaHelper_PushQWORD(ls, qret);
 	return 2;
 }

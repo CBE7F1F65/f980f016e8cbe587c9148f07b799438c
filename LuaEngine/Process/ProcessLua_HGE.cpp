@@ -13,12 +13,6 @@ bool Process::_LuaRegistHGEFunction(LuaObject * obj)
 	_hgeobj.Register("System_Launch", LuaFn_hge_System_Launch);
 	_hgeobj.Register("System_Snapshot", LuaFn_hge_System_Snapshot);
 
-	_hgeobj.Register("System_Set2DMode", LuaFn_hge_System_Set2DMode);
-	_hgeobj.Register("System_Set3DMode", LuaFn_hge_System_Set3DMode);
-	_hgeobj.Register("System_GetFarPoint", LuaFn_hge_System_GetFarPoint);
-	_hgeobj.Register("System_Is2DMode", LuaFn_hge_System_Is2DMode);
-	_hgeobj.Register("System_Transform3DPoint", LuaFn_hge_System_Transform3DPoint);
-
 	_hgeobj.Register("Resource_Load", LuaFn_hge_Resource_Load);
 	_hgeobj.Register("Resource_Free", LuaFn_hge_Resource_Free);
 	_hgeobj.Register("Resource_AttachPack", LuaFn_hge_Resource_AttachPack);
@@ -127,6 +121,7 @@ bool Process::_LuaRegistHGEFunction(LuaObject * obj)
 	_hgestructobj.Register("hgeQuad", LuaFn_hge_Struct_hgeQuad);
 
 	LuaObject _hgeexobj = obj->CreateTable("hgeEX");
+	_hgeexobj.Register("NewTexture", LuaFn_hgeEX_NewTexture);
 	_hgeexobj.Register("SetTextureNumber", LuaFn_hgeEX_SetTextureNumber);
 	_hgeexobj.Register("RegisterTextures", LuaFn_hgeEX_RegisterTextures);
 
@@ -232,7 +227,7 @@ void Process::_LuaHelper_hge_DeleteAllTexture()
 {
 	for (int i=0; i<texnum; i++)
 	{
-		if (texset[i])
+		if (texset[i].tex)
 		{
 			hge->Texture_Free(texset[i]);
 			texset[i] = NULL;
@@ -375,94 +370,6 @@ int Process::LuaFn_hge_System_Snapshot(LuaState * ls)
 	hge->System_Snapshot(filename);
 
 	return 0;
-}
-
-int Process::LuaFn_hge_System_Set2DMode(LuaState * ls)
-{
-	LuaStack args(ls);
-	bool bret;
-
-	hge3DPoint ptfar;
-	if (args[1].IsTable())
-	{
-		ptfar.x = args[1].GetByName("x").GetFloat();
-		ptfar.y = args[1].GetByName("y").GetFloat();
-		ptfar.z = args[1].GetByName("z").GetFloat();
-	}
-	else
-	{
-		ptfar.x = args[1].GetFloat();
-		ptfar.y = args[2].GetFloat();
-		ptfar.z = args[3].GetFloat();
-	}
-	bret = hge->System_Set2DMode(ptfar);
-
-	ls->PushBoolean(bret);
-	return 1;
-}
-
-int Process::LuaFn_hge_System_Set3DMode(LuaState * ls)
-{
-	LuaStack args(ls);
-	bool bret;
-
-	bret = hge->System_Set3DMode();
-
-	ls->PushBoolean(bret);
-	return 1;
-}
-
-int Process::LuaFn_hge_System_GetFarPoint(LuaState * ls)
-{
-	LuaStack args(ls);
-	hge3DPoint * ptfar;
-	float fret[4];
-
-	ptfar = hge->System_GetFarPoint();
-	LuaStackObject table;
-	table = ls->CreateTable();
-	table.SetNumber("x", ptfar->x);
-	table.SetNumber("y", ptfar->y);
-	table.SetNumber("z", ptfar->z);
-	table.SetNumber("scale", ptfar->scale);
-
-	ls->PushValue(table);
-	return 1;
-}
-
-int Process::LuaFn_hge_System_Is2DMode(LuaState * ls)
-{
-	LuaStack args(ls);
-	bool bret;
-
-	bret = hge->System_Is2DMode();
-
-	ls->PushBoolean(bret);
-	return 1;
-}
-
-int Process::LuaFn_hge_System_Transform3DPoint(LuaState * ls)
-{
-	LuaStack args(ls);
-	float fret;
-
-	hge3DPoint ptfar;
-	if (args[1].IsTable())
-	{
-		ptfar.x = args[1].GetByName("x").GetFloat();
-		ptfar.y = args[1].GetByName("y").GetFloat();
-		ptfar.z = args[1].GetByName("z").GetFloat();
-	}
-	else
-	{
-		ptfar.x = args[1].GetFloat();
-		ptfar.y = args[2].GetFloat();
-		ptfar.z = args[3].GetFloat();
-	}
-	fret = hge->System_Transform3DPoint(&ptfar);
-
-	ls->PushNumber(fret);
-	return 1;
 }
 
 int Process::LuaFn_hge_Resource_Load(LuaState * ls)
@@ -1271,16 +1178,16 @@ int Process::LuaFn_hge_Input_GetEvent(LuaState * ls)
 	hgeInputEvent inputevent;
 
 	hge->Input_GetEvent(&inputevent);
-	LuaStackObject table = ls->CreateTable();
-	table.SetInteger("chr", inputevent.chr);
-	table.SetInteger("flags", inputevent.flags);
-	table.SetInteger("key", inputevent.key);
-	table.SetInteger("type", inputevent.type);
-	table.SetInteger("wheel", inputevent.wheel);
-	table.SetNumber("x", inputevent.x);
-	table.SetNumber("y", inputevent.y);
+	LuaStackObject _table = ls->CreateTable();
+	_table.SetInteger("chr", inputevent.chr);
+	_table.SetInteger("flags", inputevent.flags);
+	_table.SetInteger("key", inputevent.key);
+	_table.SetInteger("type", inputevent.type);
+	_table.SetInteger("wheel", inputevent.wheel);
+	_table.SetNumber("x", inputevent.x);
+	_table.SetNumber("y", inputevent.y);
 
-	ls->PushValue(table);
+	ls->PushValue(_table);
 	return 1;
 }
 
@@ -1432,7 +1339,7 @@ int Process::LuaFn_hge_Gfx_StartBatch(LuaState * ls)
 	DWORD dret;
 
 	LuaObject _obj = args[1];
-	HTEXTURE _htexture = (HTEXTURE)_LuaHelper_GetDWORD(&_obj);
+	HTEXTURE _htexture = _LuaHelper_GetHTEXTURE(&_obj);
 	_obj = args[4];
 	int * _max_prim = (int *)_LuaHelper_GetDWORD(&_obj);
 	dret = (DWORD)(hge->Gfx_StartBatch(args[1].GetInteger(), _htexture, args[3].GetInteger(), _max_prim));
@@ -1563,31 +1470,31 @@ int Process::LuaFn_hge_Target_Free(LuaState * ls)
 int Process::LuaFn_hge_Target_GetTexture(LuaState * ls)
 {
 	LuaStack args(ls);
-	DWORD dret;
+	HTEXTURE texret;
 
 	LuaObject _obj = args[1];
 	HTARGET _htarget = (HTARGET)_LuaHelper_GetDWORD(&_obj);
-	dret = (DWORD)(hge->Target_GetTexture(_htarget));
+	texret = hge->Target_GetTexture(_htarget);
 
-	_LuaHelper_PushDWORD(ls, dret);
+	_LuaHelper_PushHTEXTURE(ls, texret);
 	return 1;
 }
 
 int Process::LuaFn_hge_Texture_Create(LuaState * ls)
 {
 	LuaStack args(ls);
-	DWORD dret;
+	HTEXTURE texret;
 
-	dret = (DWORD)(hge->Texture_Create(args[1].GetInteger(), args[2].GetInteger()));
+	texret = hge->Texture_Create(args[1].GetInteger(), args[2].GetInteger());
 
-	_LuaHelper_PushDWORD(ls, dret);
+	_LuaHelper_PushHTEXTURE(ls, texret);
 	return 1;
 }
 
 int Process::LuaFn_hge_Texture_Load(LuaState * ls)
 {
 	LuaStack args(ls);
-	DWORD dret;
+	HTEXTURE texret;
 	DWORD size = 0;
 	bool bMipmap = false;
 
@@ -1601,9 +1508,9 @@ int Process::LuaFn_hge_Texture_Load(LuaState * ls)
 			bMipmap = args[3].GetBoolean();
 		}
 	}
-	dret = (DWORD)(hge->Texture_Load(args[1].GetString(), size, bMipmap));
+	texret = hge->Texture_Load(args[1].GetString(), size, bMipmap);
 
-	_LuaHelper_PushDWORD(ls, dret);
+	_LuaHelper_PushHTEXTURE(ls, texret);
 	return 1;
 }
 
@@ -1612,7 +1519,7 @@ int Process::LuaFn_hge_Texture_Free(LuaState * ls)
 	LuaStack args(ls);
 
 	LuaObject _obj = args[1];
-	HTEXTURE _htexture = (HTEXTURE)_LuaHelper_GetDWORD(&_obj);
+	HTEXTURE _htexture = _LuaHelper_GetHTEXTURE(&_obj);
 	hge->Texture_Free(_htexture);
 
 	return 0;
@@ -1627,7 +1534,7 @@ int Process::LuaFn_hge_Texture_GetWH(LuaState * ls)
 	bool bOriginal = false;
 
 	LuaObject _obj = args[1];
-	tex = (HTEXTURE)_LuaHelper_GetDWORD(&_obj);
+	tex = _LuaHelper_GetHTEXTURE(&_obj);
 	if (args.Count() > 1)
 	{
 		bOriginal = args[2].GetBoolean();
@@ -1672,7 +1579,7 @@ int Process::LuaFn_hge_Texture_Lock(LuaState * ls)
 		}
 	}
 	LuaObject _obj = args[1];
-	HTEXTURE _htexture = (HTEXTURE)_LuaHelper_GetDWORD(&_obj);
+	HTEXTURE _htexture = _LuaHelper_GetHTEXTURE(&_obj);
 	dret = (DWORD)(hge->Texture_Lock(_htexture, bReadOnly, left, top, width, height));
 
 	_LuaHelper_PushDWORD(ls, dret);
@@ -1684,7 +1591,7 @@ int Process::LuaFn_hge_Texture_Unlock(LuaState * ls)
 	LuaStack args(ls);
 
 	LuaObject _obj = args[1];
-	HTEXTURE _htexture = (HTEXTURE)_LuaHelper_GetDWORD(&_obj);
+	HTEXTURE _htexture = _LuaHelper_GetHTEXTURE(&_obj);
 	hge->Texture_Unlock(_htexture);
 
 	return 0;
@@ -1732,7 +1639,8 @@ int Process::LuaFn_hge_Gfx_RenderText(LuaState * ls)
 int Process::LuaFn_hge_Gfx_RenderTextToTarget(LuaState * ls)
 {
 	LuaStack args(ls);
-	DWORD dret;
+	HTEXTURE texret;
+	int iret;
 	DWORD col = 0xffffffff;
 
 	if (args.Count() > 7)
@@ -1744,9 +1652,32 @@ int Process::LuaFn_hge_Gfx_RenderTextToTarget(LuaState * ls)
 	HTARGET _htarget = (HTARGET)_LuaHelper_GetDWORD(&_obj);
 	_obj = args[2];
 	HD3DFONT _hd3dfont = (HD3DFONT)_LuaHelper_GetDWORD(&_obj);
-	dret = (DWORD)(hge->Gfx_RenderTextToTarget(_htarget, _hd3dfont, args[3].GetString(), args[4].GetFloat(), args[5].GetFloat(), args[6].GetFloat(), args[7].GetFloat(), col));
+	iret = hge->Gfx_RenderTextToTarget(&texret, _htarget, _hd3dfont, args[3].GetString(), args[4].GetFloat(), args[5].GetFloat(), args[6].GetFloat(), args[7].GetFloat(), col);
 
-	_LuaHelper_PushDWORD(ls, dret);
+	_LuaHelper_PushHTEXTURE(ls, texret);
+	ls->PushInteger(iret);
+	return 2;
+}
+
+int Process::LuaFn_hgeEX_NewTexture(LuaState * ls)
+{
+	LuaStack args(ls);
+
+	int argscount = args.Count();
+	int _texindex = 0;
+	DWORD _tex = NULL;
+
+	if (argscount)
+	{
+		_texindex = args[1].GetInteger();
+		if (argscount > 1)
+		{
+			_tex = args[2].GetNumber();
+		}
+	}
+	HTEXTURE texret(_texindex, _tex);
+
+	_LuaHelper_PushHTEXTURE(ls, texret);
 	return 1;
 }
 
@@ -1790,7 +1721,7 @@ int Process::LuaFn_hgeEX_RegisterTextures(LuaState * ls)
 		{
 			continue;
 		}
-		texset[i] = (HTEXTURE)_LuaHelper_GetDWORD(&_obj);
+		texset[i] = _LuaHelper_GetHTEXTURE(&_obj);
 	}
 	return 0;
 }

@@ -15,7 +15,7 @@ function Texture:Init(tablefilename)
 		end
 		self.filename[texindex] = tabledata[3][i];
 		self.tex[texindex] = hge.Texture_Load(self.filename[texindex]);
-		luastate.SetConst(tabledata[2][i], self.tex[texindex]);
+		luastate.SetConst(tabledata[2][i], self.tex[texindex].texindex);
 	end
 	hgeEX.SetTextureNumber(maxindex);
 	hgeEX.RegisterTextures(self.tex);

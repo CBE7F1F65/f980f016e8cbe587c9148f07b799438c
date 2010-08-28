@@ -205,8 +205,6 @@ bool Process::_LuaRegistHGEConst(LuaObject * obj)
 	obj->SetInteger("HGE_DONTSUSPEND", HGE_DONTSUSPEND);
 	obj->SetInteger("HGE_HIDEMOUSE", HGE_HIDEMOUSE);
 
-	obj->SetInteger("HGE_SHOWSPLASH", HGE_SHOWSPLASH);
-
 	obj->SetInteger("HGE_HWND", HGE_HWND);
 	obj->SetInteger("HGE_HWNDPARENT", HGE_HWNDPARENT);
 	obj->SetInteger("HGE_SCREENWIDTH", HGE_SCREENWIDTH);

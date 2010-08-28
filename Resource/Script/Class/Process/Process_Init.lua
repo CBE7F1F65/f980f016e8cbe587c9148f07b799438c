@@ -3,7 +3,6 @@ function Process:ProcessInit()
 	if time == 1 then
 		return self:ProcessPreInitial();
 	end
-	
 	if self.texInit ~= NULL then
 		hge.Texture_Free(self.texInit);
 		self.texInit = NULL;

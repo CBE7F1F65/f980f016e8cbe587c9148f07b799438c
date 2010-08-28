@@ -50,7 +50,8 @@ void Process::_LuaHelper_hgeSprite_DeleteSprite(hgeSprite * _sprite)
 		{
 			if ((*it) == _sprite)
 			{
-				it = spriteList.erase(it);
+				spriteList.erase(it);
+				break;
 			}
 		}
 		_sprite = NULL;
@@ -85,7 +86,7 @@ int Process::LuaFn_hgeSprite_NewSprite(LuaState * ls)
 		if (argscount > 1)
 		{
 			_obj = args[1];
-			HTEXTURE _htexture = (HTEXTURE)(_LuaHelper_GetDWORD(&_obj));
+			HTEXTURE _htexture = _LuaHelper_GetHTEXTURE(&_obj);
 			float x = args[2].GetFloat();
 			float y = args[3].GetFloat();
 			float w = args[4].GetFloat();
@@ -195,7 +196,7 @@ int Process::LuaFn_hgeSprite_SetTexture(LuaState * ls)
 	hgeSprite * _sprite = _LuaHelper_hgeSprite_Get(&args);
 
 	LuaObject _obj = args[2];
-	HTEXTURE _htexture = (HTEXTURE)(_LuaHelper_GetDWORD(&_obj));
+	HTEXTURE _htexture = _LuaHelper_GetHTEXTURE(&_obj);
 	_sprite->SetTexture(_htexture);
 
 	return 0;
@@ -311,11 +312,11 @@ int Process::LuaFn_hgeSprite_GetTexture(LuaState * ls)
 {
 	LuaStack args(ls);
 	hgeSprite * _sprite = _LuaHelper_hgeSprite_Get(&args);
-	DWORD dret;
+	HTEXTURE texret;
 
-	dret = (DWORD)(_sprite->GetTexture());
+	texret = _sprite->GetTexture();
 
-	_LuaHelper_PushDWORD(ls, dret);
+	_LuaHelper_PushHTEXTURE(ls, texret);
 	return 1;
 }
 

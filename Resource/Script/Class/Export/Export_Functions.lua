@@ -1,14 +1,5 @@
 function Export:ClientSet2DMode(x, y, z)
-	if x == nil then
-		x = 400;
-	end
-	if y == nil then
-		y = 300;
-	end
-	if z == nil then
-		z = 300;
-	end
-	hge.System_Set2DMode(x, y, z);
+	return;
 end
 
 function Export:GetPassword()
@@ -38,9 +29,6 @@ function Export:ClientSetMatrix(x, y, z)
 									{x, y, z, 1},
 								}
 	hge.Gfx_SetTransform(D3DTS_WORLD, matWorld);
-	if hge.System_Is2DMode() then
-		return;
-	end
 	
 	matView	= 	{
 								{1, 0, 0, 0},

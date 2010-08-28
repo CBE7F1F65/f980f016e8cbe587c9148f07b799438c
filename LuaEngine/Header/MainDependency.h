@@ -3,10 +3,10 @@
 
 #include "Const.h"
 
-#include "../../hge/include/hge.h"
-#include "../../hge/include/hgefont.h"
-#include "../../hge/include/hgesprite.h"
-#include "../../hge/include/hgeeffectsystem.h"
+#include "../../../hge/include/hge.h"
+#include "../../../hge/include/hgefont.h"
+#include "../../../hge/include/hgesprite.h"
+#include "../../../hge/include/hgeeffectsystem.h"
 
 #pragma warning(disable:4244)
 #pragma warning(disable:4800)
@@ -31,7 +31,7 @@
 #include <xstring>
 
 using namespace std;
-#include <LuaPlus.h>
+#include "../LuaPlus/LuaPlus/LuaPlus.h"
 using namespace LuaPlus;
 
 #endif

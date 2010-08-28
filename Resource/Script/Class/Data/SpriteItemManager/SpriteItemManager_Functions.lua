@@ -18,7 +18,7 @@ function SpriteItemManager:Init(tablefilename)
 	for i=1, linecount do
 		siindex = tabledata[1][i];
 		luastate.SetConst(tabledata[2][i], siindex);
-		self.tex[siindex] = luastate.GetConst(tabledata[3][i]);
+		self.tex[siindex] = hgeEX.NewTexture(siindex, luastate.GetConst(tabledata[3][i]));
 		self.texx[siindex] = tabledata[4][i];
 		self.texy[siindex] = tabledata[5][i];
 		texw = tabledata[6][i];

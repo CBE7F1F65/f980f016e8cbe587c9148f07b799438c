@@ -49,7 +49,8 @@ void Process::_LuaHelper_hgeES_DeleteES(hgeEffectSystem * _es)
 		{
 			if ((*it) == _es)
 			{
-				it = esList.erase(it);
+				esList.erase(it);
+				break;
 			}
 		}
 		_es = NULL;
@@ -139,7 +140,7 @@ int Process::LuaFn_hgeES_Load(LuaState * ls)
 	{
 		LuaObject _obj;
 		_obj = args[3];
-		tex = (HTEXTURE)(_LuaHelper_GetDWORD(&_obj));
+		tex = _LuaHelper_GetHTEXTURE(&_obj);
 		if (argscount > 3)
 		{
 			_obj = args[4];

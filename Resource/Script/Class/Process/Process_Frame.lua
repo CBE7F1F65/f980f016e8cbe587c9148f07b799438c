@@ -5,7 +5,6 @@ function Process:Frame()
 		hge.System_SetState(HGE_WINDOWED, not mp.screenmode);
 		hge.System_SetState(HGE_HIDEMOUSE, mp.screenmode);
 	end
-	
 	local retval = PTITLE;
 	retval = self:GetInput();
 	if retval == PGO then
@@ -28,7 +27,6 @@ function Process:Frame()
 	end
 	
 	self:_FrameEnd();
-	
 	if retval == PTITLE then
 		self:_PreInitTitle();
 		time = 0;
